@@ -5,13 +5,14 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+import java.awt.Image;
 
 public class HomeScreen extends JFrame {
     private Panel pan = new Panel();
     private JPanel south = new JPanel();
     private JPanel north = new JPanel();
     private Button home = new Button();
+    private JLabel reseau = new JLabel ("WIFI");
     private Battery1 battery = new Battery1();
     private Time clock = new Time();
 
@@ -29,7 +30,9 @@ public class HomeScreen extends JFrame {
          * Insert the north panel
          */
         pan.add(north, BorderLayout.NORTH);
-        north.add(clock,BorderLayout.CENTER);
+        north.setLayout (new BorderLayout ());
+        north.add(reseau,BorderLayout.WEST);
+        north.add(clock, BorderLayout.CENTER);
         north.add(battery,BorderLayout.EAST);
         clock.setForeground(Color.white);
         north.setBackground(Color.BLACK);
@@ -87,13 +90,12 @@ class Time extends JLabel implements ActionListener {
 }
 
 class Battery1 extends JLabel{
+    private final String batteryfull = "batteryfull1.png";
 
     Battery1(){
-        ImageIcon imageIcon = new ImageIcon( "batteryfull.png" );
-        Image image = imageIcon.getImage(); // transform it
-        Image newimg = image.getScaledInstance(5, 5,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-        imageIcon = new ImageIcon(newimg);  // transform it back
-    }
+        ImageIcon ii = new ImageIcon(batteryfull);
+        setIcon ( ii );
 
+    }
 }
 

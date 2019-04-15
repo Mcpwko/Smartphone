@@ -15,9 +15,7 @@ public interface Battery extends StdCallLibrary {
             public byte ACLineStatus;
             public byte BatteryFlag;
             public byte BatteryLifePercent;
-            public byte Reserved1;
-            public int BatteryLifeTime;
-            public int BatteryFullLifeTime;
+
 
             @Override
             protected List<String> getFieldOrder() {
@@ -25,9 +23,7 @@ public interface Battery extends StdCallLibrary {
                 fields.add("ACLineStatus");
                 fields.add("BatteryFlag");
                 fields.add("BatteryLifePercent");
-                fields.add("Reserved1");
-                fields.add("BatteryLifeTime");
-                fields.add("BatteryFullLifeTime");
+
                 return fields;
             }
 
@@ -66,9 +62,9 @@ public interface Battery extends StdCallLibrary {
             @Override
             public String toString() {
                 StringBuilder sb = new StringBuilder();
-                sb.append("ACLineStatus: " + getACLineStatusString() + "\n");
-                sb.append("Battery Flag: " + getBatteryFlagString() + "\n");
-                sb.append("Battery Life: " + getBatteryLifePercent() + "\n");
+                //sb.append("ACLineStatus: " + getACLineStatusString() + "\n");
+                //sb.append("Battery Flag: " + getBatteryFlagString() + "\n");
+                sb.append(getBatteryLifePercent());
 
                 return sb.toString();
             }
