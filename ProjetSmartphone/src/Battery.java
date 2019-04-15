@@ -1,19 +1,14 @@
-package com.example;
-
-import java.util.ArrayList;
-import java.util.List;
 import com.sun.jna.Native;
 import com.sun.jna.Structure;
 import com.sun.jna.win32.StdCallLibrary;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class Battery {
 
+public interface Battery extends StdCallLibrary {
 
-
-    public interface Kernel32 extends StdCallLibrary {
-
-        public Kernel32 INSTANCE = (Kernel32) Native.loadLibrary("Kernel32", Kernel32.class);
+        public Battery INSTANCE = (Battery) Native.loadLibrary("Kernel32", Battery.class);
 
 
         public class SYSTEM_POWER_STATUS extends Structure {
@@ -74,8 +69,7 @@ public class Battery {
                 sb.append("ACLineStatus: " + getACLineStatusString() + "\n");
                 sb.append("Battery Flag: " + getBatteryFlagString() + "\n");
                 sb.append("Battery Life: " + getBatteryLifePercent() + "\n");
-                sb.append("Battery Left: " + getBatteryLifeTime() + "\n");
-                sb.append("Battery Full: " + getBatteryFullLifeTime() + "\n");
+
                 return sb.toString();
             }
         }
@@ -85,11 +79,14 @@ public class Battery {
          */
         public int GetSystemPowerStatus(SYSTEM_POWER_STATUS result);
     }
-}
 
 
 class testBattery{
     public static void main(String[] args) {
+        Battery.SYSTEM_POWER_STATUS batteryStatus = new Battery.SYSTEM_POWER_STATUS();
+        Battery.INSTANCE.GetSystemPowerStatus(batteryStatus);
+
+        System.out.println(batteryStatus);
 
     }
 }
