@@ -1,7 +1,6 @@
 import com.sun.jna.Native;
 import com.sun.jna.Structure;
 import com.sun.jna.win32.StdCallLibrary;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,12 +77,10 @@ public interface Battery extends StdCallLibrary {
 
 
 class testBattery{
-    public static void main(String[] args) {
+    public static void main(String args[]) {
         Battery.SYSTEM_POWER_STATUS batteryStatus = new Battery.SYSTEM_POWER_STATUS();
         Battery.INSTANCE.GetSystemPowerStatus(batteryStatus);
-
         System.out.println(batteryStatus);
-
     }
 }
 

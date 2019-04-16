@@ -11,10 +11,16 @@ public class HomeScreen extends JFrame {
     private Panel pan = new Panel();
     private JPanel south = new JPanel();
     private JPanel north = new JPanel();
+    private JPanel southcenter = new JPanel();
+    private JPanel northeast = new JPanel();
     private Button home = new Button();
     private JLabel reseau = new JLabel ("WIFI");
+    Battery.SYSTEM_POWER_STATUS bs = new Battery.SYSTEM_POWER_STATUS();
+    int status = Battery.INSTANCE.GetSystemPowerStatus(bs);
     private Battery1 battery = new Battery1();
     private Time clock = new Time();
+    private Batterie b1 = new Batterie();
+
 
     public HomeScreen(){
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -29,18 +35,33 @@ public class HomeScreen extends JFrame {
         /**
          * Insert the north panel
          */
+        JLabel batterypercent  = new JLabel(bs.toString());
         pan.add(north, BorderLayout.NORTH);
-        north.setLayout (new BorderLayout ());
+        pan.setBackground(Color.BLACK);
+        north.setLayout (new BorderLayout());
+        north.setBackground(Color.gray);
         north.add(reseau,BorderLayout.WEST);
-        north.add(clock, BorderLayout.CENTER);
-        north.add(battery,BorderLayout.EAST);
+        reseau.setForeground(Color.WHITE);
+        northeast.setLayout(new BorderLayout());
+        north.add(northeast,BorderLayout.EAST);
+        northeast.setBackground(Color.gray);
+        north.add(clock,BorderLayout.CENTER);
+        clock.setHorizontalAlignment(JLabel.CENTER);
+        batterypercent.setForeground(Color.WHITE);
+        northeast.add(battery,BorderLayout.EAST);
+        northeast.add(b1,BorderLayout.CENTER);
         clock.setForeground(Color.white);
-        north.setBackground(Color.BLACK);
         /**
          * Insert the south panel
          */
         pan.add(south, BorderLayout.SOUTH);
-        south.add(home, BorderLayout.CENTER); /**add the button home to the south panel*/
+        south.setLayout(new BorderLayout());
+        south.add(southcenter,BorderLayout.CENTER);
+        southcenter.setBackground(Color.BLACK);
+        home.setBackground(Color.BLACK);
+        home.setBorderPainted(false);
+        south.setBackground(Color.BLACK);
+        southcenter.add(home, BorderLayout.CENTER); /**add the button home to the south panel*/
         south.setBackground(Color.WHITE); /**The color of the south panel*/
 
         setLocationRelativeTo(null);
@@ -60,15 +81,12 @@ class Panel extends JPanel{
  * Button home
  */
 class Button extends JButton{
-   private Image img;
+    private final String batteryfull = "home.png";
 
     public Button() {
-       // img = Toolkit.getDefaultToolkit().getImage("home.png");
+        ImageIcon ii = new ImageIcon(batteryfull);
+        setIcon ( ii );
 
-    }
-    public void paint(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
-        g2.drawImage(img, 100, 100, this);
     }
 
     }
@@ -78,8 +96,7 @@ class Time extends JLabel implements ActionListener {
     private DateFormat Display = new SimpleDateFormat("HH:mm");
     private Timer Tick = new Timer(1000, this);
 
-    public Time()
-    {
+    public Time() {
         Tick.start();
     }
 
@@ -89,13 +106,42 @@ class Time extends JLabel implements ActionListener {
     }
 }
 
-class Battery1 extends JLabel{
-    private final String batteryfull = "batteryfull1.png";
+class Battery1 extends Batterie implements ActionListener{
+
+    private final String batteryfull = "batteryfull.png";
+    private final String batteryCharging = "batteryCharging.png";
+    private final String battery80 = "battery80.png";
+    private final String battery60 = "battery60.png";
+    private final String battery40 = "battery40.png";
+    private final String battery20 = "battery20.png";
+    private Timer Tick = new Timer(1000, this);
 
     Battery1(){
         ImageIcon ii = new ImageIcon(batteryfull);
         setIcon ( ii );
+        Tick.start();
+
+    }
+    public void actionPerformed(ActionEvent event) {
 
     }
 }
+
+class Batterie extends JLabel implements ActionListener {
+    Battery.SYSTEM_POWER_STATUS bs = new Battery.SYSTEM_POWER_STATUS();
+    int status = Battery.INSTANCE.GetSystemPowerStatus(bs);
+    private Timer Tick = new Timer(1000, this);
+
+    public Batterie(){
+        Tick.start();
+    }
+
+    public void actionPerformed(ActionEvent event)
+    {
+        Battery.SYSTEM_POWER_STATUS bs = new Battery.SYSTEM_POWER_STATUS();
+        int status = Battery.INSTANCE.GetSystemPowerStatus(bs);
+        setText(bs.toString());
+    }
+}
+
 
