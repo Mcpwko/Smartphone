@@ -62,7 +62,6 @@ public interface Battery extends StdCallLibrary {
             public String toString() {
                 StringBuilder sb = new StringBuilder();
                 //sb.append("ACLineStatus: " + getACLineStatusString() + "\n");
-                //sb.append("Battery Flag: " + getBatteryFlagString() + "\n");
                 sb.append(getBatteryLifePercent());
 
                 return sb.toString();
