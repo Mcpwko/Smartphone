@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.locks.Lock;
 
 /**
  * Panel for the background
@@ -22,8 +21,8 @@ public class TemplateBoard extends JPanel implements ActionListener{
     private Batterie batteryPercent = new Batterie();
     private CardLayout cardLayout = new CardLayout();
     private JPanel center = new JPanel();
-    private Lockscreen lk = new Lockscreen();
     private JPanel panelcont = new JPanel();
+    private Button gallery = new Button("nom");
 
 
     public TemplateBoard(){
@@ -36,8 +35,10 @@ public class TemplateBoard extends JPanel implements ActionListener{
         panelcont.setLayout(cardLayout);
         add(panelcont,BorderLayout.CENTER);
         panelcont.add(center,"1");
-        panelcont.add(lk,"2");
         center.setBackground(Color.WHITE);
+        center.add(gallery);
+        gallery.setBorderPainted(false);
+        gallery.setBackground ( Color.white );
         north.setLayout (new BorderLayout());
         north.setBackground(Color.gray);
         north.add(reseau,BorderLayout.WEST);
@@ -82,10 +83,17 @@ public class TemplateBoard extends JPanel implements ActionListener{
  */
 class Button extends JButton{
     private final String home = "home.png";
+    private final String gallery = "gallery.png";
 
     public Button() {
         ImageIcon ii = new ImageIcon(home);
         setIcon ( ii );
+
+    }
+
+    public Button(String nom){
+        ImageIcon ii = new ImageIcon(gallery);
+        setIcon(ii);
 
     }
 

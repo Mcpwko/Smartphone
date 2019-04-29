@@ -12,7 +12,6 @@ public interface Battery extends StdCallLibrary {
 
         public class SYSTEM_POWER_STATUS extends Structure {
             public byte ACLineStatus;
-            public byte BatteryFlag;
             public byte BatteryLifePercent;
 
 
@@ -20,7 +19,6 @@ public interface Battery extends StdCallLibrary {
             protected List<String> getFieldOrder() {
                 ArrayList<String> fields = new ArrayList<String>();
                 fields.add("ACLineStatus");
-                fields.add("BatteryFlag");
                 fields.add("BatteryLifePercent");
 
                 return fields;
@@ -37,19 +35,6 @@ public interface Battery extends StdCallLibrary {
                 }
             }
 
-            /**
-             * The battery charge status
-             */
-            public String getBatteryFlagString() {
-                switch (BatteryFlag) {
-                    case (1): return "High, more than 66 percent";
-                    case (2): return "Low, less than 33 percent";
-                    case (4): return "Critical, less than five percent";
-                    case (8): return "Charging";
-                    case ((byte) 128): return "No system battery";
-                    default: return "Unknown";
-                }
-            }
 
             /**
              * The percentage of full battery charge remaining

@@ -1,5 +1,5 @@
 import javax.swing.*;
-import java.awt.*;
+import java.io.IOException;
 
 
 public class Window extends JFrame {
@@ -7,7 +7,7 @@ public class Window extends JFrame {
     private HomeScreen homeScreen = new HomeScreen();
 
 
-    public Window(){
+    public Window() throws IOException {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
         this.setSize(400, 600);
