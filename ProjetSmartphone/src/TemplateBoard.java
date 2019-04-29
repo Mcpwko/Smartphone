@@ -5,11 +5,12 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.locks.Lock;
 
 /**
  * Panel for the background
  */
-public class TemplateBoard extends JPanel{
+public class TemplateBoard extends JPanel implements ActionListener{
     private JPanel south = new JPanel();
     private JPanel north = new JPanel();
     private JPanel southcenter = new JPanel();
@@ -19,15 +20,24 @@ public class TemplateBoard extends JPanel{
     private Battery1 battery = new Battery1();
     private Time clock = new Time();
     private Batterie batteryPercent = new Batterie();
+    private CardLayout cardLayout = new CardLayout();
+    private JPanel center = new JPanel();
+    private Lockscreen lk = new Lockscreen();
+    private JPanel panelcont = new JPanel();
+
 
     public TemplateBoard(){
-
         this.setLayout(new BorderLayout());
         /**
          * Insert the north panel
          */
         this.add(north, BorderLayout.NORTH);
         this.setBackground(Color.BLACK);
+        panelcont.setLayout(cardLayout);
+        add(panelcont,BorderLayout.CENTER);
+        panelcont.add(center,"1");
+        panelcont.add(lk,"2");
+        center.setBackground(Color.WHITE);
         north.setLayout (new BorderLayout());
         north.setBackground(Color.gray);
         north.add(reseau,BorderLayout.WEST);
@@ -52,7 +62,16 @@ public class TemplateBoard extends JPanel{
         home.setBorderPainted(false);
         south.setBackground(Color.BLACK);
         southcenter.add(home, BorderLayout.CENTER); /**add the button home to the south panel*/
+        home.addActionListener(this);
         south.setBackground(Color.WHITE); /**The color of the south panel*/
+
+    }
+    public void actionPerformed(ActionEvent e) {
+        Object obj = e.getSource();
+
+        if (obj == home) {
+            cardLayout.next(panelcont);
+        }
 
     }
 

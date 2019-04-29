@@ -13,8 +13,7 @@ public class Window extends JFrame {
         this.setSize(400, 600);
         this.setResizable(false); /** Lock the size of the window*/
         this.setLocationRelativeTo(null);
-        this.setLayout(new CardLayout());
-        //this.add(lockscreen);
-        this.add(homeScreen);
+        this.add(lockscreen);
+        //this.add(homeScreen);
     }
 }
