@@ -25,7 +25,7 @@ public class Lockscreen extends JPanel implements ChangeListener {
         datejour.setText(df.format(new Date()));
         datejour.setBounds(130,200,220,80);
         clock.setBounds ( 120,100,220,80 );
-        slide.setBounds ( 0,650,480,60 );
+        slide.setBounds ( 0,650,460,60 );
         jp.add(datejour);
         jp.add(slide);
         datejour.setForeground ( Color.white );

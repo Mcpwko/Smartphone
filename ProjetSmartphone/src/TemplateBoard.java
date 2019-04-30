@@ -23,6 +23,7 @@ public class TemplateBoard extends JPanel implements ActionListener{
     private JPanel center = new JPanel();
     private JPanel panelcont = new JPanel();
     private Button gallery = new Button("nom");
+    private GroupLayout zoneApp = new GroupLayout(center);
 
 
     public TemplateBoard(){
@@ -36,16 +37,18 @@ public class TemplateBoard extends JPanel implements ActionListener{
         add(panelcont,BorderLayout.CENTER);
         panelcont.add(center,"1");
         center.setBackground(Color.BLACK);
+        center.setLayout ( null );
+        gallery.setBounds(20,30,100,100);
         center.add(gallery);
         gallery.setBorderPainted(false);
         gallery.setBackground ( Color.BLACK );
         north.setLayout (new BorderLayout());
-        north.setBackground(Color.gray);
+        north.setBackground(Color.BLACK);
         north.add(reseau,BorderLayout.WEST);
         reseau.setForeground(Color.WHITE);
         northeast.setLayout(new BorderLayout());
         north.add(northeast,BorderLayout.EAST);
-        northeast.setBackground(Color.gray);
+        northeast.setBackground(Color.BLACK);
         north.add(clock,BorderLayout.CENTER);
         clock.setHorizontalAlignment(JLabel.CENTER);
         northeast.add(battery,BorderLayout.EAST);
