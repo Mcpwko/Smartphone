@@ -35,10 +35,10 @@ public class TemplateBoard extends JPanel implements ActionListener{
         panelcont.setLayout(cardLayout);
         add(panelcont,BorderLayout.CENTER);
         panelcont.add(center,"1");
-        center.setBackground(Color.WHITE);
+        center.setBackground(Color.BLACK);
         center.add(gallery);
         gallery.setBorderPainted(false);
-        gallery.setBackground ( Color.white );
+        gallery.setBackground ( Color.BLACK );
         north.setLayout (new BorderLayout());
         north.setBackground(Color.gray);
         north.add(reseau,BorderLayout.WEST);
