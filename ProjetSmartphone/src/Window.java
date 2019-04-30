@@ -1,9 +1,4 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 
@@ -20,8 +15,8 @@ public class Window extends JFrame {
         this.setSize(480, 800);
         this.setResizable(false); /** Lock the size of the window*/
         this.setLocationRelativeTo(null);
-        //this.add(lockscreen);
+        this.add(lockscreen);
         //this.add(homeScreen);
-        add(northpanel);
+        //this.add(northpanel);
     }
 }
