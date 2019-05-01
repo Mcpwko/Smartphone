@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 
 
@@ -18,5 +19,10 @@ public class Window extends JFrame {
         this.add(lockscreen);
         //this.add(homeScreen);
         //this.add(northpanel);
+        /*add(jp);
+        jp.setBackground(Color.YELLOW);
+        jp.setLayout(null);
+        northpanel.setBounds(0,0,480,30);
+        jp.add(northpanel);*/
     }
 }

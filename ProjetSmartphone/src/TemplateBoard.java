@@ -23,7 +23,6 @@ public class TemplateBoard extends JPanel implements ActionListener{
     private JPanel center = new JPanel();
     private JPanel panelcont = new JPanel();
     private Button gallery = new Button("nom");
-    private GroupLayout zoneApp = new GroupLayout(center);
 
 
     public TemplateBoard(){

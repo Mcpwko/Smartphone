@@ -8,10 +8,15 @@ public class NorthPanel extends JPanel {
 
 
     public NorthPanel(){
-        setLayout(null);
+        //setLayout(null);
         setBackground(Color.BLACK);
         //setBounds(0,0,400,20);
-        batteryPercent.setForeground(Color.WHITE);
+        //batteryPercent.setForeground(Color.WHITE);
+        //add(batteryPercent);
+        //clock.setBounds ( 120,100,220,80 );
+        add(clock);
+        clock.setForeground(Color.WHITE);
         add(batteryPercent);
+        batteryPercent.setForeground(Color.WHITE);
     }
 }
