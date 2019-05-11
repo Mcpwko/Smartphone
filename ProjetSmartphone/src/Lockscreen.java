@@ -10,19 +10,17 @@ import java.util.Date;
 
 public class Lockscreen extends JPanel implements ChangeListener {
     private JSlider slide = new JSlider(0,100,0);
-    Icon icon = new ImageIcon("unlock.png");
+    Icon icon = new ImageIcon("images//unlock.png");
     UIDefaults defaults = UIManager.getDefaults();
-    private JPanelWithBackground jp = new JPanelWithBackground ( "background1.jpg");
-    private Time clock = new Time();
-    private DateFormat df = new SimpleDateFormat ("EEEE d MMMM yyyy");
-    private JLabel datejour = new JLabel ( );
+    private JPanelWithBackground jp = new JPanelWithBackground ( "images//Background.jpg");
+    private TimeLabel clock = new TimeLabel();
+    private DateLabel datejour = new DateLabel();
 
 
     public Lockscreen() throws IOException {
         setLayout(new BorderLayout());
         add(jp,BorderLayout.CENTER);
         jp.setLayout (null);
-        datejour.setText(df.format(new Date()));
         datejour.setBounds(130,200,220,80);
         clock.setBounds ( 120,100,220,80 );
         slide.setBounds ( 0,650,460,60 );
@@ -42,8 +40,14 @@ public class Lockscreen extends JPanel implements ChangeListener {
     public void stateChanged(ChangeEvent e) {
         if(e.getSource()== slide) {
             if(slide.getValue()==100){
-                HomeScreen hm = new HomeScreen();
+                HomeScreen hm = null;
+                try {
+                    hm = new HomeScreen();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
                 add(hm);
+                remove(this);
                 remove(slide);
                 remove(jp);
             }
