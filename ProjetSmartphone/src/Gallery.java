@@ -1,8 +1,14 @@
+import net.miginfocom.swing.MigLayout;
+import org.apache.commons.io.FileUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
+import java.text.Normalizer;
+import java.util.Vector;
 
 public class Gallery extends JPanel implements ActionListener {
     private ButtonWithIcon addphoto = new ButtonWithIcon("images//addphoto.png");
@@ -29,12 +35,16 @@ public class Gallery extends JPanel implements ActionListener {
         southpanel1.add(deletephoto);
         scrollPane.setViewportView(panelPictures);
         panel1.add(scrollPane);
-        panelPictures.setLayout(gridLayout);
-        panelPictures.add(new JLabel("AWKWARD"));
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        panelPictures.setLayout(new MigLayout());
+        scrollPane.getVerticalScrollBar().setUnitIncrement(100);
+        /*panelPictures.add(new JLabel("AWKWARD"));
         //panelPictures.add(new JLabel("123"));
         panelPictures.add(new JLabel("BANAN"));
-        for(int i=0;i<2; i++)
-        panelPictures.add(new JLabel("JSAISPAS"));
+        for(int i=0;i<200; i++)
+        panelPictures.add(new JLabel("JSAISPAS"));*/
+
+
 
     }
 
@@ -42,15 +52,60 @@ public class Gallery extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==addphoto){
             int returnVal = fileChooser.showOpenDialog(this);
-
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
-                revalidate();
-                //This is where a real application would open the file.
-                /*log.append("Opening: " + file.getName() + "." + newline);
-            } else {
-                log.append("Open command cancelled by user." + newline);*/
+                File destination = new File("Gallery\\" + file.getName());
+                try {
+                    FileUtils.copyFile(file,destination);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                String path = file.getAbsolutePath();
+                ImageIcon img = new ImageIcon(path);
+                ButtonWithIcon button = new ButtonWithIcon(path);
+                button.setMaximumSize(new Dimension(112,112));
+                button.setMinimumSize(new Dimension(112,112));
+
+                if((panelPictures.getComponentCount()+1)%4==0 && panelPictures.getComponentCount()!=0){
+                    panelPictures.add(button,"wrap");
+                }
+                else{
+                    panelPictures.add(button);
+                }
+
+                button.addActionListener(this);
+
+                panelPictures.revalidate();
+                System.out.println(panelPictures.getComponentCount());
             }
         }
+    }
+
+    public Vector listerRepertoire(File repertoire){
+
+        String[] liste = repertoire.list();
+        int taille = liste.length;
+        Vector listefichiers = new Vector();
+
+        for(int i=0;i<taille;i++){
+            if(liste[i].endsWith(".jpg") || liste[i].endsWith(".png")){
+                listefichiers.addElement(repertoire.getAbsoluteFile() + liste[i]);
+            }
+        }
+        return listefichiers;
+    }
+
+    private void addImg(String chemin) {
+
+        File a = new File(chemin); //listerRepertoire attend un File
+        int taille = listerRepertoire(a).size(); // récupération de la taille du tableau
+        JLabel[] TabImg = new JLabel[taille]; // création de mon tableau de JLabel qui contiendra les images
+        //String[] tab = listerRepertoire(a); //récupération du tableau contenant les adresses des images
+
+        for(int i=0;i<taille;i++){
+            TabImg[i].setIcon(new ImageIcon((String)(listerRepertoire(a)).elementAt(i)));   //j'assigne une image à chaque JLabel
+            panelPictures.add(TabImg[i]); //et je le rajoute à mon panneau pour l'afficher
+        }
+
     }
 }

@@ -23,6 +23,7 @@ public class HomeScreen extends JPanel implements ActionListener{
     private JPanelWithBackground center = new JPanelWithBackground("images//wallpaper.jpg");
     private JPanel panelcont = new JPanel();
     private Gallery galleryApp = new Gallery();
+    private Settings settingsApp = new Settings();
     private JPanel contactApp = new JPanel();
     private ButtonWithIcon contact = new ButtonWithIcon("images//contact.png");
     private ButtonWithIcon home = new ButtonWithIcon("images//home.png");
@@ -47,6 +48,7 @@ public class HomeScreen extends JPanel implements ActionListener{
         panelcont.add(center,"1");
         panelcont.add(galleryApp,"2");
         panelcont.add(contactApp,"3");
+        panelcont.add(settingsApp,"4");
         center.setBackground(Color.BLACK);
         center.setLayout ( null );
         gallery.setBounds(20,30,95,95);
@@ -65,9 +67,11 @@ public class HomeScreen extends JPanel implements ActionListener{
 
         shutdown.setBounds ( 360,600,95,95 );
         center.add(shutdown);
+        shutdown.addActionListener(this);
 
         settings.setBounds ( 20,600,95,95 );
         center.add(settings);
+        settings.addActionListener(this);
 
 
 
@@ -120,12 +124,19 @@ public class HomeScreen extends JPanel implements ActionListener{
                     }
                     else{
                         if(obj==shutdown){
-
+                            System.exit(0);
                         }
+                        else{
+                            if(obj==settings){
+                                cardLayout.show(panelcont,"4");
+                            }
+                        }
+
                     }
                 }
             }
         }
+
 
     }
 
