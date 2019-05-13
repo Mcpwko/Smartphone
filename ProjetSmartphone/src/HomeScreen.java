@@ -15,7 +15,7 @@ public class HomeScreen extends JPanel implements ActionListener{
     private JPanel north = new JPanel();
     private JPanel southcenter = new JPanel();
     private JPanel northeast = new JPanel();
-    private JLabel reseau = new JLabel ("WIFI");
+    private JLabel reseau = new JLabel ("Salt");
     private Battery1 battery = new Battery1();
     private TimeLabel clock = new TimeLabel();
     private Batterie batteryPercent = new Batterie();
@@ -25,6 +25,7 @@ public class HomeScreen extends JPanel implements ActionListener{
     private Gallery galleryApp = new Gallery();
     private Settings settingsApp = new Settings();
     private JPanel contactApp = new JPanel();
+    private SpaceInvaders spaceInvadersGame = new SpaceInvaders ();
     private ButtonWithIcon contact = new ButtonWithIcon("images//contact.png");
     private ButtonWithIcon home = new ButtonWithIcon("images//home.png");
     private ButtonWithIcon previous = new ButtonWithIcon("images//previous.png");
@@ -49,6 +50,8 @@ public class HomeScreen extends JPanel implements ActionListener{
         panelcont.add(galleryApp,"2");
         panelcont.add(contactApp,"3");
         panelcont.add(settingsApp,"4");
+        panelcont.add( spaceInvadersGame,"5");
+        //panelcont.add(ponggame,"6");
         center.setBackground(Color.BLACK);
         center.setLayout ( null );
         gallery.setBounds(20,30,95,95);
@@ -64,6 +67,7 @@ public class HomeScreen extends JPanel implements ActionListener{
 
         spaceinvaders.setBounds ( 365,30,95,95 );
         center.add(spaceinvaders);
+        spaceinvaders.addActionListener ( this );
 
         shutdown.setBounds ( 360,600,95,95 );
         center.add(shutdown);
@@ -129,6 +133,11 @@ public class HomeScreen extends JPanel implements ActionListener{
                         else{
                             if(obj==settings){
                                 cardLayout.show(panelcont,"4");
+                            }
+                            else{
+                                if(obj==spaceinvaders){
+                                    cardLayout.show ( panelcont,"5" );
+                                }
                             }
                         }
 

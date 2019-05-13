@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.text.Normalizer;
 import java.util.Vector;
 
 public class Gallery extends JPanel implements ActionListener {
@@ -17,9 +16,10 @@ public class Gallery extends JPanel implements ActionListener {
     private JPanel panelPictures = new JPanel();
     private CardLayout cardLayout = new CardLayout();
     private JPanel panel1 = new JPanel();
-    private GridLayout gridLayout = new GridLayout(0,4,2,2);
     private JScrollPane scrollPane = new JScrollPane(panelPictures);
     private JFileChooser fileChooser = new JFileChooser();
+    private File monRepertoire=new File("Gallery");
+    private File [] f = monRepertoire.listFiles();
 
 
 
@@ -38,23 +38,36 @@ public class Gallery extends JPanel implements ActionListener {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         panelPictures.setLayout(new MigLayout());
         scrollPane.getVerticalScrollBar().setUnitIncrement(100);
-        /*panelPictures.add(new JLabel("AWKWARD"));
-        //panelPictures.add(new JLabel("123"));
-        panelPictures.add(new JLabel("BANAN"));
-        for(int i=0;i<200; i++)
-        panelPictures.add(new JLabel("JSAISPAS"));*/
 
+        for(int i =0; i< f.length; i++){
+            ButtonWithIcon button = new ButtonWithIcon ( "Gallery\\" + i +".jpg" );
+            button.setMaximumSize(new Dimension(112,112));
+            button.setMinimumSize(new Dimension(112,112));
+            if((panelPictures.getComponentCount()+1)%4==0 && panelPictures.getComponentCount()!=0){
+                button.setActionCommand ( panelPictures.getComponentCount ()+ "" );
+                panelPictures.add(button,"wrap");
+                button.addActionListener ( this );
+            }
+            else{
+                button.setActionCommand ( panelPictures.getComponentCount ()+ "" );
+                panelPictures.add(button);
+                button.addActionListener ( this );
+
+            }
+
+        }
 
 
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        System.out.println(e.getActionCommand ());
         if(e.getSource()==addphoto){
             int returnVal = fileChooser.showOpenDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
-                File destination = new File("Gallery\\" + file.getName());
+                File destination = new File("Gallery\\" + panelPictures.getComponentCount ()+".jpg");
                 try {
                     FileUtils.copyFile(file,destination);
                 } catch (IOException e1) {
@@ -67,9 +80,11 @@ public class Gallery extends JPanel implements ActionListener {
                 button.setMinimumSize(new Dimension(112,112));
 
                 if((panelPictures.getComponentCount()+1)%4==0 && panelPictures.getComponentCount()!=0){
+                    button.setActionCommand (""+panelPictures.getComponentCount ());
                     panelPictures.add(button,"wrap");
                 }
                 else{
+                    button.setActionCommand (""+panelPictures.getComponentCount ());
                     panelPictures.add(button);
                 }
 
@@ -78,6 +93,18 @@ public class Gallery extends JPanel implements ActionListener {
                 panelPictures.revalidate();
                 System.out.println(panelPictures.getComponentCount());
             }
+        }else{
+            JPanelWithBackground panel = null;
+            try {
+                panel = new JPanelWithBackground("Gallery\\" + e.getActionCommand ()+".jpg");
+            } catch (IOException e1) {
+                e1.printStackTrace ();
+            }
+            panel.setBackground ( Color.BLACK );
+            this.add(panel,e.getActionCommand ()+2+"");
+            cardLayout.show(this,""+(e.getActionCommand()+2));
+
+
         }
     }
 
@@ -108,4 +135,5 @@ public class Gallery extends JPanel implements ActionListener {
         }
 
     }
+
 }
