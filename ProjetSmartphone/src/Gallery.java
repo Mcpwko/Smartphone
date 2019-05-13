@@ -47,9 +47,9 @@ public class Gallery extends JPanel implements ActionListener {
                 File file = fileChooser.getSelectedFile();
                 revalidate();
                 //This is where a real application would open the file.
-                log.append("Opening: " + file.getName() + "." + newline);
+                /*log.append("Opening: " + file.getName() + "." + newline);
             } else {
-                log.append("Open command cancelled by user." + newline);
+                log.append("Open command cancelled by user." + newline);*/
             }
         }
     }

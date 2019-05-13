@@ -28,6 +28,11 @@ public class HomeScreen extends JPanel implements ActionListener{
     private ButtonWithIcon home = new ButtonWithIcon("images//home.png");
     private ButtonWithIcon previous = new ButtonWithIcon("images//previous.png");
     private ButtonWithIcon gallery = new ButtonWithIcon("images//gallery.png");
+    private ButtonWithIcon pong = new ButtonWithIcon ( "images//pong.png" );
+    private ButtonWithIcon spaceinvaders = new ButtonWithIcon ( "images//spaceinvaders.png" );
+    private ButtonWithIcon shutdown = new ButtonWithIcon ( "images//shutdown.png" );
+    private ButtonWithIcon settings = new ButtonWithIcon ( "images//settings.png" );
+
 
 
     public HomeScreen() throws IOException {
@@ -44,13 +49,27 @@ public class HomeScreen extends JPanel implements ActionListener{
         panelcont.add(contactApp,"3");
         center.setBackground(Color.BLACK);
         center.setLayout ( null );
-        gallery.setBounds(20,30,100,100);
+        gallery.setBounds(20,30,95,95);
         center.add(gallery);
         gallery.addActionListener(this);
 
-        contact.setBounds(160,30,100,100);
+        contact.setBounds(135,30,95,95);
         center.add(contact);
         contact.addActionListener(this);
+
+        pong.setBounds ( 250,30,95,95 );
+        center.add(pong);
+
+        spaceinvaders.setBounds ( 365,30,95,95 );
+        center.add(spaceinvaders);
+
+        shutdown.setBounds ( 360,600,95,95 );
+        center.add(shutdown);
+
+        settings.setBounds ( 20,600,95,95 );
+        center.add(settings);
+
+
 
         north.setLayout (new BorderLayout());
         north.setBackground(Color.BLACK);
@@ -98,6 +117,11 @@ public class HomeScreen extends JPanel implements ActionListener{
                 else{
                     if(obj == previous){
                         cardLayout.previous(panelcont);
+                    }
+                    else{
+                        if(obj==shutdown){
+
+                        }
                     }
                 }
             }
