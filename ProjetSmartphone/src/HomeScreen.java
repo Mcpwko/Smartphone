@@ -34,6 +34,13 @@ public class HomeScreen extends JPanel implements ActionListener{
     private ButtonWithIcon spaceinvaders = new ButtonWithIcon ( "images//spaceinvaders.png" );
     private ButtonWithIcon shutdown = new ButtonWithIcon ( "images//shutdown.png" );
     private ButtonWithIcon settings = new ButtonWithIcon ( "images//settings.png" );
+    private Font font = new Font("Arial", Font.BOLD,13);
+    private JLabel shutdownText = new JLabel("Shutdown");
+    private JLabel settingsText = new JLabel("Settings");
+    private JLabel pongText = new JLabel("Pong Game");
+    private JLabel spaceText = new JLabel("Space Invaders");
+    private JLabel galleryText = new JLabel("Gallery");
+    private JLabel contactText = new JLabel("Contact");
 
 
 
@@ -54,33 +61,59 @@ public class HomeScreen extends JPanel implements ActionListener{
         //panelcont.add(ponggame,"6");
         center.setBackground(Color.BLACK);
         center.setLayout ( null );
+
         gallery.setBounds(20,30,95,95);
         center.add(gallery);
         gallery.addActionListener(this);
+        galleryText.setBounds(42,115,50,20);
+        galleryText.setFont(font);
+        galleryText.setForeground(Color.white);
+        center.add(galleryText);
 
         contact.setBounds(135,30,95,95);
         center.add(contact);
         contact.addActionListener(this);
+        contactText.setBounds(156,115,55,20);
+        contactText.setFont(font);
+        contactText.setForeground(Color.WHITE);
+        center.add(contactText);
 
         pong.setBounds ( 250,30,95,95 );
         center.add(pong);
+        //pong.addActionListener(this);
+        pongText.setBounds(260,115,95,20);
+        pongText.setFont(font);
+        pongText.setForeground(Color.WHITE);
+        center.add(pongText);
+
 
         spaceinvaders.setBounds ( 365,30,95,95 );
         center.add(spaceinvaders);
         spaceinvaders.addActionListener ( this );
+        spaceText.setBounds(367,115,105,20);
+        spaceText.setFont(font);
+        spaceText.setForeground(Color.WHITE);
+        center.add(spaceText);
 
         shutdown.setBounds ( 360,600,95,95 );
         center.add(shutdown);
         shutdown.addActionListener(this);
+        shutdownText.setBounds(374,692,70,20);
+        shutdownText.setFont(font);
+        shutdownText.setForeground(Color.WHITE);
+        center.add(shutdownText);
 
         settings.setBounds ( 20,600,95,95 );
         center.add(settings);
         settings.addActionListener(this);
-
-
+        settingsText.setBounds(38,692,55,20);
+        settingsText.setFont(font);
+        settingsText.setForeground(Color.WHITE);
+        center.add(settingsText);
 
         north.setLayout (new BorderLayout());
         north.setBackground(Color.BLACK);
+        north.setPreferredSize(new Dimension(480,30));
         north.add(reseau,BorderLayout.WEST);
         reseau.setForeground(Color.WHITE);
         northeast.setLayout(new BorderLayout());
