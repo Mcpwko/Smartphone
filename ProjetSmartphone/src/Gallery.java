@@ -32,6 +32,9 @@ public class Gallery extends JPanel implements ActionListener {
     private JPanel northSelectedPicture = new JPanel();
     private JButton deletePicture = new JButton("Delete");
     private JOptionPane deletePermanent = new JOptionPane();
+    private JLabel titre = new JLabel("Photos");
+    private JLabel titrealbum = new JLabel("Albums");
+    private JLabelWithIcon image;
 
 
 
@@ -62,6 +65,10 @@ public class Gallery extends JPanel implements ActionListener {
         panelcont.add(panel1,"1");
         panel1.setBackground(Color.BLACK);
         panel1.setLayout(new BorderLayout());
+        panel1.add(titre,BorderLayout.NORTH);
+        titre.setForeground(Color.WHITE);
+        titre.setFont(new Font("Arial", Font.BOLD,40));
+
         panel1.add(southpanel1,BorderLayout.SOUTH);
         southpanel1.add(addphoto);
         southpanel1.setBackground(Color.black);
@@ -88,6 +95,7 @@ public class Gallery extends JPanel implements ActionListener {
         deletePicture.setForeground(Color.WHITE);
         deletePicture.setFont((new Font("Arial",Font.BOLD,20)));
 
+
         for(int i =0; i< f.length; i++){
             ButtonWithIcon button = new ButtonWithIcon ( "Gallery\\" + i +".jpg" );
             button.setMaximumSize(new Dimension(112,112));
@@ -95,12 +103,12 @@ public class Gallery extends JPanel implements ActionListener {
             if((panelPictures.getComponentCount()+1)%4==0 && panelPictures.getComponentCount()!=0){
                 button.setActionCommand ( panelPictures.getComponentCount ()+ "" );
                 panelPictures.add(button,"wrap");
-                button.addActionListener ( this );
+                button.addActionListener ( new newImage() );
             }
             else{
                 button.setActionCommand ( panelPictures.getComponentCount ()+ "" );
                 panelPictures.add(button);
-                button.addActionListener ( this );
+                button.addActionListener ( new newImage() );
 
             }
 
@@ -136,7 +144,7 @@ public class Gallery extends JPanel implements ActionListener {
                     panelPictures.add(button);
                 }
 
-                button.addActionListener(this);
+                button.addActionListener(new newImage());
 
                 panelPictures.revalidate();
                 System.out.println(panelPictures.getComponentCount());
@@ -147,22 +155,54 @@ public class Gallery extends JPanel implements ActionListener {
 
             } else {
                 if(e.getSource()==deletePicture){
-                    deletePermanent.showMessageDialog( this, "Do you really want to delete the picture ?",
+                    int newName = Integer.valueOf(image.getName());
+                    int rep =deletePermanent.showConfirmDialog( this, "Do you really want to delete the picture ?",
                             "Delete",JOptionPane.OK_CANCEL_OPTION);
+                    if(rep==JOptionPane.OK_OPTION){
+                        System.out.println("J'ai appuyé sur OK");
+                        File file = new File("Gallery//"+image.getName()+ ".jpg");
+                        if(file.delete())
+                        {
+                            System.out.println("File deleted successfully");
+                        }
+                        else
+                        {
+                            System.out.println("Failed to delete the file");
+                        }
+                        for(int i =Integer.valueOf(newName)+1;i<panelPictures.getComponentCount();i++){
+                            File fileName = new File("Gallery//" + i + ".jpg");
+                            File fileNewName = new File("Gallery//" + (i-1) + ".jpg");
+                            fileName.renameTo(fileNewName);
+                        }
+                        cardLayout.show(panelcont,"1");
+                        panelPictures.revalidate();
+
+                    }else{
+                        System.out.println("J'ai pas appuyé sur le bouton OK");
+                    }
 
                 }
-                JPanel panel = new JPanel();
-                JLabelWithIcon image = new JLabelWithIcon("Gallery//"+(e.getActionCommand())+".jpg");
-                panel.setLayout(new BorderLayout());
-                panel.add(image,BorderLayout.CENTER);
-                panel.add(northSelectedPicture,BorderLayout.NORTH);
-                panelcont.add(panel, e.getActionCommand() + 2 + "");
-                cardLayout.show(panelcont, "" + (e.getActionCommand() + 2));
-
 
             }
         }
     }
+
+    public class newImage implements  ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JPanel panel = new JPanel();
+            image = new JLabelWithIcon("Gallery//"+(e.getActionCommand())+".jpg");
+            image.setName(e.getActionCommand());
+            System.out.println(image.getName());
+            panel.setLayout(new BorderLayout());
+            panel.add(image,BorderLayout.CENTER);
+            panel.add(northSelectedPicture,BorderLayout.NORTH);
+            panelcont.add(panel, e.getActionCommand() + 2 + "");
+            cardLayout.show(panelcont, "" + (e.getActionCommand() + 2));
+        }
+    }
+
 
 }
 
