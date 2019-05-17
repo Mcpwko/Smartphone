@@ -22,8 +22,8 @@ public class Gallery extends JPanel implements ActionListener {
     private JPanel panel1 = new JPanel();
     private JScrollPane scrollPane = new JScrollPane(panelPictures);
     private JFileChooser fileChooser = new JFileChooser();
-    private File monRepertoire=new File("Gallery");
-    private File [] f = monRepertoire.listFiles();
+
+
     private JButton photos = new JButton("Photos");
     private JButton albums = new JButton("Albums");
     private JPanel panelcont = new JPanel();
@@ -95,7 +95,14 @@ public class Gallery extends JPanel implements ActionListener {
         deletePicture.setForeground(Color.WHITE);
         deletePicture.setFont((new Font("Arial",Font.BOLD,20)));
 
+        initComponentPictures();
 
+
+    }
+
+    private void initComponentPictures(){
+        File monRepertoire=new File("Gallery");
+        File [] f = monRepertoire.listFiles();
         for(int i =0; i< f.length; i++){
             ButtonWithIcon button = new ButtonWithIcon ( "Gallery\\" + i +".jpg" );
             button.setMaximumSize(new Dimension(112,112));
@@ -113,9 +120,9 @@ public class Gallery extends JPanel implements ActionListener {
             }
 
         }
-
-
     }
+
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -161,21 +168,21 @@ public class Gallery extends JPanel implements ActionListener {
                     if(rep==JOptionPane.OK_OPTION){
                         System.out.println("J'ai appuyé sur OK");
                         File file = new File("Gallery//"+image.getName()+ ".jpg");
-                        if(file.delete())
-                        {
-                            System.out.println("File deleted successfully");
-                        }
-                        else
-                        {
-                            System.out.println("Failed to delete the file");
-                        }
+                        file.delete();
+
                         for(int i =Integer.valueOf(newName)+1;i<panelPictures.getComponentCount();i++){
                             File fileName = new File("Gallery//" + i + ".jpg");
                             File fileNewName = new File("Gallery//" + (i-1) + ".jpg");
                             fileName.renameTo(fileNewName);
                         }
+
                         cardLayout.show(panelcont,"1");
+                        panelPictures.removeAll();
+                        panelPictures.validate();
+                        this.initComponentPictures();
                         panelPictures.revalidate();
+                        panelPictures.repaint();
+
 
                     }else{
                         System.out.println("J'ai pas appuyé sur le bouton OK");
