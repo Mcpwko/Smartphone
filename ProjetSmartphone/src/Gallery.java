@@ -99,7 +99,7 @@ public class Gallery extends JPanel implements ActionListener {
 
 
     }
-
+    //initialiser les composants
     private void initComponentPictures(){
         File monRepertoire=new File("Gallery");
         File [] f = monRepertoire.listFiles();
