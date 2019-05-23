@@ -3,10 +3,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -18,7 +15,9 @@ public class SpaceInvaders extends JPanel implements ActionListener,KeyListener 
     private JLabel nameInvaders = new JLabel ( "INVADERS" );
     private ButtonWithIcon playbutton = new ButtonWithIcon ( "images\\startbutton.png" );
     private JLabel score = new JLabel ( "SCORE : " );
-    private Player player = new Player ("images\\player.png");
+    private Timer timer;
+    private Player player;
+    private final int DELAY = 10;
 
 
 
@@ -45,8 +44,7 @@ public class SpaceInvaders extends JPanel implements ActionListener,KeyListener 
         score.setBounds ( 0,5,100,30 );
         score.setForeground ( Color.WHITE );
         game.add(score);
-        player.setBounds ( 192,620,95,95 );
-        game.add(player);
+
 
     }
     public void playSound() {
@@ -80,13 +78,6 @@ public class SpaceInvaders extends JPanel implements ActionListener,KeyListener 
 
     @Override
     public void keyPressed(KeyEvent e) {
-        int key = e.getKeyCode();
-
-        if(key==KeyEvent.VK_LEFT){
-            player.setBounds(this.getX ()-5,620,95,95);
-            game.repaint (  );
-        }
-
     }
 
     @Override
@@ -95,48 +86,197 @@ public class SpaceInvaders extends JPanel implements ActionListener,KeyListener 
     }
 }
 
-/*class LabelnWithIcon extends JButton{
+class Player {
 
-    public LabelnWithIcon(String icon) {
-        ImageIcon ii = new ImageIcon(icon);
-        setIcon ( ii );
-        setContentAreaFilled(false);
-        setBorderPainted(false);
+    private int dx;
+    private int dy;
+    private int x = 40;
+    private int y = 60;
+    private int w;
+    private int h;
+    private Image image;
 
+    public Player() {
+
+        loadImage();
     }
 
-    public LabelnWithIcon() {
+    private void loadImage() {
 
-    }
-}*/
+        ImageIcon ii = new ImageIcon("images/player.png");
+        image = ii.getImage();
 
-class Player extends JLabel implements KeyListener {
-
-    public Player(String icon){
-        ImageIcon ii = new ImageIcon(icon);
-        setIcon ( ii );
-
-
-
+        w = image.getWidth(null);
+        h = image.getHeight(null);
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
+    public void move() {
 
+        x += dx;
+        y += dy;
     }
 
-    @Override
+    public int getX() {
+
+        return x;
+    }
+
+    public int getY() {
+
+        return y;
+    }
+
+    public int getWidth() {
+
+        return w;
+    }
+
+    public int getHeight() {
+
+        return h;
+    }
+
+    public Image getImage() {
+
+        return image;
+    }
+
     public void keyPressed(KeyEvent e) {
+
         int key = e.getKeyCode();
 
-        if(key==KeyEvent.VK_LEFT){
-            setBounds(this.getX ()-5,620,95,95);
+        if (key == KeyEvent.VK_LEFT) {
+            dx = -2;
         }
 
+        if (key == KeyEvent.VK_RIGHT) {
+            dx = 2;
+        }
+
+        if (key == KeyEvent.VK_UP) {
+            dy = -2;
+        }
+
+        if (key == KeyEvent.VK_DOWN) {
+            dy = 2;
+        }
+    }
+
+    public void keyReleased(KeyEvent e) {
+
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_LEFT) {
+            dx = 0;
+        }
+
+        if (key == KeyEvent.VK_RIGHT) {
+            dx = 0;
+        }
+
+        if (key == KeyEvent.VK_UP) {
+            dy = 0;
+        }
+
+        if (key == KeyEvent.VK_DOWN) {
+            dy = 0;
+        }
+    }
+}
+
+class Board extends JPanel implements ActionListener {
+
+    private Timer timer;
+    private Player player;
+    private final int DELAY = 10;
+
+    public Board() {
+
+        initBoard();
+    }
+
+    private void initBoard() {
+
+        addKeyListener(new TAdapter());
+        setBackground(Color.black);
+        setFocusable(true);
+
+        player = new Player();
+
+        timer = new Timer(DELAY, this);
+        timer.start();
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
 
+        doDrawing(g);
+
+        Toolkit.getDefaultToolkit().sync();
+    }
+
+    private void doDrawing(Graphics g) {
+
+        Graphics2D g2d = (Graphics2D) g;
+
+        g2d.drawImage( player.getImage(), player.getX(),
+                player.getY(), this);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        step();
+    }
+
+    private void step() {
+
+        player.move();
+
+        repaint( player.getX()-1, player.getY()-1,
+                player.getWidth()+2, player.getHeight()+2);
+    }
+
+    private class TAdapter extends KeyAdapter {
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            player.keyReleased(e);
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            player.keyPressed(e);
+        }
+    }
+}
+
+
+class MovingSpriteEx extends JFrame {
+
+    public MovingSpriteEx() {
+
+        initUI();
+    }
+
+    private void initUI() {
+
+        add(new Board());
+
+        setTitle("Moving sprite");
+        setSize(400, 300);
+
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public static void main(String[] args) {
+
+        EventQueue.invokeLater(() -> {
+            MovingSpriteEx ex = new MovingSpriteEx();
+            ex.setVisible(true);
+        });
     }
 }

@@ -12,10 +12,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Vector;
+import java.util.concurrent.TimeUnit;
 
 public class Gallery extends JPanel implements ActionListener {
     private ButtonWithIcon addphoto = new ButtonWithIcon("images//addphoto.png");
-    private ButtonWithIcon deletephoto = new ButtonWithIcon("images//deletephoto.png");
+    //private ButtonWithIcon deletephoto = new ButtonWithIcon("images//deletephoto.png");
     private JPanel southpanel1 = new JPanel();
     private JPanel panelPictures = new JPanel();
     private CardLayout cardLayout = new CardLayout();
@@ -35,10 +36,11 @@ public class Gallery extends JPanel implements ActionListener {
     private JLabel titre = new JLabel("Photos");
     private JLabel titrealbum = new JLabel("Albums");
     private JLabelWithIcon image;
+    private File monRepertoire=new File("Gallery");
 
 
 
-    public Gallery(){
+    public Gallery() throws IOException {
         setBackground(Color.BLACK);
         setLayout(new BorderLayout());
         add(panelcont,BorderLayout.CENTER);
@@ -75,7 +77,8 @@ public class Gallery extends JPanel implements ActionListener {
         scrollPane.setBorder((BorderFactory.createLineBorder(Color.BLACK, 1)) );
         scrollPane.setBackground(Color.BLACK);
         addphoto.addActionListener(this);
-        southpanel1.add(deletephoto);
+        //southpanel1.add(deletephoto);
+        //deletephoto.addActionListener ( this );
         scrollPane.setViewportView(panelPictures);
         panel1.add(scrollPane);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -100,10 +103,11 @@ public class Gallery extends JPanel implements ActionListener {
 
     }
     //initialiser les composants
-    private void initComponentPictures(){
-        File monRepertoire=new File("Gallery");
+    private void initComponentPictures() throws IOException {
+
         File [] f = monRepertoire.listFiles();
         for(int i =0; i< f.length; i++){
+            System.out.println("Chargement de l'image : " + i);
             ButtonWithIcon button = new ButtonWithIcon ( "Gallery\\" + i +".jpg" );
             button.setMaximumSize(new Dimension(112,112));
             button.setMinimumSize(new Dimension(112,112));
@@ -126,75 +130,87 @@ public class Gallery extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println(e.getActionCommand());
-        if (e.getSource() == addphoto) {
-            int returnVal = fileChooser.showOpenDialog(this);
+        System.out.println ( "J'ai appuyé sur l'image : " + e.getActionCommand () );
+        if (e.getSource () == addphoto) {
+            int returnVal = fileChooser.showOpenDialog ( this );
             if (returnVal == JFileChooser.APPROVE_OPTION) {
-                File file = fileChooser.getSelectedFile();
-                File destination = new File("Gallery\\" + panelPictures.getComponentCount() + ".jpg");
+                File file = fileChooser.getSelectedFile ();
+                File destination = new File ( "Gallery\\" + panelPictures.getComponentCount () + ".jpg" );
                 try {
-                    FileUtils.copyFile(file, destination);
+                    FileUtils.copyFile ( file, destination );
                 } catch (IOException e1) {
-                    e1.printStackTrace();
+                    e1.printStackTrace ();
                 }
-                String path = file.getAbsolutePath();
-                ImageIcon img = new ImageIcon(path);
-                ButtonWithIcon button = new ButtonWithIcon(path);
-                button.setMaximumSize(new Dimension(112, 112));
-                button.setMinimumSize(new Dimension(112, 112));
+                String path = file.getAbsolutePath ();
+                ImageIcon img = new ImageIcon ( path );
+                ButtonWithIcon button = null;
+                try {
+                    button = new ButtonWithIcon ( path );
+                } catch (IOException e1) {
+                    e1.printStackTrace ();
+                }
+                button.setMaximumSize ( new Dimension ( 112, 112 ) );
+                button.setMinimumSize ( new Dimension ( 112, 112 ) );
 
-                if ((panelPictures.getComponentCount() + 1) % 4 == 0 && panelPictures.getComponentCount() != 0) {
-                    button.setActionCommand("" + panelPictures.getComponentCount());
-                    panelPictures.add(button, "wrap");
+                if ((panelPictures.getComponentCount () + 1) % 4 == 0 && panelPictures.getComponentCount () != 0) {
+                    button.setActionCommand ( "" + panelPictures.getComponentCount () );
+                    panelPictures.add ( button, "wrap" );
                 } else {
-                    button.setActionCommand("" + panelPictures.getComponentCount());
-                    panelPictures.add(button);
+                    button.setActionCommand ( "" + panelPictures.getComponentCount () );
+                    panelPictures.add ( button );
                 }
 
-                button.addActionListener(new newImage());
+                button.addActionListener ( new newImage () );
 
-                panelPictures.revalidate();
-                System.out.println(panelPictures.getComponentCount());
+                panelPictures.revalidate ();
+                System.out.println ( panelPictures.getComponentCount () );
             }
         } else {
-            if (e.getSource() == photos || e.getSource()==previous) {
-                cardLayout.show(panelcont,"1");
+            if (e.getSource () == photos || e.getSource () == previous) {
+                cardLayout.show ( panelcont, "1" );
 
             } else {
-                if(e.getSource()==deletePicture){
-                    int newName = Integer.valueOf(image.getName());
-                    int rep =deletePermanent.showConfirmDialog( this, "Do you really want to delete the picture ?",
-                            "Delete",JOptionPane.OK_CANCEL_OPTION);
-                    if(rep==JOptionPane.OK_OPTION){
-                        System.out.println("J'ai appuyé sur OK");
-                        File file = new File("Gallery//"+image.getName()+ ".jpg");
-                        file.delete();
+                if (e.getSource () == deletePicture) {
+                    int newName = Integer.valueOf ( image.getName () );
+                    int rep = deletePermanent.showConfirmDialog ( this, "Do you really want to delete the picture ?",
+                            "Delete", JOptionPane.OK_CANCEL_OPTION );
+                    if (rep == JOptionPane.OK_OPTION) {
 
-                        for(int i =Integer.valueOf(newName)+1;i<panelPictures.getComponentCount();i++){
-                            File fileName = new File("Gallery//" + i + ".jpg");
-                            File fileNewName = new File("Gallery//" + (i-1) + ".jpg");
-                            fileName.renameTo(fileNewName);
+                        System.out.println ( "J'ai appuyé sur OK" );
+                        System.out.println("J'ai supprimé l'image : " + image.getName ());
+
+                        File file = new File ( "Gallery//" + image.getName () + ".jpg" );
+                        file.delete ();
+
+
+                        boolean exists = file.exists();
+                        System.out.println(exists);
+
+                        for (int i = Integer.valueOf ( newName ) + 1; i < panelPictures.getComponentCount (); i++) {
+                            File fileName = new File ( "Gallery//" + i + ".jpg" );
+                            File fileNewName = new File ( "Gallery//" + (i - 1) + ".jpg" );
+                            System.out.println("Le nouveau nom des images : " + fileNewName.getName ());
+                            fileName.renameTo ( fileNewName );
                         }
 
-                        cardLayout.show(panelcont,"1");
-                        panelPictures.removeAll();
-                        panelPictures.validate();
-                        this.initComponentPictures();
-                        panelPictures.revalidate();
-                        panelPictures.repaint();
 
 
-                    }else{
-                        System.out.println("J'ai pas appuyé sur le bouton OK");
+                        cardLayout.show ( panelcont, "1" );
+                        panelPictures.removeAll ();
+
+                        System.out.println("Nombre de composants : " +panelPictures.getComponentCount ());
+
+                        try {
+                            initComponentPictures();
+                        } catch (IOException e1) {
+                            e1.printStackTrace ();
+                        }
                     }
-
                 }
-
             }
         }
     }
-
-    public class newImage implements  ActionListener{
+        class newImage implements  ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {

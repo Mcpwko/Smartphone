@@ -1,7 +1,9 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -189,8 +191,10 @@ public class HomeScreen extends JPanel implements ActionListener{
  */
 class ButtonWithIcon extends JButton{
 
-    public ButtonWithIcon(String icon) {
-        ImageIcon ii = new ImageIcon(icon);
+    public ButtonWithIcon(String icon) throws IOException {
+        Image img = ImageIO.read(new File (icon));
+        ImageIcon ii = new ImageIcon(img);
+        //ImageIcon ii = new ImageIcon(icon);
         setIcon ( ii );
         setContentAreaFilled(false);
         setBorderPainted(false);
