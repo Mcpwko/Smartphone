@@ -1,20 +1,14 @@
 import java.awt.*;
 
-public class Player extends Entity {
-
-    public Player(int x, int y, int width, int height, ID id) {
+public class Bot extends Entity{
+    public Bot(int x, int y, int width, int height, ID id) {
         super(x, y, width, height, id);
     }
 
     @Override
     public void update() {
-        if (this.id == ID.PLAYER_ONE) {
-            if (this.x < 0) {
-                this.x = 0;
-            }
-            if (this.x + this.WIDTH > this.WIDTH) {
-                this.x = 0;
-            }
+        if (this.id == ID.COMPUTER) {
+
             if (this.y < 0) {
                 this.y = 0;
             }
@@ -22,7 +16,7 @@ public class Player extends Entity {
                 this.y = Game.GAME_HEIGHT - this.HEIGHT - 30;
             }
 
-            this.x += this.xSpeed;
+            this.x = 460;
             this.y += this.ySpeed;
         }
     }
@@ -31,8 +25,7 @@ public class Player extends Entity {
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.GREEN);
+        g.setColor(Color.RED);
         g.fillRoundRect(this.x, this.y, this.WIDTH, this.HEIGHT,20,5);
     }
-
 }

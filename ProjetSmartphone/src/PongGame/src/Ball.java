@@ -10,12 +10,13 @@ public class Ball extends Entity {
     }
 
     public boolean isColliding(Player player) {
-        if (player.id == ID.PLAYER_ONE)
             return (this.x < player.WIDTH && ((this.y >= player.y && this.y < player.y + player.HEIGHT)
                     || (this.y + this.HEIGHT >= player.y && this.y + this.HEIGHT < player.y + player.HEIGHT)));
-        else
-            return (this.x + this.WIDTH > player.x && ((this.y >= player.y && this.y < player.y + player.HEIGHT)
-                    || (this.y + this.HEIGHT >= player.y && this.y + this.HEIGHT < player.y + player.HEIGHT)));
+    }
+    public boolean isCollidingBot(Bot computer) {
+            return (this.x + this.WIDTH > computer.x && ((this.y >= computer.y && this.y < computer.y + computer.HEIGHT)
+                    || (this.y + this.HEIGHT >= computer.y && this.y + this.HEIGHT < computer.y + computer.HEIGHT)));
+
     }
 
     public void reset() {
@@ -23,18 +24,21 @@ public class Ball extends Entity {
         this.y = Game.GAME_HEIGHT / 2 - (this.HEIGHT / 2);
         this.xSpeed = 0;
         this.ySpeed = 0;
+
     }
 
     @Override
     public void update() {
         if ((this.x + this.WIDTH) > Game.GAME_WIDTH) {
-            Game.score++;
             Game.startDirection = true;
             reset();
-            }
+
+            } // AU CAS OU !!
         if (this.x < 0) {
             Game.startDirection = false;
             reset();
+            Game.setLevel(1);
+            Game.setScore(0);
             }
         if (this.y + this.HEIGHT + 30 > Game.GAME_HEIGHT) {
             this.ySpeed = -this.ySpeed;

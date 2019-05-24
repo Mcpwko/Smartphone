@@ -1,23 +1,46 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
-class Game extends JPanel implements Runnable, KeyListener {
+class Game extends JPanel implements Runnable, KeyListener, MouseMotionListener {
     public static final int GAME_WIDTH = 480;
     public static final int GAME_HEIGHT = 800;
 
     private String[] instructions = {"PONG GAME"};
+    private JButton play = new JButton("PLAY");
+
+
+    Font font;
+
+    {
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT,new File("ARCADECLASSIC.TTF"));
+        } catch (FontFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private Thread t;
 
 
     public static int score;
     public static String scoreString;
+    public static int level = 1;
+
+
+
+    public static String levelString;
 
 
     protected Player player;
-    protected Player computer;
+    protected Bot computer;
 
 
     protected Ball ball;
@@ -39,8 +62,9 @@ class Game extends JPanel implements Runnable, KeyListener {
 
     public Game(){
         player = new Player (0, 360, 15, 100, ID.PLAYER_ONE);
-        computer = new Player (GAME_WIDTH - 21, 360, 15, 100, ID.COMPUTER);
+        computer = new Bot (340, 360, 15, 100, ID.COMPUTER);
         ball = new Ball (0, 0, 20, 20, ID.BALL);
+
 
     }
 
@@ -49,7 +73,7 @@ class Game extends JPanel implements Runnable, KeyListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setFont(new Font("Arial", Font.BOLD, 18));
+        g.setFont(font.deriveFont(Font.TRUETYPE_FONT,25));
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
         g.setColor(Color.WHITE);
@@ -59,8 +83,8 @@ class Game extends JPanel implements Runnable, KeyListener {
             }
         } else if (game) {
 
-            g.drawString(scoreString, (Game.GAME_WIDTH / 4) - (scoreString.length() * 8 / 2),
-                    Game.GAME_HEIGHT - 40);
+            g.drawString(scoreString, 20,20);
+            g.drawString(levelString,350,20 );
 
             player.render(g);
             computer.render(g);
@@ -164,6 +188,9 @@ class Game extends JPanel implements Runnable, KeyListener {
             }
 
         } else if (game) {
+
+            addMouseMotionListener(this);
+
             // X DIRECTION MOVEMENT PLAYER ONE
             if (right)
                 player.xSpeed = 3;
@@ -194,11 +221,15 @@ class Game extends JPanel implements Runnable, KeyListener {
 
             if (ball.isColliding(player)) {
                 ball.x = 15;
-                ball.xSpeed--;
-                ball.xSpeed = -ball.xSpeed; // AUGMENTATION DE LA VITESSE
+                score+=10;
+                if(score%100 == 0 && score !=0) {
+                    ball.xSpeed-=1;
+                    level++;
+                }
+                ball.xSpeed = -ball.xSpeed; // Changement de direction de la balle
 
             }
-            if (ball.isColliding(computer)) {
+            if (ball.isCollidingBot(computer)) {
                 ball.x = GAME_WIDTH - 21 - ball.WIDTH;
                 //ball.xSpeed++;
                 ball.xSpeed = -ball.xSpeed;
@@ -208,7 +239,8 @@ class Game extends JPanel implements Runnable, KeyListener {
             player.update();
             computer.update();
             ball.update();
-            scoreString = "Player One: " + score;
+            scoreString = "Score " + score;
+            levelString = "Level " + level;
         }
     }
 
@@ -239,5 +271,37 @@ class Game extends JPanel implements Runnable, KeyListener {
                 e.printStackTrace();
             }
         }
+    }
+
+
+
+
+    public static int getScore() {
+        return score;
+    }
+
+    public static void setScore(int score) {
+        Game.score = score;
+    }
+
+    public static int getLevel() {
+        return level;
+    }
+
+    public static void setLevel(int level) {
+        Game.level = level;
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        player.setY(e.getY());
+
+
     }
 }
