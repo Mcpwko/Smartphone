@@ -6,11 +6,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-class Game extends JPanel implements Runnable, KeyListener, MouseMotionListener {
+class Game extends JPanel implements Runnable, KeyListener, MouseMotionListener, ActionListener {
     public static final int GAME_WIDTH = 480;
     public static final int GAME_HEIGHT = 800;
 
-    private String[] instructions = {"PONG GAME"};
+
     private JButton play = new JButton("PLAY");
 
 
@@ -35,6 +35,8 @@ class Game extends JPanel implements Runnable, KeyListener, MouseMotionListener 
     public static int level = 1;
 
 
+    public static String titre = "PONG GAME";
+
 
     public static String levelString;
 
@@ -54,6 +56,7 @@ class Game extends JPanel implements Runnable, KeyListener, MouseMotionListener 
     private boolean menu = true;
     private boolean game = false;
     private boolean playMode = true;
+    private boolean pause = false;
 
 
     // BOOLEANS THAT WILL BE USED FOR SMOOTHER MOVEMENT
@@ -78,9 +81,10 @@ class Game extends JPanel implements Runnable, KeyListener, MouseMotionListener 
         g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
         g.setColor(Color.WHITE);
         if (menu) {
-            for (int i = 0; i < instructions.length; i++) {
-                drawCenteredString(instructions[i], Game.GAME_WIDTH, Game.GAME_HEIGHT + (i * 45) - 150, g);
-            }
+            g.setFont(font.deriveFont(Font.TRUETYPE_FONT,90));
+            g.drawString(titre,23,200);
+
+
         } else if (game) {
 
             g.drawString(scoreString, 20,20);
@@ -92,12 +96,14 @@ class Game extends JPanel implements Runnable, KeyListener, MouseMotionListener 
         }
     }
 
-    public void drawCenteredString(String s, int w, int h, Graphics g) {
+    /*public void drawCenteredString(String s, int w, int h, Graphics g) {
         FontMetrics fm = g.getFontMetrics();
+        g.setFont ( font.deriveFont ( Font.TRUETYPE_FONT,50 ) );
         int x = (w - fm.stringWidth(s)) / 2;
         int y = (fm.getAscent() + (h - (fm.getAscent() + fm.getDescent())) / 2);
+
         g.drawString(s, x, y);
-    }
+    }*/
 
 
     public void waitForStart() {
@@ -185,6 +191,7 @@ class Game extends JPanel implements Runnable, KeyListener, MouseMotionListener 
                 playMode = true;
                 menu = false;
                 game = true;
+                pause = false;
             }
 
         } else if (game) {
@@ -303,5 +310,12 @@ class Game extends JPanel implements Runnable, KeyListener, MouseMotionListener 
         player.setY(e.getY());
 
 
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource ()==play){
+
+        }
     }
 }

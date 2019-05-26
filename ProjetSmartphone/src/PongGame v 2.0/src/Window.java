@@ -7,7 +7,7 @@ public class Window extends JFrame {
     private static final long serialVersionUID = 1L;
 
     public Window(String name) {
-        setTitle("Smartphone");
+        setTitle("PONG-GAME");
         setSize ( 480,800 );
         setResizable(false);
         setLocationRelativeTo(null);
