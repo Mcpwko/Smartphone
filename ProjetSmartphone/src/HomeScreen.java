@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import PongGame.*;
 
 /**
  * Panel for the background
@@ -27,6 +28,8 @@ public class HomeScreen extends JPanel implements ActionListener{
     private Gallery galleryApp = new Gallery();
     private Settings settingsApp = new Settings();
     private JPanel contactApp = new JPanel();
+
+    public BoardPongGame pongGame = new BoardPongGame();
     private SpaceInvaders spaceInvadersGame = new SpaceInvaders ();
     private ButtonWithIcon contact = new ButtonWithIcon("images//contact.png");
     private ButtonWithIcon home = new ButtonWithIcon("images//home.png");
@@ -60,6 +63,7 @@ public class HomeScreen extends JPanel implements ActionListener{
         panelcont.add(contactApp,"3");
         panelcont.add(settingsApp,"4");
         panelcont.add( spaceInvadersGame,"5");
+        panelcont.add(pongGame,"6");
         //panelcont.add(ponggame,"6");
         center.setBackground(Color.BLACK);
         center.setLayout ( null );
@@ -172,6 +176,11 @@ public class HomeScreen extends JPanel implements ActionListener{
                             else{
                                 if(obj==spaceinvaders){
                                     cardLayout.show ( panelcont,"5" );
+                                }
+                                else{
+                                    if(obj==pong){
+                                        cardLayout.show(panelcont,"6");
+                                    }
                                 }
                             }
                         }

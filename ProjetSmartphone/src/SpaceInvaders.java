@@ -16,7 +16,7 @@ public class SpaceInvaders extends JPanel implements ActionListener,KeyListener 
     private ButtonWithIcon playbutton = new ButtonWithIcon ( "images\\startbutton.png" );
     private JLabel score = new JLabel ( "SCORE : " );
     private Timer timer;
-    private Player player;
+    //private Player player;
     private final int DELAY = 10;
 
 
@@ -86,7 +86,7 @@ public class SpaceInvaders extends JPanel implements ActionListener,KeyListener 
     }
 }
 
-class Player {
+/*class Player {
 
     private int dx;
     private int dy;
@@ -182,12 +182,12 @@ class Player {
             dy = 0;
         }
     }
-}
+}*/
 
 class Board extends JPanel implements ActionListener {
 
     private Timer timer;
-    private Player player;
+    //private Player player;
     private final int DELAY = 10;
 
     public Board() {
@@ -201,7 +201,7 @@ class Board extends JPanel implements ActionListener {
         setBackground(Color.black);
         setFocusable(true);
 
-        player = new Player();
+        //player = new Player();
 
         timer = new Timer(DELAY, this);
         timer.start();
@@ -220,8 +220,8 @@ class Board extends JPanel implements ActionListener {
 
         Graphics2D g2d = (Graphics2D) g;
 
-        g2d.drawImage( player.getImage(), player.getX(),
-                player.getY(), this);
+        //g2d.drawImage( player.getImage(), player.getX(),
+          //      player.getY(), this);
     }
 
     @Override
@@ -232,22 +232,22 @@ class Board extends JPanel implements ActionListener {
 
     private void step() {
 
-        player.move();
+       // player.move();
 
-        repaint( player.getX()-1, player.getY()-1,
-                player.getWidth()+2, player.getHeight()+2);
+       // repaint( player.getX()-1, player.getY()-1,
+        //        player.getWidth()+2, player.getHeight()+2);
     }
 
     private class TAdapter extends KeyAdapter {
 
         @Override
         public void keyReleased(KeyEvent e) {
-            player.keyReleased(e);
+         //   player.keyReleased(e);
         }
 
         @Override
         public void keyPressed(KeyEvent e) {
-            player.keyPressed(e);
+         //   player.keyPressed(e);
         }
     }
 }
