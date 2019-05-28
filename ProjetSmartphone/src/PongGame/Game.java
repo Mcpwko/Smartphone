@@ -8,13 +8,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class Game extends JPanel implements Runnable, KeyListener, MouseMotionListener, ActionListener {
+public class Game extends JPanel implements Runnable, KeyListener, MouseMotionListener {
     public static final int GAME_WIDTH = 480;
-    public static final int GAME_HEIGHT = 800;
+    public static final int GAME_HEIGHT = 750;
 
-
-
-    private JButton play = new JButton("PLAY");
 
 
 
@@ -22,7 +19,7 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
 
     {
         try {
-            font = Font.createFont(Font.TRUETYPE_FONT,new File("ARCADECLASSIC.TTF"));
+            font = Font.createFont(Font.TRUETYPE_FONT,new File("src\\PongGame\\ARCADECLASSIC.TTF"));
         } catch (FontFormatException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -74,7 +71,6 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
         computer = new Bot (340, 360, 15, 100, ID.COMPUTER);
         ball = new Ball (0, 0, 20, 20, ID.BALL);
 
-
     }
 
 
@@ -98,7 +94,7 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
         } else if (game) {
 
             g.drawString(scoreString, 20,20);
-            g.drawString(levelString,350,20 );
+            g.drawString(levelString,350,20);
 
             player.render(g);
             computer.render(g);
@@ -147,7 +143,6 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
     }
 
 
-
     // KEYBOARD INPUT EVENTS TRIGGERED BY OS
     @Override
     public void keyPressed(KeyEvent e) {
@@ -156,6 +151,7 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
         if(key == KeyEvent.VK_ESCAPE){
             escape = true;
         }
+
         if (playMode) {
             if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
                 right = true;
@@ -171,6 +167,9 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
 
             if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
                 up = true;
+            }
+            if (key == KeyEvent.VK_ESCAPE){
+                escape = true;
             }
         }
 
@@ -389,10 +388,4 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
 
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource ()==play){
-
-        }
-    }
 }

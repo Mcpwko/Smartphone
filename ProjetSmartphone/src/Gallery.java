@@ -20,7 +20,7 @@ public class Gallery extends JPanel implements ActionListener {
     private JPanel southpanel1 = new JPanel();
     private JPanel panelPictures = new JPanel();
     private CardLayout cardLayout = new CardLayout();
-    private JPanel panel1 = new JPanel();;
+    private JPanel panel1 = new JPanel();
     private JScrollPane scrollPane = new JScrollPane(panelPictures);
     private JFileChooser fileChooser = new JFileChooser();
 
