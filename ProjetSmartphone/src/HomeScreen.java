@@ -1,3 +1,4 @@
+import Contact.ContactPanel;
 import PongGame.BoardPong;
 
 import javax.imageio.ImageIO;
@@ -29,7 +30,7 @@ public class HomeScreen extends JPanel implements ActionListener{
     private JPanel panelcont = new JPanel();
     private Gallery galleryApp = new Gallery();
     private Settings settingsApp = new Settings();
-    private JPanel contactApp = new JPanel();
+    private ContactPanel contactPanel = new ContactPanel ();
 
     private BoardPong pongGame = new BoardPong();
     private SpaceInvaders spaceInvadersGame = new SpaceInvaders ();
@@ -62,7 +63,7 @@ public class HomeScreen extends JPanel implements ActionListener{
         add(panelcont,BorderLayout.CENTER);
         panelcont.add(center,"1");
         panelcont.add(galleryApp,"2");
-        panelcont.add(contactApp,"3");
+        panelcont.add( contactPanel,"3");
         panelcont.add(settingsApp,"4");
         panelcont.add( spaceInvadersGame,"5");
         panelcont.add(pongGame,"6");

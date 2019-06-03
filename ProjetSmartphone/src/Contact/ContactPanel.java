@@ -1,3 +1,5 @@
+﻿package Contact;
+
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.MediaTracker;
@@ -16,22 +18,9 @@ import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Main {
-
-    public static void main(String[] args) throws IOException {
-        home h = new home();
-        h.setVisible(true);
-        h.setSize(480,800);
-        h.setLocationRelativeTo(null);
 
 
-    }
-
-}
-
-
-
-class home<i> extends JFrame implements ActionListener, FocusListener {
+public class ContactPanel extends JPanel implements ActionListener, FocusListener {
 
     //Création des panneaux de base
 
@@ -59,18 +48,6 @@ class home<i> extends JFrame implements ActionListener, FocusListener {
 
     private JButton listContactButton[] = new JButton[10000000];
 
-    //Création des éléments du panneau information
-    /*private JPanel panel = new JPanel();
-    private JPanel panel2 = new JPanel();
-    private JPanel centerpanel2 = new JPanel();
-    private LabelWithIcon bonhomme = new LabelWithIcon("icone.png");
-    private JLabel telprive = new JLabel("Teléphone privé");
-    private JLabel telprof = new JLabel("Téléphone professionnel");
-    private JLabel teldom = new JLabel("Téléphone domicile");
-    private JLabel email = new JLabel("Adresse éléctronique");
-    private JLabel identite = new JLabel("Kevin Coppey");
-    private Font font3  = new Font("Arial",Font.BOLD,40);
-    private Font font4 = new Font("Arial",Font.TRUETYPE_FONT,50);*/
 
     //Création des élément du panneau d'ajout de contact
 
@@ -96,11 +73,8 @@ class home<i> extends JFrame implements ActionListener, FocusListener {
     private Dimension dimensionadd = new Dimension(300,50);
     private Dimension dimensionadd2 = new Dimension(420,50);
 
-    public home() throws IOException {
+    public ContactPanel() throws IOException {
 
-        //Close the window by clicking on the cross
-
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         //Paramétrage des panels
 
@@ -215,30 +189,8 @@ class home<i> extends JFrame implements ActionListener, FocusListener {
 
         information.setBackground(Color.BLACK);
 
-        /*panel.setLayout(new BorderLayout());
-        information.add(panel,BorderLayout.NORTH);
-        panel.add(bonhomme, BorderLayout.NORTH);
-        identite.setFont(font3);
-        panel.add(identite);
-        panel2.setLayout(new BorderLayout());
-        information.add(panel2, BorderLayout.CENTER);
-        bonhomme.setHorizontalAlignment(0);
-        identite.setHorizontalAlignment(0);
 
-        information.add(centerpanel2,BorderLayout.CENTER);
-        centerpanel2.setLayout(new MigLayout( "", "", "[]20[]"));
-
-        telprive.setFont(font2);
-        teldom.setFont(font2);
-        telprof.setFont(font2);
-        email.setFont(font2);
-
-        centerpanel2.add(telprive);
-        centerpanel2.add(teldom);
-        centerpanel2.add(telprof);
-        centerpanel2.add(email);*/
-
-
+        // initialiser la liste des contacts
         initContactList();
 
 
@@ -529,11 +481,11 @@ class home<i> extends JFrame implements ActionListener, FocusListener {
             String extension = ".txt";
 
             File[] liste = file.listFiles(new FileFilter() {
-                                              public boolean accept(File f) {
-                                                  return f.getName().endsWith(extension);
-                                              }
+                public boolean accept(File f) {
+                    return f.getName().endsWith(extension);
+                }
 
-                                          }
+            }
             );
 
 
@@ -596,7 +548,6 @@ class home<i> extends JFrame implements ActionListener, FocusListener {
             String nom = Buff.readLine();
 
             listContactButton[i] = new JButton(nom + " " + prenom);
-
             listContactButton[i].setContentAreaFilled(false);
             listContactButton[i].setOpaque(true);
             listContactButton[i].setPreferredSize(new Dimension(500, 20));
@@ -661,27 +612,6 @@ class home<i> extends JFrame implements ActionListener, FocusListener {
             JLabel eMail = new JLabel("Email :");
             JLabel address1 = new JLabel("Adress : ");
 
-
-
-            /*panel.setLayout(new BorderLayout());
-            information.add(panel,BorderLayout.NORTH);
-            panel.add(bonhomme, BorderLayout.NORTH);
-            identite.setFont(font3);
-            panel.add(identite);
-            panel2.setLayout(new BorderLayout());
-            information.add(panel2, BorderLayout.CENTER);
-            bonhomme.setHorizontalAlignment(0);
-            identite.setHorizontalAlignment(0);
-
-            information.add(centerpanel2,BorderLayout.CENTER);
-            centerpanel2.setLayout(new MigLayout( "", "", "[]20[]"));
-
-
-
-            centerpanel2.add(telprive);
-            centerpanel2.add(teldom);
-            centerpanel2.add(telprof);
-            centerpanel2.add(email);*/
 
             identite.setFont(font4);
             identite.setForeground(Color.WHITE);
