@@ -24,7 +24,7 @@ public class HomeScreen extends JPanel implements ActionListener{
     private JLabel reseau = new JLabel ("Salt");
     private Battery1 battery = new Battery1();
     private TimeLabel clock = new TimeLabel();
-    private Batterie batteryPercent = new Batterie();
+    //private Batterie batteryPercent = new Batterie();
     private CardLayout cardLayout = new CardLayout();
     private JPanelWithBackground center = new JPanelWithBackground("images//wallpaper.jpg");
     private JPanel panelcont = new JPanel();
@@ -130,8 +130,8 @@ public class HomeScreen extends JPanel implements ActionListener{
         north.add(clock,BorderLayout.CENTER);
         clock.setHorizontalAlignment(JLabel.CENTER);
         northeast.add(battery,BorderLayout.EAST);
-        northeast.add(batteryPercent,BorderLayout.CENTER);
-        batteryPercent.setForeground(Color.WHITE);
+        //northeast.add(batteryPercent,BorderLayout.CENTER);
+        //batteryPercent.setForeground(Color.WHITE);
         clock.setForeground(Color.white);
         /**
          * Insert the south panel

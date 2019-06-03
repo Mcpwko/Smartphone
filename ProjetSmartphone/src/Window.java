@@ -21,58 +21,32 @@ public class Window extends JFrame {
 }
 
 
-class ExternWindow extends JFrame {
-    private JPanel pane = new JPanel ();
-    private JInternalFrame frame2 = new JInternalFrame ( "My Telephone" ); //INTERNAL FRAME
-    private JLabel phone = new JLabel ( new ImageIcon ( ImageIO.read ( getClass ().getResource ( "/test7.png" ) ) ) );
+class FrameExtern extends JFrame {
+    private JLabel label = new JLabel(new ImageIcon("images\\smartphone.png"));
+    private JPanel panelintern = new JPanel ( );
     private Lockscreen lockscreen = new Lockscreen();
 
 
 
-
-    public ExternWindow() throws IOException {
-        setDefaultCloseOperation ( JFrame.EXIT_ON_CLOSE );
+    public FrameExtern() throws IOException {
         setUndecorated ( true );
-        setVisible ( true );
+        setBackground ( new Color ( 0, 0, 0, 0) );
+        setSize ( 700,1000 );
         setLayout ( null );
-        setSize ( 600,1000 );
-        this.setLocationRelativeTo ( null );
+        add(label);
+        label.setBounds ( 0,0,685,1000 );
 
+        add(panelintern);
+        panelintern.setBounds ( 102,100,480,800 );
+        setVisible ( true );
 
-        setBackground ( new Color ( 0, 0, 0, 0 ) );
-
-
-
-        //frame2.setClosable ( true );
-        javax.swing.plaf.InternalFrameUI ui = frame2.getUI();
-        ((javax.swing.plaf.basic.BasicInternalFrameUI)ui).setNorthPane(null);
-        frame2.setDefaultCloseOperation ( JFrame.EXIT_ON_CLOSE );
-        frame2.setVisible ( true );
-        //frame2.setBackground ( Color.RED );
-
-        //phone.setSize ( 500,870 );
-
-        phone.setBounds ( 0,0,540,900 );
-        this.add (phone );
-
-        frame2.setSize ( 480, 800 );
-        //frame2.setContentPane ( pane );
-
-        //pane.setBackground ( Color.red );
-
-        frame2.setBounds (30,49,480,800);
-        add ( frame2 );
-
-        frame2.setContentPane (lockscreen);
-
-
-
-
-
-
-
-        //this.pack();
+        panelintern.setBackground ( Color.WHITE );
+        panelintern.setLayout ( new BorderLayout (  ) );
+        panelintern.add(lockscreen,BorderLayout.CENTER);
+        setLocationRelativeTo ( null );
+        setDefaultCloseOperation ( EXIT_ON_CLOSE );
 
     }
-}
 
+
+}

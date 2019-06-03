@@ -1,9 +1,12 @@
-﻿package Contact;
+package Contact;
+
 
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.Toolkit;
+
+import net.miginfocom.layout.CC;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -24,8 +27,9 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
     //Création des panneaux de base
 
+
     private JPanel panelcontent = new JPanel();
-    private JPanel contactlist = new JPanel();
+    private JPanel contactlist = new JPanel ();
     private JPanel information = new JPanel();
     private JPanel contactnew = new JPanel();
 
@@ -39,7 +43,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
     private JPanel centerpanel = new JPanel();
     private JPanel listdecontact = new JPanel();
     private JLabel label = new JLabel("Contacts");
-    private ButtonWithIcon buttonplus = new ButtonWithIcon("addcontact1.png");
+    private ButtonWithIcon buttonplus = new ButtonWithIcon("src\\Contact\\addcontact1.png");
     private Font font = new Font("Arial",Font.BOLD,30);
     private Font font2 = new Font("Arial",Font.BOLD,15);
     private Border border = BorderFactory.createLineBorder(Color.WHITE, 1);
@@ -53,7 +57,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
     private JPanel panelCenter = new JPanel();
     private JLabel nouveaucontact = new JLabel("Nouveau Contact");
-    private ButtonWithIcon photo = new ButtonWithIcon("photo.png");
+    private ButtonWithIcon photo = new ButtonWithIcon("src\\Contact\\photo.png");
     private JTextField prenom = new JTextField("Prénom");
     private JTextField nom = new JTextField("Nom");
     private JTextField emailtext = new JTextField("E-mail");
@@ -61,24 +65,26 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
     private JTextField phonenumber2 = new JTextField("Téléphone professionnel");
     private JTextField phonenumber3 = new JTextField("Téléphone domicile");
     private JTextField adress = new JTextField("Adresse");
-    private LabelWithIcon privatephone = new LabelWithIcon("smartphone.png");
-    private LabelWithIcon telprof2 = new LabelWithIcon("telprof.png");
-    private LabelWithIcon teldom2 = new LabelWithIcon("factory.png");
-    private LabelWithIcon home = new LabelWithIcon("home.png");
-    private LabelWithIcon adress2 = new LabelWithIcon("mail.png");
-    private LabelWithIcon location = new LabelWithIcon("location.png");
+    private LabelWithIcon privatephone = new LabelWithIcon("src\\Contact\\smartphone.png");
+    private LabelWithIcon telprof2 = new LabelWithIcon("src\\Contact\\telprof.png");
+    private LabelWithIcon teldom2 = new LabelWithIcon("src\\Contact\\factory.png");
+    private LabelWithIcon home = new LabelWithIcon("src\\Contact\\home.png");
+    private LabelWithIcon adress2 = new LabelWithIcon("src\\Contact\\mail.png");
+    private LabelWithIcon location = new LabelWithIcon("src\\Contact\\location.png");
     private JLabel blankLabel = new JLabel();
-    private ButtonWithIcon save = new ButtonWithIcon("save.png");
+    private ButtonWithIcon save = new ButtonWithIcon("src\\Contact\\save.png");
     private Font fontadd = new Font("arial",Font.TRUETYPE_FONT,30);
     private Dimension dimensionadd = new Dimension(300,50);
     private Dimension dimensionadd2 = new Dimension(420,50);
 
     public ContactPanel() throws IOException {
 
+        setLayout ( new BorderLayout (  ) );
+
 
         //Paramétrage des panels
 
-        add(panelcontent);
+        add(panelcontent,BorderLayout.CENTER);
         panelcontent.setLayout(cards);
         panelcontent.add(contactlist,"1");
         panelcontent.add(information,"2");
@@ -89,9 +95,18 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
         contactlist.setLayout(new BorderLayout());
         contactlist.add(northpanel,BorderLayout.NORTH);
         northpanel.setLayout(new BorderLayout());
+        JScrollPane listing = new JScrollPane ( centerpanel );
+
+
         listdecontact.setLayout(new GridLayout(0,1));
-        contactlist.add(centerpanel, BorderLayout.CENTER);
-        centerpanel.add(listdecontact,BorderLayout.SOUTH);
+        //contactlist.add(centerpanel, BorderLayout.CENTER);
+        centerpanel.add(listdecontact,BorderLayout.CENTER);
+        contactlist.add(listing,BorderLayout.CENTER);
+        listing.setHorizontalScrollBarPolicy ( JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+        listing.setBackground ( Color.BLACK );
+        listing.setBorder((BorderFactory.createLineBorder(Color.BLACK, 1)) );
+        listing.getVerticalScrollBar().setUnitIncrement(100);
+
         label.setFont(font);
         blankLabel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 
@@ -211,7 +226,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
 
 
-            File monRepertoire=new File("contact");
+            File monRepertoire=new File("src\\Contact\\contact");
             File[] f = monRepertoire.listFiles();
             String newContact = prenom.getText()+nom.getText()+".txt";
             boolean twice = false;
@@ -242,19 +257,19 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
 
 
-            FileWriter monFichier = null;
-            BufferedWriter tampon = null;
-            String[] data = new String[7];
+                    FileWriter monFichier = null;
+                    BufferedWriter tampon = null;
+                    String[] data = new String[7];
 
-            // Entrer les données dans le tableau
+                    // Entrer les données dans le tableau
 
-            data[0] = prenom.getText() ;
-            data[1] = nom.getText();
-            data[2] = emailtext.getText();
-            data[3] = phonenumber.getText();
-            data[4] = phonenumber2.getText();
-            data[5] = phonenumber3.getText();
-            data[6] = adress.getText();
+                    data[0] = prenom.getText() ;
+                    data[1] = nom.getText();
+                    data[2] = emailtext.getText();
+                    data[3] = phonenumber.getText();
+                    data[4] = phonenumber2.getText();
+                    data[5] = phonenumber3.getText();
+                    data[6] = adress.getText();
 
 
 
@@ -262,7 +277,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
 
                     try {
-                        File file = new File("contact\\" + prenom.getText() + nom.getText() + ".txt");
+                        File file = new File("src\\Contact\\contact\\" + prenom.getText() + nom.getText() + ".txt");
                         monFichier = new FileWriter(file);
                         tampon = new BufferedWriter(monFichier);
 
@@ -324,7 +339,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
                     adress.setText("Adresse");
                     cards.show(panelcontent, "1");
                 }
-                }else{
+            }else{
 
                 System.out.println(monRepertoire.length());
                 int numberFiles = (int) monRepertoire.length();
@@ -365,7 +380,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
 
                 try {
-                    File file = new File("contact\\" + prenom.getText() + nom.getText() + ".txt");
+                    File file = new File("src\\Contact\\contact\\" + prenom.getText() + nom.getText() + ".txt");
                     monFichier = new FileWriter(file);
                     tampon = new BufferedWriter(monFichier);
 
@@ -475,17 +490,17 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
         String tab[] = new String[7];
 
         try {
-            monFichier = new FileReader("contact");
+            monFichier = new FileReader("src\\Contact\\contact");
             tampon = new BufferedReader(monFichier);
-            File file = new File("contact") ;
+            File file = new File("src\\Contact\\contact") ;
             String extension = ".txt";
 
             File[] liste = file.listFiles(new FileFilter() {
-                public boolean accept(File f) {
-                    return f.getName().endsWith(extension);
-                }
+                                              public boolean accept(File f) {
+                                                  return f.getName().endsWith(extension);
+                                              }
 
-            }
+                                          }
             );
 
 
@@ -527,7 +542,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
     }
 
     public void initContactList() throws IOException {
-        File monRepertoire=new File("contact");
+        File monRepertoire=new File("src\\Contact\\contact");
         File[] f = monRepertoire.listFiles();
 
 
@@ -570,17 +585,18 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
         @Override
         public void actionPerformed(ActionEvent e){
-            File selected =new File("contact\\" + e.getActionCommand());
+            File selected =new File("src\\Contact\\contact\\" + e.getActionCommand());
             System.out.println(e.getActionCommand());
             String[] data = new String[7];
 
             JPanel panelinformation = new JPanel();
-            LabelWithIcon bonhomme = new LabelWithIcon("icone.png");
+            LabelWithIcon bonhomme = new LabelWithIcon("src\\Contact\\icone.png");
 
 
 
-            Font font3  = new Font("Arial",Font.BOLD,30);
-            Font font4 = new Font("Arial",Font.TRUETYPE_FONT,40);
+            Font font3  = new Font("Arial",Font.BOLD,20);
+            Font font4 = new Font ("Arial",Font.TRUETYPE_FONT,25);
+            Font fontnom = new Font("Arial",Font.TRUETYPE_FONT,40);
 
             BufferedReader Buff = null;
             try {
@@ -613,7 +629,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             JLabel address1 = new JLabel("Adress : ");
 
 
-            identite.setFont(font4);
+            identite.setFont(fontnom);
             identite.setForeground(Color.WHITE);
             telprive.setFont(font4);
             telprive.setForeground(Color.WHITE);
@@ -645,24 +661,34 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             email.setFont(font4);*/
             JLabel labelvide = new JLabel("ESPACEME");
             labelvide.setForeground(Color.BLACK);
+            CC componentConstraints = new CC();
+            componentConstraints.alignX("center").spanX();
+            MigLayout mig = new MigLayout (  "", "", "[]20[]");
+            information.setLayout(mig);
+            //information.add("cell 0 0 1 1",labelvide);
+            //information.add("cell 3 0 3 4",bonhomme);
+            //information.add("cell 0 5 1 1",labelvide);
+            //information.add("cell 3 5 3 1",identite);
+            //information.add(bonhomme,componentConstraints);
+            //information.add(identite,componentConstraints);
+            information.add("gapleft 160, wrap",bonhomme);
+            information.add("gapleft 90,wrap",identite);
 
-            information.setLayout(new MigLayout());
-            information.add("cell 0 0 1 1",labelvide);
-            information.add("cell 2 0 3 4",bonhomme);
-            information.add("cell 0 5 1 1",labelvide);
-            information.add("cell 2 5 3 1",identite);
 
-            information.add("cell 0 6 4 1",telPrive);
-            information.add("cell 0 7 4 1", telprive);
+            information.add("cell 0 6 6 1",telPrive);
+            information.add("cell 0 7 6 1", telprive);
 
-            information.add("cell 0 8 4 1" , telProf);
-            information.add("cell 0 9 4 1", telprof);
+            information.add("cell 0 8 6 1" , telProf);
+            information.add("cell 0 9 6 1", telprof);
 
-            information.add("cell 0 10 4 1", telDom);
-            information.add("cell 0 11 4 1", teldom);
+            information.add("cell 0 10 6 1", telDom);
+            information.add("cell 0 11 6 1", teldom);
 
-            information.add("cell 0 12 4 1", eMail);
-            information.add("cell 0 13 4 1", email);
+            information.add("cell 0 12 6 1", eMail);
+            information.add("cell 0 13 6 1", email);
+
+            information.add("cell 0 14 6 1",address);
+            information.add("cell 0 15 6 1", address1);
 
 
 
@@ -676,6 +702,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
 
 }
+
 
 
 
