@@ -148,6 +148,11 @@ public class HomeScreen extends JPanel implements ActionListener{
         south.setBackground(Color.WHITE); /**The color of the south panel*/
 
     }
+
+    public ButtonWithIcon getHome() {
+        return home;
+    }
+
     public void actionPerformed(ActionEvent e) {
         Object obj = e.getSource();
 

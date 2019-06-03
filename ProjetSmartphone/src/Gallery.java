@@ -185,6 +185,11 @@ public class Gallery extends JPanel implements ActionListener {
 
                         boolean exists = file.exists();
                         System.out.println(exists);
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e1) {
+                            e1.printStackTrace();
+                        }
 
                         for (int i = Integer.valueOf ( newName ) + 1; i < panelPictures.getComponentCount (); i++) {
                             File fileName = new File ( "Gallery//" + i + ".jpg" );

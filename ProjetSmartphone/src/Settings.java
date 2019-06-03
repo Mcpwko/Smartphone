@@ -13,3 +13,16 @@ public class Settings extends JPanel {
         add(titre);
     }
 }
+
+class ToggleButton extends JToggleButton{
+    ImageIcon selectedIcon = new ImageIcon("BANANA");
+    ImageIcon deselectedIcon = new ImageIcon("BANANASPLIT");
+
+
+    public ToggleButton(){
+        //this.setSelectedIcon();
+        //this.setDisabledSelectedIcon();
+
+    }
+}
+
