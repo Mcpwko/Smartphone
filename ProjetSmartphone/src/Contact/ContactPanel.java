@@ -77,9 +77,18 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
     private Dimension dimensionadd = new Dimension(300,50);
     private Dimension dimensionadd2 = new Dimension(420,50);
 
+    //Création panneau information
+    private JTextField identite;
+    private JTextField email;
+    private JTextField telprive;
+    private JTextField telprof;
+    private JTextField teldom;
+    private JTextField address;
+
     public ContactPanel() throws IOException {
 
         setLayout ( new BorderLayout (  ) );
+
 
 
         //Paramétrage des panels
@@ -589,7 +598,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             System.out.println(e.getActionCommand());
             String[] data = new String[7];
 
-            JPanel panelinformation = new JPanel();
+            //JPanel panelinformation = new JPanel();
             LabelWithIcon bonhomme = new LabelWithIcon("src\\Contact\\icone.png");
 
 
@@ -615,37 +624,40 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
                 }
             }
 
-            JTextField identite = new JTextField();
+            identite = new JTextField();
             identite.setText(data[0]+" " + data[1]);
             identite.setEditable(false);
             identite.setBackground(Color.BLACK);
             identite.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+            identite.setMinimumSize(new Dimension(400,10));
 
-            JTextField email = new JTextField();
+            email = new JTextField();
             email.setText(data[2]);
             email.setEditable(false);
             email.setBackground(Color.BLACK);
             email.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+            email.setMinimumSize(new Dimension(400,10));
 
-            JTextField telprive = new JTextField();
+            telprive = new JTextField();
             telprive.setText(data[3]);
             telprive.setEditable(false);
             telprive.setBackground(Color.BLACK);
             telprive.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+            telprive.setMinimumSize(new Dimension(400,10));
 
-            JTextField telprof = new JTextField();
+            telprof = new JTextField();
             telprof.setText(data[4]);
             telprof.setEditable(false);
             telprof.setBackground(Color.BLACK);
             telprof.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 
-            JTextField teldom = new JTextField();
+            teldom = new JTextField();
             teldom.setText(data[5]);
             teldom.setEditable(false);
             teldom.setBackground(Color.BLACK);
             teldom.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 
-            JTextField address = new JTextField();
+            address = new JTextField();
             address.setText(data[6]);
             address.setEditable(false);
             address.setBackground(Color.BLACK);
@@ -706,20 +718,20 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             information.add("gapleft 90,wrap",identite);
 
 
-            information.add("cell 0 6 4 1",telPrive);
-            information.add("cell 0 7 4 1", telprive);
+            information.add("cell 0 6 6 1",telPrive);
+            information.add("cell 0 7 6 1", telprive);
 
-            information.add("cell 0 8 4 1" , telProf);
-            information.add("cell 0 9 4 1", telprof);
+            information.add("cell 0 8 6 1" , telProf);
+            information.add("cell 0 9 6 1", telprof);
 
-            information.add("cell 0 10 4 1", telDom);
-            information.add("cell 0 11 4 1", teldom);
+            information.add("cell 0 10 6 1", telDom);
+            information.add("cell 0 11 6 1", teldom);
 
-            information.add("cell 0 12 4 1", eMail);
-            information.add("cell 0 13 4 1", email);
+            information.add("cell 0 12 6 1", eMail);
+            information.add("cell 0 13 6 1", email);
 
-            information.add("cell 0 14 4 1",address1);
-            information.add("cell 0 15 4 1", address);
+            information.add("cell 0 14 6 1",address1);
+            information.add("cell 0 15 6 1", address);
 
             editbutton.addActionListener(new EditListener());
 
@@ -740,6 +752,30 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            identite.setEditable(true);
+            identite.setBackground(Color.WHITE);
+            identite.setForeground(Color.BLACK);
+
+            email.setEditable(true);
+            email.setBackground(Color.WHITE);
+            email.setForeground(Color.BLACK);
+
+            telprive.setEditable(true);
+            telprive.setBackground(Color.WHITE);
+            telprive.setForeground(Color.BLACK);
+
+            telprof.setEditable(true);
+            telprof.setBackground(Color.WHITE);
+            telprof.setForeground(Color.BLACK);
+
+            teldom.setEditable(true);
+            teldom.setBackground(Color.WHITE);
+            teldom.setForeground(Color.BLACK);
+
+            address.setEditable(true);
+            address.setBackground(Color.WHITE);
+            address.setForeground(Color.BLACK);
+            //information.revalidate();
 
         }
     }
