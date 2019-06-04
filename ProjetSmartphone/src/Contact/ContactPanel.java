@@ -79,6 +79,8 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
     //Création panneau information
     private JTextField identite;
+    private JTextField name;
+    private JTextField firstname;
     private JTextField email;
     private JTextField telprive;
     private JTextField telprof;
@@ -624,12 +626,26 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
                 }
             }
 
-            identite = new JTextField();
+            /*identite = new JTextField();
             identite.setText(data[0]+" " + data[1]);
             identite.setEditable(false);
             identite.setBackground(Color.BLACK);
             identite.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-            identite.setMinimumSize(new Dimension(400,10));
+            identite.setMinimumSize(new Dimension(400,10));*/
+
+            name = new JTextField();
+            name.setText(data[1]);
+            name.setEditable(false);
+            name.setBackground(Color.BLACK);
+            name.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+            name.setMinimumSize(new Dimension(100,10));
+
+            firstname = new JTextField();
+            firstname.setText(data[0]);
+            firstname.setEditable(false);
+            firstname.setBackground(Color.BLACK);
+            firstname.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+            firstname.setMinimumSize(new Dimension(100,10));
 
             email = new JTextField();
             email.setText(data[2]);
@@ -671,8 +687,14 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             ButtonWithIcon editbutton = new ButtonWithIcon("src\\Contact\\editbutton.png");
 
 
-            identite.setFont(fontnom);
-            identite.setForeground(Color.WHITE);
+            /*identite.setFont(fontnom);
+            identite.setForeground(Color.WHITE);*/
+
+            name.setFont(fontnom);
+            name.setForeground(Color.WHITE);
+            firstname.setFont(fontnom);
+            firstname.setForeground(Color.WHITE);
+
             telprive.setFont(font4);
             telprive.setForeground(Color.WHITE);
             teldom.setFont(font4);
@@ -715,7 +737,9 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             //information.add(identite,componentConstraints);
             information.add("gapleft 160,wrap",bonhomme);
             information.add("pos 380 -5",editbutton);
-            information.add("gapleft 90,wrap",identite);
+            //information.add("gapleft 90,wrap",identite);
+            information.add("gapleft 50",name);
+            information.add("wrap",firstname);
 
 
             information.add("cell 0 6 6 1",telPrive);
@@ -752,9 +776,17 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            identite.setEditable(true);
+            /*3identite.setEditable(true);
             identite.setBackground(Color.WHITE);
-            identite.setForeground(Color.BLACK);
+            identite.setForeground(Color.BLACK);*/
+
+            name.setEditable(true);
+            name.setBackground(Color.WHITE);
+            name.setForeground(Color.BLACK);
+
+            firstname.setEditable(true);
+            firstname.setBackground(Color.WHITE);
+            firstname.setForeground(Color.BLACK);
 
             email.setEditable(true);
             email.setBackground(Color.WHITE);
