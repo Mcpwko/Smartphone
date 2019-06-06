@@ -1,7 +1,7 @@
-Alex
-Berthouzoz
-
-024 450 44 21
+Prénom
+Nom
+sdfjd@connard.com
+Téléphone privé
 Téléphone professionnel
 Téléphone domicile
 Adresse

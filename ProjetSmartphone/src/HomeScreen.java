@@ -150,9 +150,28 @@ public class HomeScreen extends JPanel implements ActionListener{
 
     }
 
+    public ButtonWithIcon getPrevious() {
+        return previous;
+    }
+
+
     public ButtonWithIcon getHome() {
         return home;
     }
+
+
+
+    class PreviousListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
+
+
+
 
     public void actionPerformed(ActionEvent e) {
         Object obj = e.getSource();
@@ -169,10 +188,10 @@ public class HomeScreen extends JPanel implements ActionListener{
                     cardLayout.show(panelcont,"3");
                 }
                 else{
-                    if(obj == previous){
+                    /*if(obj == previous){
                         cardLayout.previous(panelcont);
                     }
-                    else{
+                    else{*/
                         if(obj==shutdown){
                             System.exit(0);
                         }
@@ -195,7 +214,7 @@ public class HomeScreen extends JPanel implements ActionListener{
                     }
                 }
             }
-        }
+
 
 
     }

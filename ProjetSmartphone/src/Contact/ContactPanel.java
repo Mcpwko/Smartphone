@@ -8,12 +8,17 @@ import java.awt.Toolkit;
 
 import net.miginfocom.layout.CC;
 import net.miginfocom.swing.MigLayout;
+import org.apache.commons.io.FileUtils;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.rmi.Naming;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -73,6 +78,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
     private LabelWithIcon location = new LabelWithIcon("src\\Contact\\location.png");
     private JLabel blankLabel = new JLabel();
     private ButtonWithIcon save = new ButtonWithIcon("src\\Contact\\save.png");
+    private JFileChooser fileChooser = new JFileChooser();
     private Font fontadd = new Font("arial",Font.TRUETYPE_FONT,30);
     private Dimension dimensionadd = new Dimension(300,50);
     private Dimension dimensionadd2 = new Dimension(420,50);
@@ -86,6 +92,9 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
     private JTextField telprof;
     private JTextField teldom;
     private JTextField address;
+    private ButtonWithIcon editbutton = new ButtonWithIcon("src\\Contact\\editbutton.png");
+    private ButtonWithIcon saveedit = new ButtonWithIcon("src\\Contact\\save.png");
+    private ButtonWithIcon deletebutton = new ButtonWithIcon("src\\Contact\\deletebutton.png");
 
     public ContactPanel() throws IOException {
 
@@ -152,6 +161,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
         panelCenter.setLayout(new MigLayout( "", "", "[]20[]"));
         panelCenter.setBackground(Color.BLACK);
         panelCenter.add("cell 0 0 2 2",photo);
+        photo.addActionListener(new AddphotoListener());
         prenom.setPreferredSize(dimensionadd);
         prenom.setFont(fontadd);
         panelCenter.add("cell 3 0 2 1",prenom);
@@ -235,84 +245,79 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
         else
         if(source == save) {
 
+            if (validateEmail(emailtext.getText())) {
 
 
-            File monRepertoire=new File("src\\Contact\\contact");
-            File[] f = monRepertoire.listFiles();
-            String newContact = prenom.getText()+nom.getText()+".txt";
-            boolean twice = false;
+                File monRepertoire = new File("src\\Contact\\contact");
+                File[] f = monRepertoire.listFiles();
+                String newContact = prenom.getText() + nom.getText() + ".txt";
+                boolean twice = false;
 
-            for(int i = 0 ; i<f.length;i++){
-                System.out.println(f[i].getName());
-                System.out.println(newContact);
-
-
-                if(newContact.equals(f[i].getName())){
-                    twice = true;
-                    break;
-                }else
-                    twice = false;
-                System.out.println("JE NAI PAS DOUBLE");
-            }
-
-            if(twice == true) {
-
-                JOptionPane pane = new JOptionPane();
-
-                int answer = JOptionPane.showConfirmDialog(null, "This contact already exists, Do you want to overwrite it ?",
-                        "Choice", JOptionPane.YES_NO_OPTION);
-
-                if (answer == JOptionPane.YES_OPTION) {
-                    JOptionPane.showMessageDialog(null, "the contact has been overwritten");
+                for (int i = 0; i < f.length; i++) {
+                    System.out.println(f[i].getName());
+                    System.out.println(newContact);
 
 
+                    if (newContact.equals(f[i].getName())) {
+                        twice = true;
+                        break;
+                    } else
+                        twice = false;
+                    System.out.println("JE NAI PAS DOUBLE");
+                }
+
+                if (twice == true) {
+
+                    JOptionPane pane = new JOptionPane();
+
+                    int answer = JOptionPane.showConfirmDialog(null, "This contact already exists, Do you want to overwrite it ?",
+                            "Choice", JOptionPane.YES_NO_OPTION);
+
+                    if (answer == JOptionPane.YES_OPTION) {
+                        JOptionPane.showMessageDialog(null, "the contact has been overwritten");
 
 
-                    FileWriter monFichier = null;
-                    BufferedWriter tampon = null;
-                    String[] data = new String[7];
+                        FileWriter monFichier = null;
+                        BufferedWriter tampon = null;
+                        String[] data = new String[7];
 
-                    // Entrer les données dans le tableau
+                        // Entrer les données dans le tableau
 
-                    data[0] = prenom.getText() ;
-                    data[1] = nom.getText();
-                    data[2] = emailtext.getText();
-                    data[3] = phonenumber.getText();
-                    data[4] = phonenumber2.getText();
-                    data[5] = phonenumber3.getText();
-                    data[6] = adress.getText();
-
-
+                        data[0] = prenom.getText();
+                        data[1] = nom.getText();
+                        data[2] = emailtext.getText();
+                        data[3] = phonenumber.getText();
+                        data[4] = phonenumber2.getText();
+                        data[5] = phonenumber3.getText();
+                        data[6] = adress.getText();
 
 
+                        try {
+                            File file = new File("src\\Contact\\contact\\" + prenom.getText() + nom.getText() + ".txt");
+                            monFichier = new FileWriter(file);
+                            tampon = new BufferedWriter(monFichier);
 
-
-                    try {
-                        File file = new File("src\\Contact\\contact\\" + prenom.getText() + nom.getText() + ".txt");
-                        monFichier = new FileWriter(file);
-                        tampon = new BufferedWriter(monFichier);
-
-                        File repertoire = new File("chemin_du_dossier");
-                        File[] listeFilePath = repertoire.listFiles();
+                            File repertoire = new File("chemin_du_dossier");
+                            File[] listeFilePath = repertoire.listFiles();
                 /*for (i = 0, num = 0; i < listeFilePath.length ; i++)
                 {
                 }*/
 
-                        for (int i = 0; i < data.length; i++) {
-                            tampon.write((data[i]) + "\r\n");
-                        }
+                            for (int i = 0; i < data.length; i++) {
+                                tampon.write((data[i]) + "\r\n");
+                            }
 
-                    } catch (IOException exception) {
-                        exception.printStackTrace();
-                    } finally {
-                        try {
-                            tampon.flush();
-                            tampon.close();
-                            monFichier.close();
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
+                        } catch (IOException exception) {
+                            exception.printStackTrace();
+                        } finally {
+                            try {
+                                tampon.flush();
+                                tampon.close();
+                                monFichier.close();
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            }
                         }
-                    }
 
 
 
@@ -331,26 +336,28 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
                     }
                     }
                     */
-                    cards.show(panelcontent, "1");
-                    prenom.setText("Prénom");
-                    nom.setText("Nom");
-                    emailtext.setText("E-mail");
-                    phonenumber.setText("Téléphone privé");
-                    phonenumber2.setText("Téléphone professionnel");
-                    phonenumber3.setText("Téléphone domicile");
-                    adress.setText("Adresse");
-                } else if (answer == JOptionPane.NO_OPTION) {
-                    System.out.println("Non");
-                    prenom.setText("Prénom");
-                    nom.setText("Nom");
-                    emailtext.setText("E-mail");
-                    phonenumber.setText("Téléphone privé");
-                    phonenumber2.setText("Téléphone professionnel");
-                    phonenumber3.setText("Téléphone domicile");
-                    adress.setText("Adresse");
-                    cards.show(panelcontent, "1");
-                }
-            }else{
+                        cards.show(panelcontent, "1");
+                        prenom.setText("Prénom");
+                        nom.setText("Nom");
+                        emailtext.setText("E-mail");
+                        phonenumber.setText("Téléphone privé");
+                        phonenumber2.setText("Téléphone professionnel");
+                        phonenumber3.setText("Téléphone domicile");
+                        adress.setText("Adresse");
+                    } else if (answer == JOptionPane.NO_OPTION) {
+                        System.out.println("Non");
+                        prenom.setText("Prénom");
+                        nom.setText("Nom");
+                        emailtext.setText("E-mail");
+                        phonenumber.setText("Téléphone privé");
+                        phonenumber2.setText("Téléphone professionnel");
+                        phonenumber3.setText("Téléphone domicile");
+                        adress.setText("Adresse");
+                        cards.show(panelcontent, "1");
+                    }
+
+
+            } else {
 
                 System.out.println(monRepertoire.length());
                 int numberFiles = (int) monRepertoire.length();
@@ -377,17 +384,13 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
                 // Entrer les données dans le tableau
 
-                data[0] = prenom.getText() ;
+                data[0] = prenom.getText();
                 data[1] = nom.getText();
                 data[2] = emailtext.getText();
                 data[3] = phonenumber.getText();
                 data[4] = phonenumber2.getText();
                 data[5] = phonenumber3.getText();
                 data[6] = adress.getText();
-
-
-
-
 
 
                 try {
@@ -418,7 +421,6 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
                 }
 
 
-
                 prenom.setText("Prénom");
                 nom.setText("Nom");
                 emailtext.setText("E-mail");
@@ -427,6 +429,11 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
                 phonenumber3.setText("Téléphone domicile");
                 adress.setText("Adresse");
                 cards.show(panelcontent, "1");
+            }
+
+        }else {
+                emailtext.setForeground(Color.RED);
+
             }
 
 
@@ -442,7 +449,77 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
     }
 
+    public ButtonWithIcon getButton(){
+        return save;
+    }
 
+
+
+    class AddphotoListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            File dir = new File("Gallery\\");
+            fileChooser.setCurrentDirectory(dir);
+            int returnVal = fileChooser.showOpenDialog (null);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                //contactnew.remove(photo);
+
+
+                File file = fileChooser.getSelectedFile ();
+                String chemin = file.getPath();
+                LabelNewContact photo2 = new LabelNewContact(chemin);
+                panelCenter.remove(photo);
+                panelCenter.add("cell 0 0 2 2",photo2);
+                panelCenter.revalidate();
+                panelCenter.repaint();
+
+                /*getButton();
+
+
+                //File destination = new File ( "src\\Contact\\ImageContact\\" +prenom.getText() + ".jpg" );
+                //try {
+                  //  FileUtils.copyFile ( file, destination );
+                //} catch (IOException e1) {
+                  //  e1.printStackTrace ();
+                //}
+                String path = file.getAbsolutePath ();
+                ImageIcon img = new ImageIcon ( path );
+                ButtonWithIcon button = null;*/
+
+            }
+        }
+
+        /*public boolean validateEmail() {
+            if(prenom.equals("Prénom")){
+
+            }
+        }*/
+
+
+    }
+
+    class LabelNewContact extends JLabel{
+
+        public LabelNewContact(String icon){
+            ImageIcon ii = new ImageIcon(icon);
+            ImageIcon ii2 = getScaledImage(ii,100,100);
+            setIcon(ii2);
+
+        }
+
+        private ImageIcon getScaledImage(ImageIcon srcImg, int w, int h){
+            Image img = srcImg.getImage();
+            BufferedImage resizedImg = new BufferedImage(w,h,BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2 = resizedImg.createGraphics();
+
+            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            g2.drawImage(img,0,0,w,h,null);
+            g2.dispose();
+
+            return new ImageIcon(resizedImg);
+        }
+    }
 
 
     @Override
@@ -589,7 +666,9 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             listContactButton[i].setActionCommand(prenom+nom+".txt");
             System.out.println(listContactButton[i].getActionCommand());
 
+            Buff.close();
         }
+
     }
 
     class ListenerListContact implements ActionListener{
@@ -638,14 +717,16 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             name.setEditable(false);
             name.setBackground(Color.BLACK);
             name.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-            name.setMinimumSize(new Dimension(100,10));
+            name.setMinimumSize(new Dimension(60,10));
+            name.setMaximumSize(new Dimension(200,50));
 
             firstname = new JTextField();
             firstname.setText(data[0]);
             firstname.setEditable(false);
             firstname.setBackground(Color.BLACK);
             firstname.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-            firstname.setMinimumSize(new Dimension(100,10));
+            firstname.setMinimumSize(new Dimension(80,10));
+            firstname.setMinimumSize(new Dimension(150,50));
 
             email = new JTextField();
             email.setText(data[2]);
@@ -684,7 +765,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             JLabel telDom = new JLabel("House Phone :");
             JLabel eMail = new JLabel("Email :");
             JLabel address1 = new JLabel("Adress : ");
-            ButtonWithIcon editbutton = new ButtonWithIcon("src\\Contact\\editbutton.png");
+
 
 
             /*identite.setFont(fontnom);
@@ -727,7 +808,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             labelvide.setForeground(Color.BLACK);
             CC componentConstraints = new CC();
             componentConstraints.alignX("center").spanX();
-            MigLayout mig = new MigLayout (  "", "", "[]20[]");
+            MigLayout mig = new MigLayout (  "", "fill", "[]20[]");
             information.setLayout(mig);
             //information.add("cell 0 0 1 1",labelvide);
             //information.add("cell 3 0 3 4",bonhomme);
@@ -735,14 +816,15 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             //information.add("cell 3 5 3 1",identite);
             //information.add(bonhomme,componentConstraints);
             //information.add(identite,componentConstraints);
+            information.add("pos 0 10",deletebutton);
             information.add("gapleft 160,wrap",bonhomme);
             information.add("pos 380 -5",editbutton);
             //information.add("gapleft 90,wrap",identite);
-            information.add("gapleft 50",name);
-            information.add("wrap",firstname);
+            information.add("pos 20 170",name);
+            information.add("pos 245 170,wrap",firstname);
 
 
-            information.add("cell 0 6 6 1",telPrive);
+            information.add("gaptop 20,cell 0 6 6 1",telPrive);
             information.add("cell 0 7 6 1", telprive);
 
             information.add("cell 0 8 6 1" , telProf);
@@ -757,6 +839,8 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             information.add("cell 0 14 6 1",address1);
             information.add("cell 0 15 6 1", address);
 
+            deletebutton.addActionListener(new DeleteListener());
+
             editbutton.addActionListener(new EditListener());
 
             //information.add("cell 0 0 2 2",editbutton);
@@ -766,6 +850,11 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
             cards.show(panelcontent,"2");
 
+            try {
+                Buff.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
 
 
         }
@@ -776,9 +865,6 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            /*3identite.setEditable(true);
-            identite.setBackground(Color.WHITE);
-            identite.setForeground(Color.BLACK);*/
 
             name.setEditable(true);
             name.setBackground(Color.WHITE);
@@ -808,14 +894,148 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             address.setBackground(Color.WHITE);
             address.setForeground(Color.BLACK);
             //information.revalidate();
+            information.remove(deletebutton);
+            information.remove(editbutton);
+            information.repaint();
+            information.add("pos 380 -5",saveedit); // CREATION NOUVEAU BOUTON
+            saveedit.addActionListener(new SaveEditContact());
+            information.revalidate();
+
+
 
         }
     }
 
+    class SaveEditContact implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            File monRepertoire=new File("src\\Contact\\contact");
+            File[] f = monRepertoire.listFiles();
+            String newContact = firstname.getText()+name.getText()+".txt";
 
 
 
-}
+
+
+            FileWriter monFichier = null;
+            BufferedWriter tampon = null;
+            String[] data = new String[7];
+
+            // Entrer les données dans le tableau
+
+            data[0] = firstname.getText() ;
+            data[1] = name.getText();
+            data[2] = email.getText();
+            data[3] = telprive.getText();
+            data[4] = telprof.getText();
+            data[5] = teldom.getText();
+            data[6] = address.getText();
+
+
+
+
+
+
+                    try {
+                        File file = new File("src\\Contact\\contact\\" + firstname.getText() + name.getText() + ".txt");
+                        monFichier = new FileWriter(file);
+                        tampon = new BufferedWriter(monFichier);
+
+                        File repertoire = new File("chemin_du_dossier");
+                        File[] listeFilePath = repertoire.listFiles();
+
+                        for (int i = 0; i < data.length; i++) {
+                            tampon.write((data[i]) + "\r\n");
+                        }
+
+                    } catch (IOException exception) {
+                        exception.printStackTrace();
+                    } finally {
+                        try {
+                            tampon.flush();
+                            tampon.close();
+                            monFichier.close();
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+
+                    cards.show(panelcontent, "1");
+
+
+            name.setEditable(false);
+            name.setBackground(Color.BLACK);
+            name.setForeground(Color.WHITE);
+
+            firstname.setEditable(false);
+            firstname.setBackground(Color.BLACK);
+            firstname.setForeground(Color.WHITE);
+
+            email.setEditable(false);
+            email.setBackground(Color.BLACK);
+            email.setForeground(Color.WHITE);
+
+            telprive.setEditable(false);
+            telprive.setBackground(Color.BLACK);
+            telprive.setForeground(Color.WHITE);
+
+            telprof.setEditable(false);
+            telprof.setBackground(Color.BLACK);
+            telprof.setForeground(Color.WHITE);
+
+            teldom.setEditable(false);
+            teldom.setBackground(Color.BLACK);
+            teldom.setForeground(Color.WHITE);
+
+            address.setEditable(false);
+            address.setBackground(Color.BLACK);
+            address.setForeground(Color.WHITE);
+
+
+                /*information.remove(saveedit);
+                information.repaint();
+                editbutton.addActionListener(new EditListener());*/
+                information.removeAll();
+                information.revalidate();
+
+                }
+
+            }
+
+    class DeleteListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+
+            File file = new File ("src\\Contact\\contact\\"+firstname.getText()+ name.getText()+".txt");
+            System.out.println("src\\Contact\\contact\\"+firstname.getText()+ name.getText()+".txt");
+            System.out.println(file.getName());
+            System.out.println(file.exists());
+
+
+            file.delete();
+
+
+            listdecontact.removeAll();
+            try {
+                initContactList();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            cards.show(panelcontent,"1");
+        }
+    }
+
+    public boolean validateEmail(String email) {
+        Pattern p = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$");
+        Matcher m = p.matcher(email.toUpperCase());
+        return m.matches();
+    }
+
+        }
 
 
 

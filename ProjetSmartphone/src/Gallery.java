@@ -37,6 +37,7 @@ public class Gallery extends JPanel implements ActionListener {
     private JLabel titrealbum = new JLabel("Albums");
     private JLabelWithIcon image;
     private File monRepertoire=new File("Gallery");
+    private int numImageSelected = 0;
 
 
 
@@ -101,7 +102,20 @@ public class Gallery extends JPanel implements ActionListener {
         initComponentPictures();
 
 
+
+
+
     }
+
+    public JPanel getPanel1() {
+        return panel1;
+    }
+
+
+    public CardLayout getCardLayout() {
+        return cardLayout;
+    }
+
     //initialiser les composants
     private void initComponentPictures() throws IOException {
 
@@ -176,6 +190,8 @@ public class Gallery extends JPanel implements ActionListener {
                             "Delete", JOptionPane.OK_CANCEL_OPTION );
                     if (rep == JOptionPane.OK_OPTION) {
 
+                        //panelcont.remove(panel);
+
                         System.out.println ( "J'ai appuyé sur OK" );
                         System.out.println("J'ai supprimé l'image : " + image.getName ());
 
@@ -194,6 +210,7 @@ public class Gallery extends JPanel implements ActionListener {
                         for (int i = Integer.valueOf ( newName ) + 1; i < panelPictures.getComponentCount (); i++) {
                             File fileName = new File ( "Gallery//" + i + ".jpg" );
                             File fileNewName = new File ( "Gallery//" + (i - 1) + ".jpg" );
+
                             System.out.println("Le nouveau nom des images : " + fileNewName.getName ());
                             fileName.renameTo ( fileNewName );
                         }
@@ -219,16 +236,27 @@ public class Gallery extends JPanel implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            numImageSelected++;
             JPanel panel = new JPanel();
+            panel.setName("" + numImageSelected);
+            panel.removeAll();
+            System.out.println("Gallery//"+(e.getActionCommand())+".jpg");
             image = new JLabelWithIcon("Gallery//"+(e.getActionCommand())+".jpg");
             image.setName(e.getActionCommand());
             System.out.println(image.getName());
             panel.setLayout(new BorderLayout());
             panel.add(image,BorderLayout.CENTER);
             panel.add(northSelectedPicture,BorderLayout.NORTH);
-            panelcont.add(panel, e.getActionCommand() + 2 + "");
-            cardLayout.show(panelcont, "" + (e.getActionCommand() + 2));
+            panel.revalidate();
+            panel.repaint();
+
+
+            panelcont.add(panel,  "2" );
+            cardLayout.show(panelcont, "2");
+            //panelcont.add(panel, e.getActionCommand() + 2 + "");
+            //cardLayout.show(panelcont, "" + (e.getActionCommand() + 2));
         }
+
     }
 
 
