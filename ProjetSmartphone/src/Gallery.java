@@ -25,20 +25,19 @@ public class Gallery extends JPanel implements ActionListener {
     private JFileChooser fileChooser = new JFileChooser();
 
 
-    private JButton photos = new JButton("Photos");
-    private JButton albums = new JButton("Albums");
+
     private JPanel panelcont = new JPanel();
     private JPanel south = new JPanel();
     private ButtonWithIcon previous = new ButtonWithIcon("images//previousApp.png");
+    //private ButtonWithIcon previousSouth = new ButtonWithIcon("images//previous.png");
     private JPanel northSelectedPicture = new JPanel();
     private JButton deletePicture = new JButton("Delete");
     private JOptionPane deletePermanent = new JOptionPane();
     private JLabel titre = new JLabel("Photos");
     private JLabel titrealbum = new JLabel("Albums");
-    private JLabelWithIcon image;
     private File monRepertoire=new File("Gallery");
-    private int numImageSelected = 0;
-
+    private JPanel selectedPicture = new JPanel();
+    private JLabelPictureSelected image;
 
 
     public Gallery() throws IOException {
@@ -48,20 +47,11 @@ public class Gallery extends JPanel implements ActionListener {
         panelcont.setBackground(Color.BLACK);
         add(south,BorderLayout.SOUTH);
         south.setLayout(new FlowLayout(FlowLayout.CENTER));
-        south.add(photos);
-        photos.setContentAreaFilled(false);
-        photos.setBorderPainted(false);
-        photos.addActionListener(this);
-        photos.setForeground(Color.WHITE);
-        photos.setFont((new Font("Arial",Font.BOLD,20)));
+        //previousSouth.setBounds(420,700,50,50);
+        //add(previousSouth);
 
-        south.add(albums);
         south.setBackground(Color.BLACK);
-        albums.setContentAreaFilled(false);
-        albums.setBorderPainted(false);
-        albums.addActionListener(this);
-        albums.setForeground(Color.WHITE);
-        albums.setFont((new Font("Arial",Font.BOLD,20)));
+
 
 
         panelcont.setLayout(cardLayout);
@@ -90,6 +80,8 @@ public class Gallery extends JPanel implements ActionListener {
         northSelectedPicture.setLayout(new BorderLayout());
         northSelectedPicture.setBackground(Color.BLACK);
         //northSelectedPicture.setBorder(BorderFactory.createLineBorder(Color.green,1));
+
+        selectedPicture.setLayout(new BorderLayout());
         northSelectedPicture.add(previous,BorderLayout.WEST);
         previous.addActionListener(this);
         northSelectedPicture.add(deletePicture,BorderLayout.EAST);
@@ -107,9 +99,10 @@ public class Gallery extends JPanel implements ActionListener {
 
     }
 
-    public JPanel getPanel1() {
-        return panel1;
+    public JPanel getPanelcont(){
+        return panelcont;
     }
+
 
 
     public CardLayout getCardLayout() {
@@ -180,7 +173,7 @@ public class Gallery extends JPanel implements ActionListener {
                 System.out.println ( panelPictures.getComponentCount () );
             }
         } else {
-            if (e.getSource () == photos || e.getSource () == previous) {
+            if ( e.getSource () == previous) {
                 cardLayout.show ( panelcont, "1" );
 
             } else {
@@ -233,28 +226,26 @@ public class Gallery extends JPanel implements ActionListener {
         }
     }
         class newImage implements  ActionListener{
-
         @Override
         public void actionPerformed(ActionEvent e) {
-            numImageSelected++;
-            JPanel panel = new JPanel();
-            panel.setName("" + numImageSelected);
-            panel.removeAll();
+            selectedPicture.removeAll();
             System.out.println("Gallery//"+(e.getActionCommand())+".jpg");
-            image = new JLabelWithIcon("Gallery//"+(e.getActionCommand())+".jpg");
+            try {
+                image = new JLabelPictureSelected("Gallery//"+(e.getActionCommand())+".jpg");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             image.setName(e.getActionCommand());
             System.out.println(image.getName());
-            panel.setLayout(new BorderLayout());
-            panel.add(image,BorderLayout.CENTER);
-            panel.add(northSelectedPicture,BorderLayout.NORTH);
-            panel.revalidate();
-            panel.repaint();
+
+            selectedPicture.add(image,BorderLayout.CENTER);
+            selectedPicture.add(northSelectedPicture,BorderLayout.NORTH);
+            selectedPicture.revalidate();
+            selectedPicture.repaint();
 
 
-            panelcont.add(panel,  "2" );
+            panelcont.add(selectedPicture,  "2" );
             cardLayout.show(panelcont, "2");
-            //panelcont.add(panel, e.getActionCommand() + 2 + "");
-            //cardLayout.show(panelcont, "" + (e.getActionCommand() + 2));
         }
 
     }
@@ -262,12 +253,34 @@ public class Gallery extends JPanel implements ActionListener {
 
 }
 
-class JLabelWithIcon extends JLabel{
-    public JLabelWithIcon(String icon) {
-        ImageIcon ii = new ImageIcon(icon);
-        Image img = ii.getImage();
+class JLabelPictureSelected extends JLabel{
+
+    public JLabelPictureSelected(String icon) throws IOException {
+        Image img = ImageIO.read(new File (icon));
+        ImageIcon ii = new ImageIcon(img);
+        ImageIcon ii2 = getScaledImage(ii,480,700);
+        setIcon(ii2);
+
+    }
+
+    private ImageIcon getScaledImage(ImageIcon srcImg, int w, int h){
+        Image img = srcImg.getImage();
+        int width   = img.getWidth(null);
+        int height  = img.getHeight(null);
+        System.out.println(height + " ET " + width);
+
+        if(width >=480 || height>=700) {
+            BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2 = resizedImg.createGraphics();
+
+            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            g2.drawImage(img, 0, 0, w, h, null);
+            g2.dispose();
+            return new ImageIcon(resizedImg);
+        }else
+
+        return new ImageIcon(img);
 
 
-        setIcon(ii);
     }
 }

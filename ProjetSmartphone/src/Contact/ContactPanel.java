@@ -236,6 +236,14 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
     }
 
+    public CardLayout getCards() {
+        return cards;
+    }
+
+    public JPanel getPanelcontent() {
+        return panelcontent;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();

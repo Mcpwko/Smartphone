@@ -145,7 +145,7 @@ public class HomeScreen extends JPanel implements ActionListener{
         southcenter.add(home); /**add the button home to the south panel*/
         southcenter.add(previous);
         home.addActionListener(this);
-        previous.addActionListener(this);
+        previous.addActionListener(new PreviousListener());
         south.setBackground(Color.WHITE); /**The color of the south panel*/
 
     }
@@ -162,10 +162,54 @@ public class HomeScreen extends JPanel implements ActionListener{
 
 
     class PreviousListener implements ActionListener{
-
         @Override
         public void actionPerformed(ActionEvent e) {
+            int temp = 0;
 
+            if(galleryApp.isVisible()) {
+
+                Component c[] = galleryApp.getPanelcont().getComponents();
+                int i = 0;
+                int j = c.length;
+                while (i < j) {
+                    if (c[i].isVisible()) {
+                        temp = i + 1;
+                        System.out.println("" + (i + 1));
+                        break;
+                    } else
+                        i++;
+                }
+                if (temp == 2) {
+                    galleryApp.getCardLayout().show(galleryApp.getPanelcont(), "1");
+                } else {
+                    cardLayout.first(panelcont);
+                }
+            }else{
+
+
+
+                if(contactPanel.isVisible()){
+
+
+                    Component c[] = contactPanel.getPanelcontent().getComponents();
+                    int i = 0;
+                    int j = c.length;
+                    while (i < j) {
+                        if (c[i].isVisible()) {
+                            temp = i + 1;
+                            System.out.println("" + (i + 1));
+                            break;
+                        } else
+                            i++;
+                    }
+
+                    if(temp==2 || temp==3){
+                        contactPanel.getCards().show(contactPanel.getPanelcontent(),"1");
+                    } else{
+                        cardLayout.first(panelcont);
+                    }
+                }
+            }
         }
     }
 
