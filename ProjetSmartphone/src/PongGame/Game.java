@@ -15,7 +15,7 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
 
 
 
-    Font font;
+    private Font font;
 
     {
         try {
@@ -26,6 +26,12 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
             e.printStackTrace();
         }
     }
+
+
+    private int tempsRestant;
+    private String chrono;
+
+
 
 
     private Thread t;
@@ -136,23 +142,50 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
             ball.ySpeed = -1;
             computer.ySpeed = ball.ySpeed;
         } else {
+            /*tempsRestant=5;
+            do{
+                chrono = String.valueOf ( tempsRestant );
+
+                try {
+                    Thread.sleep ( 1000 );
+                } catch (InterruptedException e) {
+                    e.printStackTrace ();
+                }
+                tempsRestant--;
+                System.out.println("Salut");
+            }while (tempsRestant!=0);
+            t.notify ();*/
+
             ball.xSpeed = -1;
-            ball.ySpeed = 1;
-            computer.ySpeed = ball.ySpeed;
+                ball.ySpeed = 1;
+                computer.ySpeed = ball.ySpeed;
+            }
         }
+
+
+    public void suspend(){
+
+
     }
+
+
+
+
+
+
 
 
     // KEYBOARD INPUT EVENTS TRIGGERED BY OS
     @Override
     public void keyPressed(KeyEvent e) {
-        int key = e.getKeyCode();
+        int key = e.getKeyCode ();
 
-        if(key == KeyEvent.VK_ESCAPE){
-            escape = true;
-        }
 
         if (playMode) {
+            if (key == KeyEvent.VK_ESCAPE) {
+                escape = true;
+            }
+
             if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
                 right = true;
             }
@@ -168,15 +201,51 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
             if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
                 up = true;
             }
-            if (key == KeyEvent.VK_ESCAPE){
+            if (key == KeyEvent.VK_ESCAPE) {
                 escape = true;
             }
-        }
+            if (menu) {
+                if (key == KeyEvent.VK_SPACE) {
+                    space = true;
+                    ball.reset ();
+                    playMode = true;
+                    menu = false;
+                    game = true;
+                    pause = false;
 
-        if (key == KeyEvent.VK_SPACE) {
-            space = true;
-            ball.reset();
-            waitForStart();
+
+
+
+                    /*for (int i = 4; i > 0; i--){
+                        System.out.println("La partie commence dans "+i+" sec");
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e1) {
+                            e1.printStackTrace ();
+                        }
+                    }*/
+                    waitForStart ();
+
+                }
+            }
+            if(pause){
+                if(key==KeyEvent.VK_SPACE) {
+                    space = true;
+                    ball.reset ();
+                    waitForStart ();
+                }
+            }
+
+
+        } else {
+            if (scoreScreen) {
+                if (key == KeyEvent.VK_SPACE) {
+                    space = true;
+                    ball.reset ();
+                    waitForStart ();
+                }
+            }
+
         }
     }
 
@@ -216,9 +285,11 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
                 menu = false;
                 game = true;
                 pause = false;
+
             }
 
         } else if (game) {
+
             removeMouseMotionListener(this);
 
             addMouseMotionListener(this);
@@ -256,6 +327,7 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
                 score+=10;
                 if(score%100 == 0 && score !=0) {
                     ball.xSpeed-=1;
+                    System.out.println(ball.xSpeed);
                     level++;
                 }
                 ball.xSpeed = -ball.xSpeed; // Changement de direction de la balle
@@ -319,6 +391,8 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
                 game = true;
                 pause = false;
                 escape = false;
+                ball.xSpeed= level * (-1);
+                System.out.println("J'ai une vitesse de " + ball.xSpeed);
             }
 
         }

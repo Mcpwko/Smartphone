@@ -206,8 +206,19 @@ public class HomeScreen extends JPanel implements ActionListener{
                     if(temp==2 || temp==3){
                         contactPanel.getCards().show(contactPanel.getPanelcontent(),"1");
                         contactPanel.resetNewContact();
+                        contactPanel.getInformation ().removeAll ();
+                        //contactPanel.getInformation ().revalidate ();
                     } else{
                         cardLayout.first(panelcont);
+                    }
+                }else{
+
+
+
+                    if(pongGame.isVisible ()){
+
+                        cardLayout.first ( panelcont );
+
                     }
                 }
             }

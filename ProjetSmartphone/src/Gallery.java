@@ -34,7 +34,6 @@ public class Gallery extends JPanel implements ActionListener {
     private JButton deletePicture = new JButton("Delete");
     private JOptionPane deletePermanent = new JOptionPane();
     private JLabel titre = new JLabel("Photos");
-    private JLabel titrealbum = new JLabel("Albums");
     private File monRepertoire=new File("Gallery");
     private JPanel selectedPicture = new JPanel();
     private JLabelPictureSelected image;

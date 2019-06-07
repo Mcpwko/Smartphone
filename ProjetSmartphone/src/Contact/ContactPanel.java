@@ -730,6 +730,10 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
     }
 
+    public JPanel getInformation() {
+        return information;
+    }
+
     class ListenerListContact implements ActionListener{
 
         @Override
