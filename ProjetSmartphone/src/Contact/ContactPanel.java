@@ -374,6 +374,13 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
                     }
                     }
                     */
+                        listdecontact.removeAll();
+                        try {
+                            initContactList();
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+
                         cards.show(panelcontent, "1");
                         prenom.setText("Prénom");
                         nom.setText("Nom");
@@ -472,6 +479,13 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
                     }
                 }
 
+                    listdecontact.removeAll();
+                    try {
+                        initContactList();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+
 
                 prenom.setText("Prénom");
                 nom.setText("Nom");
@@ -520,16 +534,19 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
 
                 File file = fileChooser.getSelectedFile ();
-                String chemin = null;
-
-                chemin = file.getPath();
+                String chemin = file.getPath();
 
                 /*panelCenter.remove(photo);
                 panelCenter.add("cell 0 0 2 2",photo2);
                 panelCenter.revalidate();
                 panelCenter.repaint();*/
+
                 ImageIcon ii = new ImageIcon(chemin);
-                photo.setIcon(ii);
+                ImageIcon ii2 = getScaledImage(ii,100,100);
+                photo.setIcon(ii2);
+
+
+
                 photo.setName(chemin);
                 System.out.println(photo.getName());
 
@@ -562,22 +579,24 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
         public LabelNewContact(String icon){
             ImageIcon ii = new ImageIcon(icon);
-            ImageIcon ii2 = getScaledImage(ii,100,100);
+            ImageIcon ii2 = getScaledImage(ii,150,150);
             setIcon(ii2);
 
         }
 
-        private ImageIcon getScaledImage(ImageIcon srcImg, int w, int h){
-            Image img = srcImg.getImage();
-            BufferedImage resizedImg = new BufferedImage(w,h,BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g2 = resizedImg.createGraphics();
 
-            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-            g2.drawImage(img,0,0,w,h,null);
-            g2.dispose();
+    }
 
-            return new ImageIcon(resizedImg);
-        }
+    private ImageIcon getScaledImage(ImageIcon srcImg, int w, int h){
+        Image img = srcImg.getImage();
+        BufferedImage resizedImg = new BufferedImage(w,h,BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = resizedImg.createGraphics();
+
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2.drawImage(img,0,0,w,h,null);
+        g2.dispose();
+
+        return new ImageIcon(resizedImg);
     }
 
 
@@ -743,7 +762,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             String[] data = new String[7];
 
             //JPanel panelinformation = new JPanel();
-            LabelWithIcon bonhomme;
+            LabelNewContact bonhomme;
 
 
 
@@ -773,9 +792,9 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             File imageProfil = new File("src\\Contact\\ImageContact\\" + data[0] + "" +data[1] +".jpg");
             System.out.println("src\\Contact\\ImageContact\\" + data[0] + "" +data[1] +".jpg");
             if(imageProfil.exists()){
-                bonhomme = new LabelWithIcon("src\\Contact\\ImageContact\\" + data[0] + "" +data[1] +".jpg");
+                bonhomme = new LabelNewContact ("src\\Contact\\ImageContact\\" + data[0] + "" +data[1] +".jpg");
             }else {
-                bonhomme = new LabelWithIcon("src\\Contact\\icone.png");
+                bonhomme = new LabelNewContact ("src\\Contact\\icone.png");
             }
             bonhomme.setMinimumSize(new Dimension(150,150));
             bonhomme.setMaximumSize(new Dimension(150,150));
@@ -1101,10 +1120,13 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
                 e1.printStackTrace();
             }
             cards.show(panelcontent,"1");
+            information.removeAll ();
         }
     }
 
-    public boolean validateEmail(String email) {
+
+
+    private boolean validateEmail(String email) {
         Pattern p = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$");
         Matcher m = p.matcher(email.toUpperCase());
         return m.matches();

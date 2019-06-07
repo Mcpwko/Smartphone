@@ -98,6 +98,10 @@ public class Gallery extends JPanel implements ActionListener {
 
     }
 
+    public JPanel getPanelPictures() {
+        return panelPictures;
+    }
+
     public JPanel getPanelcont(){
         return panelcont;
     }
@@ -114,7 +118,21 @@ public class Gallery extends JPanel implements ActionListener {
         File [] f = monRepertoire.listFiles();
         for(int i =0; i< f.length; i++){
             System.out.println("Chargement de l'image : " + i);
-            ButtonWithIcon button = new ButtonWithIcon ( "Gallery\\" + i +".jpg" );
+            //ButtonWithIcon button = new ButtonWithIcon ( "Gallery\\" + i +".jpg" );
+
+            JButton button = new JButton (  );
+            Image img = null;
+            try {
+                img = ImageIO.read(new File ("Gallery/" + i +".jpg"));
+            } catch (IOException e) {
+                e.printStackTrace ();
+            }
+            ImageIcon ii = new ImageIcon(img);
+            ImageIcon iiNew = getScaledImage ( ii,110,110 );
+            button.setIcon ( iiNew );
+
+
+
             button.setMaximumSize(new Dimension(112,112));
             button.setMinimumSize(new Dimension(112,112));
             if((panelPictures.getComponentCount()+1)%4==0 && panelPictures.getComponentCount()!=0){
@@ -130,6 +148,48 @@ public class Gallery extends JPanel implements ActionListener {
             }
 
         }
+    }
+
+
+
+    public void addNewScreenshot(String fileNewName){
+        /*ButtonWithIcon button = null;
+        try {
+            button  = new ButtonWithIcon ( "Gallery//" + fileNewName );
+        } catch (IOException e) {
+            e.printStackTrace ();
+        }
+
+        button.setMaximumSize ( new Dimension ( 112, 112 ) );
+        button.setMinimumSize ( new Dimension ( 112, 112 ) );*/
+        JButton button = new JButton (  );
+        Image img = null;
+        try {
+            img = ImageIO.read(new File ("Gallery/" + fileNewName));
+        } catch (IOException e) {
+            e.printStackTrace ();
+        }
+        ImageIcon ii = new ImageIcon(img);
+        ImageIcon iiNew = getScaledImage ( ii,110,110 );
+        button.setIcon ( iiNew );
+        button.setMaximumSize ( new Dimension ( 112, 112 ) );
+        button.setMinimumSize ( new Dimension ( 112, 112 ) );
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
+
+        if ((panelPictures.getComponentCount () + 1) % 4 == 0 && panelPictures.getComponentCount () != 0) {
+            button.setActionCommand ( "" + panelPictures.getComponentCount () );
+            panelPictures.add ( button, "wrap" );
+        } else {
+            button.setActionCommand ( "" + panelPictures.getComponentCount () );
+            panelPictures.add ( button );
+        }
+
+        button.addActionListener ( new Gallery.newImage () );
+
+        panelPictures.revalidate ();
+        panelPictures.repaint (  );
+
     }
 
 
@@ -150,13 +210,29 @@ public class Gallery extends JPanel implements ActionListener {
                     e1.printStackTrace ();
                 }
                 String path = file.getAbsolutePath ();
-                ImageIcon img = new ImageIcon ( path );
-                ButtonWithIcon button = null;
+                //ImageIcon img = new ImageIcon ( path );
+                /*ButtonWithIcon button = null;
                 try {
                     button = new ButtonWithIcon ( path );
                 } catch (IOException e1) {
                     e1.printStackTrace ();
+                }*/
+
+
+                JButton button = new JButton (  );
+                Image img = null;
+                try {
+                    img = ImageIO.read(new File (path));
+                } catch (IOException e2) {
+                    e2.printStackTrace ();
                 }
+                ImageIcon ii = new ImageIcon(img);
+                ImageIcon iiNew = getScaledImage ( ii,110,110 );
+                button.setIcon ( iiNew );
+
+
+
+
                 button.setMaximumSize ( new Dimension ( 112, 112 ) );
                 button.setMinimumSize ( new Dimension ( 112, 112 ) );
 
@@ -226,7 +302,7 @@ public class Gallery extends JPanel implements ActionListener {
             }
         }
     }
-        class newImage implements  ActionListener{
+    class newImage implements  ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
             selectedPicture.removeAll();
@@ -251,19 +327,6 @@ public class Gallery extends JPanel implements ActionListener {
 
     }
 
-
-}
-
-class JLabelPictureSelected extends JLabel{
-
-    public JLabelPictureSelected(String icon) throws IOException {
-        Image img = ImageIO.read(new File (icon));
-        ImageIcon ii = new ImageIcon(img);
-        ImageIcon ii2 = getScaledImage(ii,480,700);
-        setIcon(ii2);
-
-    }
-
     private ImageIcon getScaledImage(ImageIcon srcImg, int w, int h){
         Image img = srcImg.getImage();
         int width   = img.getWidth(null);
@@ -280,8 +343,24 @@ class JLabelPictureSelected extends JLabel{
             return new ImageIcon(resizedImg);
         }else
 
-        return new ImageIcon(img);
+            return new ImageIcon(img);
 
 
     }
+    class JLabelPictureSelected extends JLabel{
+
+        public JLabelPictureSelected(String icon) throws IOException {
+            Image img = ImageIO.read(new File (icon));
+            ImageIcon ii = new ImageIcon(img);
+            ImageIcon ii2 = getScaledImage(ii,480,700);
+            setIcon(ii2);
+
+        }
+
+
+    }
+
+
 }
+
+

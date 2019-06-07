@@ -1,11 +1,14 @@
 import Contact.ContactPanel;
 import PongGame.BoardPong;
+import net.miginfocom.swing.MigLayout;
+import org.apache.commons.io.FileUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -36,6 +39,7 @@ public class HomeScreen extends JPanel implements ActionListener{
     private SpaceInvaders spaceInvadersGame = new SpaceInvaders ();
     private ButtonWithIcon contact = new ButtonWithIcon("images//contact.png");
     private ButtonWithIcon home = new ButtonWithIcon("images//home.png");
+    private ButtonWithIcon screenshot = new ButtonWithIcon ( "images//screenshot.png");
     private ButtonWithIcon previous = new ButtonWithIcon("images//previous.png");
     private ButtonWithIcon gallery = new ButtonWithIcon("images//gallery.png");
     private ButtonWithIcon pong = new ButtonWithIcon ( "images//pong.png" );
@@ -137,16 +141,20 @@ public class HomeScreen extends JPanel implements ActionListener{
          * Insert the south panel
          */
         this.add(south, BorderLayout.SOUTH);
-        south.setLayout(new BorderLayout());
-        south.add(southcenter,BorderLayout.CENTER);
-        southcenter.setBackground(Color.BLACK);
+        south.setLayout(new BorderLayout ());
+        //south.add(southcenter,BorderLayout.CENTER);
+        //southcenter.setBackground(Color.BLACK);
         south.setBackground(Color.BLACK);
 
-        southcenter.add(home); /**add the button home to the south panel*/
-        southcenter.add(previous);
+        south.add(screenshot,BorderLayout.WEST);
+        south.add ( home ,BorderLayout.CENTER);
+        south.add(previous,BorderLayout.EAST);
+        //southcenter.add(home); /**add the button home to the south panel*/
+        //southcenter.add(previous);
+        screenshot.addActionListener ( new ScreenshotListener () );
         home.addActionListener(this);
         previous.addActionListener(new PreviousListener());
-        south.setBackground(Color.WHITE); /**The color of the south panel*/
+        //south.setBackground(Color.WHITE); /**The color of the south panel*/
 
     }
 
@@ -223,6 +231,66 @@ public class HomeScreen extends JPanel implements ActionListener{
                 }
             }
         }
+    }
+
+    class ScreenshotListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                screenshot();
+            } catch (AWTException e1) {
+                e1.printStackTrace ();
+            } catch (IOException e1) {
+                e1.printStackTrace ();
+            }
+        }
+    }
+
+
+
+    public void screenshot() throws AWTException, IOException {
+        /*try{
+            Thread.sleep(1000);
+            Toolkit tk = Toolkit.getDefaultToolkit(); //Toolkit class                         returns the default toolkit
+            Dimension d = tk.getScreenSize();
+
+//Dimension class object stores width & height of the toolkit screen
+// toolkit.getScreenSize() determines the size of the screen
+
+            Rectangle rec = new Rectangle(520, 7,494,755);
+//Creates a Rectangle with screen dimensions,
+
+            Robot ro = new Robot(); //to capture the screen image
+            BufferedImage img = ro.createScreenCapture(rec);
+
+
+            int nbImages = galleryApp.getPanelPictures ().getComponentCount ();
+            File f = new File("Screenshot"); // File class is used to write the above generated buffered image to a file
+            ImageIO.write(img, "1.jpg", f);
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }*/
+        /** METHODE NUMERO 2
+        BufferedImage image = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+        ImageIO.write(image, "png", new File("Screenshot/screenshot.png"));*/
+
+        Rectangle rect = this.getBounds (  );
+
+        int nombreImages = galleryApp.getPanelPictures ().getComponentCount ();
+        String format = "png";
+        String fileName = nombreImages+"." + format;
+        String fileNewName = nombreImages+"." + "jpg";
+
+        BufferedImage captureImage = new BufferedImage ( rect.width,rect.height,BufferedImage.TYPE_INT_ARGB );
+        this.paint(captureImage.getGraphics ());
+        ImageIO.write(captureImage,format,new File("Gallery/" + fileNewName));
+        System.out.println("ScreenSHOT EFFECTUE !" + fileName);
+        galleryApp.addNewScreenshot ( fileNewName );
+
+
+
     }
 
 
