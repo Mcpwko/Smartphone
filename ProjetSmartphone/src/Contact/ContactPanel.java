@@ -160,6 +160,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
         panelCenter.setLayout(new MigLayout( "", "", "[]20[]"));
         panelCenter.setBackground(Color.BLACK);
+        photo.setMaximumSize(new Dimension(150,150));
         panelCenter.add("cell 0 0 2 2",photo);
         photo.addActionListener(new AddphotoListener());
         prenom.setPreferredSize(dimensionadd);
@@ -236,6 +237,22 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
     }
 
+    public void resetNewContact(){
+    prenom.setText("Prénom");
+    nom.setText("Nom");
+    emailtext.setText("E-mail");
+    phonenumber.setText("Téléphone privé");
+    phonenumber2.setText("Téléphone professionnel");
+    phonenumber3.setText("Téléphone domicile");
+    adress.setText("Adresse");
+    ImageIcon ii = new ImageIcon("src\\Contact\\photo.png");
+    photo.setIcon(ii);
+    }
+
+    public JPanel getContactnew() {
+        return contactnew;
+    }
+
     public CardLayout getCards() {
         return cards;
     }
@@ -284,6 +301,19 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
                     if (answer == JOptionPane.YES_OPTION) {
                         JOptionPane.showMessageDialog(null, "the contact has been overwritten");
 
+                        System.out.println(photo.getName());
+                        if(photo.getName()==null){
+
+                        }else{
+                            File imageChoosed = new File(photo.getName());
+                            File imagePasted = new File ( "src\\Contact\\ImageContact\\" + prenom.getText()+""+nom.getText() + ".jpg" );
+                            try {
+                                FileUtils.copyFile ( imageChoosed, imagePasted );
+                            } catch (IOException e1) {
+                                e1.printStackTrace ();
+                            }
+                            photo.getName();
+                        }
 
                         FileWriter monFichier = null;
                         BufferedWriter tampon = null;
@@ -370,8 +400,8 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
                 System.out.println(monRepertoire.length());
                 int numberFiles = (int) monRepertoire.length();
                 listContactButton[numberFiles] = new JButton(nom.getText() + " " + prenom.getText());
-                listContactButton[numberFiles].setActionCommand(listdecontact.getComponentCount() + "");
-                listContactButton[numberFiles].addActionListener(this);
+                listContactButton[numberFiles].setActionCommand(prenom.getText()+nom.getText() + ".txt");
+                listContactButton[numberFiles].addActionListener(new ListenerListContact());
 
                 listContactButton[numberFiles].setContentAreaFilled(false);
                 listContactButton[numberFiles].setOpaque(true);
@@ -384,6 +414,20 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
                 listContactButton[numberFiles].setFont(font2);
                 listContactButton[numberFiles].setBackground(Color.BLACK);
                 listContactButton[numberFiles].setForeground(Color.WHITE);
+
+                    System.out.println(photo.getName());
+                    if(photo.getName()==null){
+
+                    }else{
+                        File imageChoosed = new File(photo.getName());
+                        File imagePasted = new File ( "src\\Contact\\ImageContact\\" + prenom.getText()+""+nom.getText() + ".jpg" );
+                        try {
+                            FileUtils.copyFile ( imageChoosed, imagePasted );
+                        } catch (IOException e1) {
+                            e1.printStackTrace ();
+                        }
+                        photo.getName();
+                    }
 
 
                 FileWriter monFichier = null;
@@ -467,6 +511,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            System.out.println(photo.getName());
             File dir = new File("Gallery\\");
             fileChooser.setCurrentDirectory(dir);
             int returnVal = fileChooser.showOpenDialog (null);
@@ -475,12 +520,18 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
 
                 File file = fileChooser.getSelectedFile ();
-                String chemin = file.getPath();
-                LabelNewContact photo2 = new LabelNewContact(chemin);
-                panelCenter.remove(photo);
+                String chemin = null;
+
+                chemin = file.getPath();
+
+                /*panelCenter.remove(photo);
                 panelCenter.add("cell 0 0 2 2",photo2);
                 panelCenter.revalidate();
-                panelCenter.repaint();
+                panelCenter.repaint();*/
+                ImageIcon ii = new ImageIcon(chemin);
+                photo.setIcon(ii);
+                photo.setName(chemin);
+                System.out.println(photo.getName());
 
                 /*getButton();
 
@@ -688,7 +739,9 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             String[] data = new String[7];
 
             //JPanel panelinformation = new JPanel();
-            LabelWithIcon bonhomme = new LabelWithIcon("src\\Contact\\icone.png");
+            LabelWithIcon bonhomme;
+
+
 
 
 
@@ -712,6 +765,16 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
                     e1.printStackTrace();
                 }
             }
+
+            File imageProfil = new File("src\\Contact\\ImageContact\\" + data[0] + "" +data[1] +".jpg");
+            System.out.println("src\\Contact\\ImageContact\\" + data[0] + "" +data[1] +".jpg");
+            if(imageProfil.exists()){
+                bonhomme = new LabelWithIcon("src\\Contact\\ImageContact\\" + data[0] + "" +data[1] +".jpg");
+            }else {
+                bonhomme = new LabelWithIcon("src\\Contact\\icone.png");
+            }
+            bonhomme.setMinimumSize(new Dimension(150,150));
+            bonhomme.setMaximumSize(new Dimension(150,150));
 
             /*identite = new JTextField();
             identite.setText(data[0]+" " + data[1]);
@@ -825,14 +888,14 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             //information.add(bonhomme,componentConstraints);
             //information.add(identite,componentConstraints);
             information.add("pos 0 10",deletebutton);
-            information.add("gapleft 160,wrap",bonhomme);
+            information.add("pos 165 10,wrap",bonhomme);
             information.add("pos 380 -5",editbutton);
             //information.add("gapleft 90,wrap",identite);
             information.add("pos 20 170",name);
             information.add("pos 245 170,wrap",firstname);
 
 
-            information.add("gaptop 20,cell 0 6 6 1",telPrive);
+            information.add(",gaptop 180,cell 0 6 6 1",telPrive);
             information.add("cell 0 7 6 1", telprive);
 
             information.add("cell 0 8 6 1" , telProf);

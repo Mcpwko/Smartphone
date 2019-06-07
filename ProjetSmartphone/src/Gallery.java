@@ -135,6 +135,8 @@ public class Gallery extends JPanel implements ActionListener {
 
 
 
+
+
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println ( "J'ai appuyé sur l'image : " + e.getActionCommand () );
