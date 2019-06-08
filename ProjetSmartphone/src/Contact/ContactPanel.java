@@ -1,29 +1,17 @@
 package Contact;
 
-
-import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.MediaTracker;
-import java.awt.Toolkit;
-
 import net.miginfocom.layout.CC;
 import net.miginfocom.swing.MigLayout;
 import org.apache.commons.io.FileUtils;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.rmi.Naming;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
@@ -119,7 +107,6 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
 
         listdecontact.setLayout(new GridLayout(0,1));
-        //contactlist.add(centerpanel, BorderLayout.CENTER);
         centerpanel.add(listdecontact,BorderLayout.CENTER);
         contactlist.add(listing,BorderLayout.CENTER);
         listing.setHorizontalScrollBarPolicy ( JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
@@ -335,12 +322,6 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
                             monFichier = new FileWriter(file);
                             tampon = new BufferedWriter(monFichier);
 
-                            File repertoire = new File("chemin_du_dossier");
-                            File[] listeFilePath = repertoire.listFiles();
-                /*for (i = 0, num = 0; i < listeFilePath.length ; i++)
-                {
-                }*/
-
                             for (int i = 0; i < data.length; i++) {
                                 tampon.write((data[i]) + "\r\n");
                             }
@@ -357,23 +338,6 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
                             }
                         }
 
-
-
-
-
-                        /*
-                    try {
-                        BufferedReader in = new BufferedReader(new FileReader("E:\\Semestre 2\\Programmation\\Contact\\contact_data"));
-                        String str;
-
-                        while ((str = in.readLine()) != null) {
-                            System.out.println(str);
-                        }
-                        System.out.println(str);
-                    } catch (IOException e2) {
-                    }
-                    }
-                    */
                         listdecontact.removeAll();
                         try {
                             initContactList();
@@ -457,11 +421,6 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
                     monFichier = new FileWriter(file);
                     tampon = new BufferedWriter(monFichier);
 
-                    File repertoire = new File("chemin_du_dossier");
-                    File[] listeFilePath = repertoire.listFiles();
-                /*for (i = 0, num = 0; i < listeFilePath.length ; i++)
-                {
-                }*/
 
                     for (int i = 0; i < data.length; i++) {
                         tampon.write((data[i]) + "\r\n");
@@ -530,16 +489,10 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             fileChooser.setCurrentDirectory(dir);
             int returnVal = fileChooser.showOpenDialog (null);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
-                //contactnew.remove(photo);
 
 
                 File file = fileChooser.getSelectedFile ();
                 String chemin = file.getPath();
-
-                /*panelCenter.remove(photo);
-                panelCenter.add("cell 0 0 2 2",photo2);
-                panelCenter.revalidate();
-                panelCenter.repaint();*/
 
                 ImageIcon ii = new ImageIcon(chemin);
                 ImageIcon ii2 = getScaledImage(ii,100,100);
@@ -550,28 +503,9 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
                 photo.setName(chemin);
                 System.out.println(photo.getName());
 
-                /*getButton();
-
-
-                //File destination = new File ( "src\\Contact\\ImageContact\\" +prenom.getText() + ".jpg" );
-                //try {
-                  //  FileUtils.copyFile ( file, destination );
-                //} catch (IOException e1) {
-                  //  e1.printStackTrace ();
-                //}
-                String path = file.getAbsolutePath ();
-                ImageIcon img = new ImageIcon ( path );
-                ButtonWithIcon button = null;*/
 
             }
         }
-
-        /*public boolean validateEmail() {
-            if(prenom.equals("Prénom")){
-
-            }
-        }*/
-
 
     }
 
@@ -649,62 +583,11 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             setIcon(ii);
         }
     }
-    public Object[] ReadInfo() {
 
-        FileReader monFichier = null;
-        BufferedReader tampon = null;
-        String tab[] = new String[7];
-
-        try {
-            monFichier = new FileReader("src\\Contact\\contact");
-            tampon = new BufferedReader(monFichier);
-            File file = new File("src\\Contact\\contact") ;
-            String extension = ".txt";
-
-            File[] liste = file.listFiles(new FileFilter() {
-                                              public boolean accept(File f) {
-                                                  return f.getName().endsWith(extension);
-                                              }
-
-                                          }
-            );
-
-
-            while (true) {
-                // Lit une ligne de test.txt
-                String ligne = tampon.readLine();
-                // Vérifie la fin de fichier
-                if (ligne == null)
-                    break;
-                System.out.println(ligne);
-
-                for(int i = 0;i<tab.length;i++) {
-                    tab[i] = tampon.readLine();
-                }
-
-            } // Fin du while
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        } finally {
-            try {
-                tampon.close();
-                monFichier.close();
-            } catch(IOException exception1) {
-                exception1.printStackTrace();
-            }
-        }
-
-        return tab;
-    }
-
-    public void listFilesForFolder(final File folder) {
-        for (final File fileEntry : folder.listFiles()) {
-            if (fileEntry.isDirectory()) {
-                listFilesForFolder(fileEntry);
-            } else {
-                System.out.println(fileEntry.getName());
-            }
-        }
+    public boolean validateEmail(String email) {
+        Pattern p = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$" );
+        Matcher m = p.matcher(email.toUpperCase());
+        return m.matches();
     }
 
     public void initContactList() throws IOException {
@@ -761,7 +644,6 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             System.out.println(e.getActionCommand());
             String[] data = new String[7];
 
-            //JPanel panelinformation = new JPanel();
             LabelNewContact bonhomme;
 
 
@@ -799,12 +681,6 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             bonhomme.setMinimumSize(new Dimension(150,150));
             bonhomme.setMaximumSize(new Dimension(150,150));
 
-            /*identite = new JTextField();
-            identite.setText(data[0]+" " + data[1]);
-            identite.setEditable(false);
-            identite.setBackground(Color.BLACK);
-            identite.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-            identite.setMinimumSize(new Dimension(400,10));*/
 
             name = new JTextField();
             name.setText(data[1]);
@@ -861,10 +737,6 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             JLabel address1 = new JLabel("Adress : ");
 
 
-
-            /*identite.setFont(fontnom);
-            identite.setForeground(Color.WHITE);*/
-
             name.setFont(fontnom);
             name.setForeground(Color.WHITE);
             firstname.setFont(fontnom);
@@ -893,23 +765,12 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             address1.setForeground(Color.WHITE);
 
 
-
-            /*telprive.setFont(font4);
-            telprof.setFont(font4);
-            teldom.setFont(font4);
-            email.setFont(font4);*/
             JLabel labelvide = new JLabel("ESPACEME");
             labelvide.setForeground(Color.BLACK);
             CC componentConstraints = new CC();
             componentConstraints.alignX("center").spanX();
             MigLayout mig = new MigLayout (  "", "fill", "[]20[]");
             information.setLayout(mig);
-            //information.add("cell 0 0 1 1",labelvide);
-            //information.add("cell 3 0 3 4",bonhomme);
-            //information.add("cell 0 5 1 1",labelvide);
-            //information.add("cell 3 5 3 1",identite);
-            //information.add(bonhomme,componentConstraints);
-            //information.add(identite,componentConstraints);
             information.add("pos 0 10",deletebutton);
             information.add("pos 165 10,wrap",bonhomme);
             information.add("pos 380 -5",editbutton);
@@ -936,11 +797,6 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             deletebutton.addActionListener(new DeleteListener());
 
             editbutton.addActionListener(new EditListener());
-
-            //information.add("cell 0 0 2 2",editbutton);
-
-
-
 
             cards.show(panelcontent,"2");
 
@@ -1005,12 +861,6 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            File monRepertoire=new File("src\\Contact\\contact");
-            File[] f = monRepertoire.listFiles();
-            String newContact = firstname.getText()+name.getText()+".txt";
-
-
-
 
 
             FileWriter monFichier = null;
@@ -1037,8 +887,8 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
                         monFichier = new FileWriter(file);
                         tampon = new BufferedWriter(monFichier);
 
-                        File repertoire = new File("chemin_du_dossier");
-                        File[] listeFilePath = repertoire.listFiles();
+                        //File repertoire = new File("chemin_du_dossier");
+                        //File[] listeFilePath = repertoire.listFiles();
 
                         for (int i = 0; i < data.length; i++) {
                             tampon.write((data[i]) + "\r\n");
@@ -1088,11 +938,8 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             address.setForeground(Color.WHITE);
 
 
-                /*information.remove(saveedit);
-                information.repaint();
-                editbutton.addActionListener(new EditListener());*/
-                information.removeAll();
-                information.revalidate();
+            information.removeAll();
+            information.revalidate();
 
                 }
 
@@ -1105,10 +952,14 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
 
             File file = new File ("src\\Contact\\contact\\"+firstname.getText()+ name.getText()+".txt");
+            File fileimage = new File ( "src\\Contact\\ImageContact\\" +firstname.getText ()+name.getText ()+".jpg" );
             System.out.println("src\\Contact\\contact\\"+firstname.getText()+ name.getText()+".txt");
             System.out.println(file.getName());
             System.out.println(file.exists());
 
+            if(fileimage.exists ()){
+                fileimage.delete ();
+            }
 
             file.delete();
 
@@ -1126,11 +977,6 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
 
 
-    private boolean validateEmail(String email) {
-        Pattern p = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$");
-        Matcher m = p.matcher(email.toUpperCase());
-        return m.matches();
-    }
 
         }
 

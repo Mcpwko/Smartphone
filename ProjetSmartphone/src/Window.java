@@ -1,34 +1,36 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
 
+/**
+ * La fenêtre principal qui va contenir tout le programme
+ * @author Mickaël
+ * @version 2.0
+ */
 public class Window extends JFrame {
-    private Lockscreen lockscreen = new Lockscreen();
-
-    public Window() throws IOException {
-
-        this.setUndecorated ( true );
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setVisible(true);
-        this.setSize(480, 800);
-        this.setResizable(false); /** Lock the size of the window*/
-        this.setLocationRelativeTo(null);
-        this.add(lockscreen);
-
-    }
-}
-
-
-class FrameExtern extends JFrame {
+    /**
+     *l'image qui va être visible autour du panneau
+     */
     private JLabel label = new JLabel(new ImageIcon("images\\smartphone.png"));
+    /**
+     *Le panneau qui contient tout le reste du programme
+     */
     private JPanel panelintern = new JPanel ( );
+    /**
+     *Le panneau laucnher qui permet de déverouiller le smartphone
+     */
     private Lockscreen lockscreen = new Lockscreen();
 
 
-
-    public FrameExtern() throws IOException {
+    /**
+     * Constructeur Window
+     * <p>La construction de la fenêtre se fait avec un panneau central oû toutes les actions du programme
+     * se feront à l'intérieur et à l'extérieur de ce panneau il y a une image qui entoure le panneau
+     * afin de ressembler à un veritable smartphone</p>
+     * @throws IOException Lorsque le fond d'écran n'arrive pas à charger
+     */
+    public Window() throws IOException {
         setUndecorated ( true );
         setBackground ( new Color ( 0, 0, 0, 0) );
         setSize ( 700,1000 );

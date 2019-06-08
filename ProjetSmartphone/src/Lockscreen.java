@@ -8,15 +8,46 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * @author
+ * @version 1.0
+ */
 public class Lockscreen extends JPanel implements ChangeListener {
+    /**
+     * Le slider servant à dévérouiller le smartphone
+     */
     private JSlider slide = new JSlider(0,100,0);
+    /**
+     * l'icone se trouvant au millieu du slider
+     */
     Icon icon = new ImageIcon("images//unlock.png");
+    /**
+     * paramètre permettant de modifier l'apparence du slider
+     */
     UIDefaults defaults = UIManager.getDefaults();
+    /**
+     * l'arrière-plan de lockscreen
+     * @see JPanelWithBackground
+     */
     private JPanelWithBackground jp = new JPanelWithBackground ( "images//Background.jpg");
+    /**
+     * affichage de l'heure
+     * @see TimeLabel
+     */
     private TimeLabel clock = new TimeLabel();
+    /**
+     * affichage de la date du jour
+     * @see TimeLabel
+     */
     private DateLabel datejour = new DateLabel();
 
 
+    /**
+     * Constructeur du Lockscreen
+     * <p>La construction du panneau Locsckreen affiche le slider ainsi que l'heure et la date
+     * du jour</p>
+     * @throws IOException
+     */
     public Lockscreen() throws IOException {
         setLayout(new BorderLayout());
         add(jp,BorderLayout.CENTER);
@@ -37,6 +68,10 @@ public class Lockscreen extends JPanel implements ChangeListener {
         slide.setOpaque ( false );
 
     }
+
+    /**
+     * @param e
+     */
     public void stateChanged(ChangeEvent e) {
         if(e.getSource()== slide) {
             if(slide.getValue()==100){
@@ -59,17 +94,27 @@ public class Lockscreen extends JPanel implements ChangeListener {
 
 }
 
+/**
+ * @author Mickaël
+ * @version 1.0
+ */
 class JPanelWithBackground extends JPanel {
     private Image backgroundImage;
 
+    /**
+     * @param fileName le nom de l'image
+     * @throws IOException si jamais l'image n'est pas trouvé
+     */
     public JPanelWithBackground(String fileName) throws IOException {
         backgroundImage = Toolkit.getDefaultToolkit().createImage(fileName);
     }
 
+    /**
+     * méthode qui dessine l'image qui sert d'arrière-plan
+     * @param g
+     */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        // Draw the background image.
         g.drawImage(backgroundImage, 0, 0, this);
 
     }

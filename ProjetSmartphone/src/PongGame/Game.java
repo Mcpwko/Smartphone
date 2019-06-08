@@ -28,12 +28,6 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
     }
 
 
-    private int tempsRestant;
-    private String chrono;
-
-
-
-
     private Thread t;
 
 
@@ -122,16 +116,6 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
     }
 
 
-    /*public void drawCenteredString(String titre,String insctructionsMenu, Graphics g) {
-        FontMetrics fm = g.getFontMetrics();
-
-        g.setFont ( font.deriveFont ( Font.TRUETYPE_FONT,50 ) );
-        int x = (w - fm.stringWidth(s)) / 2;
-        int y = (fm.getAscent() + (h - (fm.getAscent() + fm.getDescent())) / 2);
-
-        g.drawString(s, x, y);
-    }*/
-
 
     public void waitForStart() {
         while (!space) {
@@ -142,20 +126,6 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
             ball.ySpeed = -1;
             computer.ySpeed = ball.ySpeed;
         } else {
-            /*tempsRestant=5;
-            do{
-                chrono = String.valueOf ( tempsRestant );
-
-                try {
-                    Thread.sleep ( 1000 );
-                } catch (InterruptedException e) {
-                    e.printStackTrace ();
-                }
-                tempsRestant--;
-                System.out.println("Salut");
-            }while (tempsRestant!=0);
-            t.notify ();*/
-
             ball.xSpeed = -1;
                 ball.ySpeed = 1;
                 computer.ySpeed = ball.ySpeed;
@@ -163,14 +133,29 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
         }
 
 
-    public void suspend(){
-
-
+    public void setPlayMode(boolean val) {
+        playMode = val;
     }
 
+    public void setMenu(boolean val){
+        menu = val;
+    }
 
+    public void setGame(boolean val){
+        game = val;
+    }
 
+    public void setPause(boolean val){
+        pause = val;
+    }
 
+    public void setstartDirection(boolean val){
+        startDirection = val;
+    }
+
+    public void setSpace(boolean val){
+        space = val;
+    }
 
 
 
@@ -212,18 +197,6 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
                     menu = false;
                     game = true;
                     pause = false;
-
-
-
-
-                    /*for (int i = 4; i > 0; i--){
-                        System.out.println("La partie commence dans "+i+" sec");
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e1) {
-                            e1.printStackTrace ();
-                        }
-                    }*/
                     waitForStart ();
 
                 }

@@ -35,13 +35,7 @@ public class Ball extends Entity {
             Game.startDirection = true;
             reset();
 
-            } // AU CAS OU !
-        /*if (this.x < 0) {
-            Game.startDirection = false;
-            reset();
-            //Game.setLevel(1);
-            //Game.setScore(0);
-            }*/
+            }
         if (this.y + this.HEIGHT + 30 > Game.GAME_HEIGHT) {
             this.ySpeed = -this.ySpeed;
             }
