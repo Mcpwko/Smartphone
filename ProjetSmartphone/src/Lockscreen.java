@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * @author
+ * @author Mickaël
  * @version 1.0
  */
 public class Lockscreen extends JPanel implements ChangeListener {
@@ -20,7 +20,8 @@ public class Lockscreen extends JPanel implements ChangeListener {
     /**
      * l'icone se trouvant au millieu du slider
      */
-    Icon icon = new ImageIcon("images//unlock.png");
+    private Icon icon = new ImageIcon(getClass().getResource("/images/unlock.png"));
+    private ImageIcon background = new ImageIcon (getClass().getResource("/images/Background.jpg") );
     /**
      * paramètre permettant de modifier l'apparence du slider
      */
@@ -29,7 +30,7 @@ public class Lockscreen extends JPanel implements ChangeListener {
      * l'arrière-plan de lockscreen
      * @see JPanelWithBackground
      */
-    private JPanelWithBackground jp = new JPanelWithBackground ( "images//Background.jpg");
+    private JPanelWithBackground jp = new JPanelWithBackground ("images/Background.jpg" );
     /**
      * affichage de l'heure
      * @see TimeLabel
@@ -70,7 +71,10 @@ public class Lockscreen extends JPanel implements ChangeListener {
     }
 
     /**
-     * @param e
+     * méthode qui lit le slider
+     * <p>Lorsque ce slider est amené tout à droite le homescreen est ajouté et les élèments du lockscreen
+     * sont enlevés</p>
+     * @param e listener du slider
      */
     public void stateChanged(ChangeEvent e) {
         if(e.getSource()== slide) {
@@ -102,10 +106,13 @@ class JPanelWithBackground extends JPanel {
     private Image backgroundImage;
 
     /**
+     * <p>construction d'un panneau avec une image en background</p>
      * @param fileName le nom de l'image
      * @throws IOException si jamais l'image n'est pas trouvé
      */
     public JPanelWithBackground(String fileName) throws IOException {
+
+        //backgroundImage = fileName.getImage ();
         backgroundImage = Toolkit.getDefaultToolkit().createImage(fileName);
     }
 

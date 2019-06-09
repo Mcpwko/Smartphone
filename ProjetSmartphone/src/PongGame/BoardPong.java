@@ -4,9 +4,20 @@ import javax.swing.*;
 import java.awt.*;
 
 
+/**
+ * @author Mickaël
+ * @version 1.0
+ */
 public class BoardPong extends JPanel  {
+    /**
+     * création du jeu
+     */
     private Game game = new Game();
 
+    /**
+     * Constructeur panneau Pong
+     * <p>panneau qui contient le jeu Pong</p>
+     */
     public BoardPong() {
         setLayout(new BorderLayout());
         setBackground(Color.yellow);
@@ -22,6 +33,10 @@ public class BoardPong extends JPanel  {
 
     }
 
+    /**
+     * <p>retourne l'objet Game </p>
+     * @return objet Game
+     */
     public Game getGame(){
         return game;
     }

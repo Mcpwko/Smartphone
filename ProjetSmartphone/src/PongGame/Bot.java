@@ -2,11 +2,26 @@ package PongGame;
 
 import java.awt.*;
 
+/**
+ * @author Mickaël
+ * @version 1.0
+ */
 public class Bot extends Entity{
+    /**
+     * <p>Constructeur de l'enemi qui se trouve à droite de l'écran</p>
+     * @param x Coordonnées x du bot
+     * @param y Coordonnées y du bot
+     * @param width largeur du bot
+     * @param height hauteur du bot
+     * @param id identité de l'objet
+     */
     public Bot(int x, int y, int width, int height, ID id) {
         super(x, y, width, height, id);
     }
 
+    /**
+     * <p>méthode qui définit les limitations de la position du bot</p>
+     */
     @Override
     public void update() {
         if (this.id == ID.COMPUTER) {
@@ -24,7 +39,10 @@ public class Bot extends Entity{
     }
 
 
-
+    /**
+     *méthode qui va dessiner le bot
+     * @param g
+     */
     @Override
     public void render(Graphics g) {
         g.setColor(Color.RED);

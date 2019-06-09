@@ -15,8 +15,17 @@ import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * <p>Test de validation email</p>
+ * @author Mickaël
+ * @author Kevin
+ * @version 1.0
+ */
 class ContactPanelTest {
 
+    /**
+     * <p>Test du pattern pour la vérification d'email</p>
+     */
     @Test
     void validateEmail() {
         //Pattern p = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$");

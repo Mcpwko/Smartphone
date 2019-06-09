@@ -3,42 +3,96 @@ import org.apache.commons.io.FileUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Vector;
-import java.util.concurrent.TimeUnit;
 
+/**
+ * <p> Classe qui gère les dispositions et les paramètres de l'application Gallery</p>
+ * @author Mickaël Puglisi
+ * @version 2.0
+ */
 public class Gallery extends JPanel implements ActionListener {
+    /**
+     * <p> Objet ButtonWithIcon qui ajoute le bouton permettant d'ajouter une image</p>
+     */
     private ButtonWithIcon addphoto = new ButtonWithIcon("images//addphoto.png");
-    //private ButtonWithIcon deletephoto = new ButtonWithIcon("images//deletephoto.png");
+    /**
+     * <p> Pannel qui crée un panneau au sud</p>
+     */
     private JPanel southpanel1 = new JPanel();
+    /**
+     * <p> Panel principal où sont affichés les images</p>
+     */
     private JPanel panelPictures = new JPanel();
+    /**
+     * <p> Le Cardlayout qui permet de changer de panel</p>
+     */
     private CardLayout cardLayout = new CardLayout();
+    /**
+     * <p> Pannel qui s'affiche lorsqu'une image est sélectionnée</p>
+     */
     private JPanel panel1 = new JPanel();
+    /**
+     * <p> Objet JScrollPane qui ajoute une barre de défilement</p>
+     */
     private JScrollPane scrollPane = new JScrollPane(panelPictures);
+    /**
+     * <p> Objet JFileChooser qui demande à l'utilisateur de rajouter une image</p>
+     */
     private JFileChooser fileChooser = new JFileChooser();
 
 
-
+    /**
+     * <p> Panel qui gère le mouvement entre les panels principaux</p>
+     */
     private JPanel panelcont = new JPanel();
+    /**
+     * <p> Panel se trouvant au sud pour ajouter une photo </p>
+     */
     private JPanel south = new JPanel();
+    /**
+     * <p> Crée le bouton previous </p>
+     */
     private ButtonWithIcon previous = new ButtonWithIcon("images//previousApp.png");
-    //private ButtonWithIcon previousSouth = new ButtonWithIcon("images//previous.png");
+    /**
+     * <p> Panneau qui s'ajoute lorsqu'une image est sélectionnée</p>
+     */
     private JPanel northSelectedPicture = new JPanel();
+    /**
+     * <p> Crée ke bouton de suppression d'image</p>
+     */
     private JButton deletePicture = new JButton("Delete");
+    /**
+     * <p> Objet JOptionPane qui demande à l'utilisateur de valider la suppression</p>
+     */
     private JOptionPane deletePermanent = new JOptionPane();
+    /**
+     * <p> Titre de l'application</p>
+     */
     private JLabel titre = new JLabel("Photos");
+    /**
+     * <p> Objet de type File qui donne la localisation des images enregistrées</p>
+     */
     private File monRepertoire=new File("Gallery");
+    /**
+     * <p> Panel qui s'affiche lorsqu'une image est sélectionnée</p>
+     */
     private JPanel selectedPicture = new JPanel();
+    /**
+     * <p> Appel l'image et la redimensionne</p>
+     * @see JLabelPictureSelected
+     */
     private JLabelPictureSelected image;
 
 
+    /**
+     * <p> Constructeur qui gère le positionnement des éléments déclarés</p>
+     * @throws IOException
+     */
     public Gallery() throws IOException {
         setBackground(Color.BLACK);
         setLayout(new BorderLayout());
@@ -46,8 +100,7 @@ public class Gallery extends JPanel implements ActionListener {
         panelcont.setBackground(Color.BLACK);
         add(south,BorderLayout.SOUTH);
         south.setLayout(new FlowLayout(FlowLayout.CENTER));
-        //previousSouth.setBounds(420,700,50,50);
-        //add(previousSouth);
+
 
         south.setBackground(Color.BLACK);
 
@@ -67,8 +120,6 @@ public class Gallery extends JPanel implements ActionListener {
         scrollPane.setBorder((BorderFactory.createLineBorder(Color.BLACK, 1)) );
         scrollPane.setBackground(Color.BLACK);
         addphoto.addActionListener(this);
-        //southpanel1.add(deletephoto);
-        //deletephoto.addActionListener ( this );
         scrollPane.setViewportView(panelPictures);
         panel1.add(scrollPane);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -78,7 +129,6 @@ public class Gallery extends JPanel implements ActionListener {
 
         northSelectedPicture.setLayout(new BorderLayout());
         northSelectedPicture.setBackground(Color.BLACK);
-        //northSelectedPicture.setBorder(BorderFactory.createLineBorder(Color.green,1));
 
         selectedPicture.setLayout(new BorderLayout());
         northSelectedPicture.add(previous,BorderLayout.WEST);
@@ -98,20 +148,32 @@ public class Gallery extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * @return panelPictures
+     */
     public JPanel getPanelPictures() {
         return panelPictures;
     }
 
+    /**
+     * @return panelcont
+     */
     public JPanel getPanelcont(){
         return panelcont;
     }
 
 
-
+    /**
+     * @return cardLayout
+     */
     public CardLayout getCardLayout() {
         return cardLayout;
     }
 
+    /**
+     * @throws IOException
+     * <p> Méthode qui lit les images stockées</p>
+     */
     //initialiser les composants
     private void initComponentPictures() throws IOException {
 
@@ -151,17 +213,12 @@ public class Gallery extends JPanel implements ActionListener {
     }
 
 
-
+    /**
+     * <p> Méthode qui sauvegarde les nouvelles images</p>
+     * @param fileNewName
+     */
     public void addNewScreenshot(String fileNewName){
-        /*ButtonWithIcon button = null;
-        try {
-            button  = new ButtonWithIcon ( "Gallery//" + fileNewName );
-        } catch (IOException e) {
-            e.printStackTrace ();
-        }
 
-        button.setMaximumSize ( new Dimension ( 112, 112 ) );
-        button.setMinimumSize ( new Dimension ( 112, 112 ) );*/
         JButton button = new JButton (  );
         Image img = null;
         try {
@@ -193,9 +250,9 @@ public class Gallery extends JPanel implements ActionListener {
     }
 
 
-
-
-
+    /**
+     * @param e
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println ( "J'ai appuyé sur l'image : " + e.getActionCommand () );
@@ -302,7 +359,14 @@ public class Gallery extends JPanel implements ActionListener {
             }
         }
     }
+
+    /**
+     * <p> Gère le placement d'une nouvelle image dans l'application</p>
+     */
     class newImage implements  ActionListener{
+        /**
+         * @param e
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             selectedPicture.removeAll();
@@ -327,6 +391,13 @@ public class Gallery extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * <p> Méthode permettant de redimensionner une image</p>
+     * @param srcImg
+     * @param w
+     * @param h
+     * @return ImageIcon
+     */
     private ImageIcon getScaledImage(ImageIcon srcImg, int w, int h){
         Image img = srcImg.getImage();
         int width   = img.getWidth(null);
@@ -347,8 +418,16 @@ public class Gallery extends JPanel implements ActionListener {
 
 
     }
+
+    /**
+     * <p> Classe qui gère la dimension d'une image sélectionnée</p>
+     */
     class JLabelPictureSelected extends JLabel{
 
+        /**
+         * @param icon
+         * @throws IOException
+         */
         public JLabelPictureSelected(String icon) throws IOException {
             Image img = ImageIO.read(new File (icon));
             ImageIcon ii = new ImageIcon(img);

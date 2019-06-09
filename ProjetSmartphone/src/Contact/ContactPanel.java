@@ -1,89 +1,249 @@
 package Contact;
 
-import java.awt.Image;
 import net.miginfocom.layout.CC;
 import net.miginfocom.swing.MigLayout;
 import org.apache.commons.io.FileUtils;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.JPanel;
 
 
-
+/**
+ * <p>L'application contact permet de gérer une liste de contact enregistré </p>
+ * @author Kevin Coppey
+ * @version 2.0
+ */
 public class ContactPanel extends JPanel implements ActionListener, FocusListener {
 
     //Création des panneaux de base
 
 
+    /**
+     * <p> Voici le panel principal. Il contient tous les éléments de l'apllication </p>
+     */
     private JPanel panelcontent = new JPanel();
+    /**
+     * <p> Ce panel contient la liste des contacts</p>
+     */
     private JPanel contactlist = new JPanel ();
+    /**
+     * <p>Ce panel contient les informations de chaque contact </p>
+     */
     private JPanel information = new JPanel();
+    /**
+     * <p> Ce panel sert à afficher la page d'ajout de contact </p>
+     */
     private JPanel contactnew = new JPanel();
 
     //Création du CardLayout pour naviguer entre les panels
 
+    /**
+     * <p> La création d'un card layout pour naviguer entre les panels</p>
+     */
     private CardLayout cards = new CardLayout();
 
     //Création des panneaux du panneau de la liste de contact
+    /**
+     * <p> Le panel nord de l'application contacts</p>
+     */
     private JPanel northpanel = new JPanel();
+    /**
+     * <p> Le deuxième panneau nord de l'application contacts</p>
+     */
     private JPanel northpanel2 = new JPanel();
+    /**
+     * <p> Le panneau central de l'application contacts </p>
+     */
     private JPanel centerpanel = new JPanel();
+    /**
+     * <p> Le panneau contenant la liste des contacts </p>
+     */
     private JPanel listdecontact = new JPanel();
+    /**
+     * <p> Le label qui donne le titre de l'application</p>
+     */
     private JLabel label = new JLabel("Contacts");
+    /**
+     * <p> Le bouton plus servant à ajouter un contact</p>
+     * @see ButtonWithIcon
+     */
     private ButtonWithIcon buttonplus = new ButtonWithIcon("src\\Contact\\addcontact1.png");
+    /**
+     * <p> Une police d'écriture pour le texte</p>
+     */
     private Font font = new Font("Arial",Font.BOLD,30);
+    /**
+     * <p> Une police d'écriture pour le texte</p>
+     */
     private Font font2 = new Font("Arial",Font.BOLD,15);
+    /**
+     * <p> La création d'une bordure blanche </p>
+     */
     private Border border = BorderFactory.createLineBorder(Color.WHITE, 1);
 
 
-
+    /**
+     * <p> Un tableau de bouton permettant de créer plusieurs contacts</p>
+     */
     private JButton listContactButton[] = new JButton[10000000];
 
 
     //Création des élément du panneau d'ajout de contact
 
+    /**
+     * <p> Le panel central de l'ajout de contact </p>
+     */
     private JPanel panelCenter = new JPanel();
+    /**
+     * <p> Le titre du panneau d'ajout d'un nouveau contact</p>
+     */
     private JLabel nouveaucontact = new JLabel("Nouveau Contact");
+    /**
+     * <p> Le bouton qui créer l'image à choisir pour l'utilisateur</p>
+     */
     private ButtonWithIcon photo = new ButtonWithIcon("src\\Contact\\photo.png");
+    /**
+     * <p> Le champs à remplir concernant le prénom de l'utilisateur</p>
+     */
     private JTextField prenom = new JTextField("Prénom");
+    /**
+     * <p> Le champs à remplir concernant le nom de l'utilisateur</p>
+     */
     private JTextField nom = new JTextField("Nom");
+    /**
+     * <p> Le champs à remplir concernant l'email de l'utilisateur</p>
+     */
     private JTextField emailtext = new JTextField("E-mail");
+    /**
+     * <p> Le champs à remplir concernant le numéro de téléphone privé de l'utilisateur</p>
+     */
     private JTextField phonenumber = new JTextField("Téléphone privé");
+    /**
+     * <p> Le champs à remplir concernant le numéro de téléphone professionnel de l'utilisateur</p>
+     */
     private JTextField phonenumber2 = new JTextField("Téléphone professionnel");
+    /**
+     * <p> Le champs à remplir concernant le numéro de téléphone du domicile de l'utilisateur</p>
+     */
     private JTextField phonenumber3 = new JTextField("Téléphone domicile");
+    /**
+     * <p> Le champs à remplir concernant l'adresse de l'utilisateur</p>
+     */
     private JTextField adress = new JTextField("Adresse");
+    /**
+     * <p> Le logo concernant le téléphone privé de l'utilisateur</p>
+     * @see LabelWithIcon
+     */
     private LabelWithIcon privatephone = new LabelWithIcon("src\\Contact\\smartphone.png");
-    private LabelWithIcon telprof2 = new LabelWithIcon("src\\Contact\\telprof.png");
-    private LabelWithIcon teldom2 = new LabelWithIcon("src\\Contact\\factory.png");
+    /**
+     * <p> Le logo concernant le téléphone professionnel de l'utilisateur</p>
+     * @see LabelWithIcon
+     */
+    private LabelWithIcon telprof2 = new LabelWithIcon("src\\Contact\\factory.png");
+    /**
+     * <p> Le logo concernant le téléphone du domciile de l'utilisateur  </p>
+     * @see LabelWithIcon
+     */
     private LabelWithIcon home = new LabelWithIcon("src\\Contact\\home.png");
+    /**
+     * <p> Le logo concernant l'adresse mail de l'utilisateur</p>
+     * @see LabelWithIcon
+     */
     private LabelWithIcon adress2 = new LabelWithIcon("src\\Contact\\mail.png");
+    /**
+     * <p> Le logo concernant l'adresse de l'utilisateur</p>
+     * @see LabelWithIcon
+     */
     private LabelWithIcon location = new LabelWithIcon("src\\Contact\\location.png");
+    /**
+     * <p> Un label qui ne contient rien</p>
+     */
     private JLabel blankLabel = new JLabel();
+    /**
+     * <p> Le bouton de sauvegarde de l'ajout de contact </p>
+     * @see ButtonWithIcon
+     */
     private ButtonWithIcon save = new ButtonWithIcon("src\\Contact\\save.png");
+    /**
+     * <p>Le JFileChooser permettant de choisir une image pour l'ajouter </p>
+     */
     private JFileChooser fileChooser = new JFileChooser();
+    /**
+     * <p>La police d'écriture pour l'ajout de contact </p>
+     */
     private Font fontadd = new Font("arial",Font.TRUETYPE_FONT,30);
+    /**
+     * <p> Une dimension qui sera utilisée sur des éléments de la page d'ajout de contact </p>
+     */
     private Dimension dimensionadd = new Dimension(300,50);
+    /**
+     * <p> Une dimension qui sera utilisée sur des éléments de la page d'ajout de contact</p>
+     */
     private Dimension dimensionadd2 = new Dimension(420,50);
 
     //Création panneau information
+    /**
+     * <p> Le champs contenant l'identité de l'utilisateur</p>
+     */
     private JTextField identite;
+    /**
+     * <p> Le champs contenant le nom de l'utilisateur</p>
+     */
     private JTextField name;
+    /**
+     * <p> Le champs contenant le prénom de l'utilisateur</p>
+     */
     private JTextField firstname;
+    /**
+     * <p> Le champs contenant le mail de l'utilisateur</p>
+     */
     private JTextField email;
+    /**
+     * <p> Le champs contenant le téléphone privé de l'utilisateur</p>
+     */
     private JTextField telprive;
+    /**
+     * <p> Le champs contenant le téléphone professionnel de l'utilisateur</p>
+     */
     private JTextField telprof;
+    /**
+     * <p> Le champs contenant le téléphone du domicile de l'utilisateur</p>
+     */
     private JTextField teldom;
+    /**
+     * <p> Le champs contenant l'adresse de l'utilisateur</p>
+     */
     private JTextField address;
+    /**
+     * <p> Le bouton d'édition de la page d'information</p>
+     * @see ButtonWithIcon
+     */
     private ButtonWithIcon editbutton = new ButtonWithIcon("src\\Contact\\editbutton.png");
+    /**
+     * <p> Le bouton de sauvegarde d'édition de la page d'information</p>
+     * @see ButtonWithIcon
+     */
     private ButtonWithIcon saveedit = new ButtonWithIcon("src\\Contact\\save.png");
+    /**
+     * <p> Le bouton de suppression de la page d'information</p>
+     * @see ButtonWithIcon
+     */
     private ButtonWithIcon deletebutton = new ButtonWithIcon("src\\Contact\\deletebutton.png");
 
+
+    /**
+     * @throws IOException
+     * <p> Permet de gérer les différents éléments du panel contact</p>
+     */
     public ContactPanel() throws IOException {
 
         setLayout ( new BorderLayout (  ) );
@@ -160,7 +320,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
         panelCenter.add("cell 0 3 1 1", adress2);
         panelCenter.add("cell 0 4 1 1",privatephone);
-        panelCenter.add("cell 0 5 1 1",teldom2 );
+        panelCenter.add("cell 0 5 1 1",telprof2 );
         panelCenter.add("cell 0 6 1 1 ", home);
         panelCenter.add("cell 0 7 1 1",location);
 
@@ -224,30 +384,48 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
     }
 
+    /**
+     * <p> La méthode resetNewContact permet de réinitialiser la liste de contact</p>
+     */
     public void resetNewContact(){
-    prenom.setText("Prénom");
-    nom.setText("Nom");
-    emailtext.setText("E-mail");
-    phonenumber.setText("Téléphone privé");
-    phonenumber2.setText("Téléphone professionnel");
-    phonenumber3.setText("Téléphone domicile");
-    adress.setText("Adresse");
-    ImageIcon ii = new ImageIcon("src\\Contact\\photo.png");
-    photo.setIcon(ii);
+        prenom.setText("Prénom");
+        nom.setText("Nom");
+        emailtext.setText("E-mail");
+        phonenumber.setText("Téléphone privé");
+        phonenumber2.setText("Téléphone professionnel");
+        phonenumber3.setText("Téléphone domicile");
+        adress.setText("Adresse");
+        ImageIcon ii = new ImageIcon("src\\Contact\\photo.png");
+        photo.setIcon(ii);
     }
 
+    /**
+     * @return contactnew
+     */
     public JPanel getContactnew() {
         return contactnew;
     }
 
+    /**
+     * @return cards
+     */
     public CardLayout getCards() {
         return cards;
     }
 
+    /**
+     * @return panelcontent
+     */
     public JPanel getPanelcontent() {
         return panelcontent;
     }
 
+    /**
+     * @param e
+     * <p> L'action listner qui affiche le panneau d'ajout de contact lorsque l'on clique sur le bouton plus, qui
+     * sauvegarde les informations du contact créée, qui regarde si le mail entré par l'utilisateur est valide, qui
+     * qui gère si un contact existe déjà et qui crée la liste de contact.</p>
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
@@ -366,25 +544,25 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
                     }
 
 
-            } else {
+                } else {
 
-                System.out.println(monRepertoire.length());
-                int numberFiles = (int) monRepertoire.length();
-                listContactButton[numberFiles] = new JButton(nom.getText() + " " + prenom.getText());
-                listContactButton[numberFiles].setActionCommand(prenom.getText()+nom.getText() + ".txt");
-                listContactButton[numberFiles].addActionListener(new ListenerListContact());
+                    System.out.println(monRepertoire.length());
+                    int numberFiles = (int) monRepertoire.length();
+                    listContactButton[numberFiles] = new JButton(nom.getText() + " " + prenom.getText());
+                    listContactButton[numberFiles].setActionCommand(prenom.getText()+nom.getText() + ".txt");
+                    listContactButton[numberFiles].addActionListener(new ListenerListContact());
 
-                listContactButton[numberFiles].setContentAreaFilled(false);
-                listContactButton[numberFiles].setOpaque(true);
-                listContactButton[numberFiles].setPreferredSize(new Dimension(500, 20));
-                listContactButton[numberFiles].setBorder(border);
-                listdecontact.add(listContactButton[numberFiles]);
-                listdecontact.add("cell 1 3", blankLabel);
-                blankLabel.setBackground(Color.BLACK);
-                blankLabel.setOpaque(true);
-                listContactButton[numberFiles].setFont(font2);
-                listContactButton[numberFiles].setBackground(Color.BLACK);
-                listContactButton[numberFiles].setForeground(Color.WHITE);
+                    listContactButton[numberFiles].setContentAreaFilled(false);
+                    listContactButton[numberFiles].setOpaque(true);
+                    listContactButton[numberFiles].setPreferredSize(new Dimension(500, 20));
+                    listContactButton[numberFiles].setBorder(border);
+                    listdecontact.add(listContactButton[numberFiles]);
+                    listdecontact.add("cell 1 3", blankLabel);
+                    blankLabel.setBackground(Color.BLACK);
+                    blankLabel.setOpaque(true);
+                    listContactButton[numberFiles].setFont(font2);
+                    listContactButton[numberFiles].setBackground(Color.BLACK);
+                    listContactButton[numberFiles].setForeground(Color.WHITE);
 
                     System.out.println(photo.getName());
                     if(photo.getName()==null){
@@ -401,42 +579,42 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
                     }
 
 
-                FileWriter monFichier = null;
-                BufferedWriter tampon = null;
-                String[] data = new String[7];
+                    FileWriter monFichier = null;
+                    BufferedWriter tampon = null;
+                    String[] data = new String[7];
 
-                // Entrer les données dans le tableau
+                    // Entrer les données dans le tableau
 
-                data[0] = prenom.getText();
-                data[1] = nom.getText();
-                data[2] = emailtext.getText();
-                data[3] = phonenumber.getText();
-                data[4] = phonenumber2.getText();
-                data[5] = phonenumber3.getText();
-                data[6] = adress.getText();
-
-
-                try {
-                    File file = new File("src\\Contact\\contact\\" + prenom.getText() + nom.getText() + ".txt");
-                    monFichier = new FileWriter(file);
-                    tampon = new BufferedWriter(monFichier);
+                    data[0] = prenom.getText();
+                    data[1] = nom.getText();
+                    data[2] = emailtext.getText();
+                    data[3] = phonenumber.getText();
+                    data[4] = phonenumber2.getText();
+                    data[5] = phonenumber3.getText();
+                    data[6] = adress.getText();
 
 
-                    for (int i = 0; i < data.length; i++) {
-                        tampon.write((data[i]) + "\r\n");
-                    }
-
-                } catch (IOException exception) {
-                    exception.printStackTrace();
-                } finally {
                     try {
-                        tampon.flush();
-                        tampon.close();
-                        monFichier.close();
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
+                        File file = new File("src\\Contact\\contact\\" + prenom.getText() + nom.getText() + ".txt");
+                        monFichier = new FileWriter(file);
+                        tampon = new BufferedWriter(monFichier);
+
+
+                        for (int i = 0; i < data.length; i++) {
+                            tampon.write((data[i]) + "\r\n");
+                        }
+
+                    } catch (IOException exception) {
+                        exception.printStackTrace();
+                    } finally {
+                        try {
+                            tampon.flush();
+                            tampon.close();
+                            monFichier.close();
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
                     }
-                }
 
                     listdecontact.removeAll();
                     try {
@@ -446,17 +624,17 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
                     }
 
 
-                prenom.setText("Prénom");
-                nom.setText("Nom");
-                emailtext.setText("E-mail");
-                phonenumber.setText("Téléphone privé");
-                phonenumber2.setText("Téléphone professionnel");
-                phonenumber3.setText("Téléphone domicile");
-                adress.setText("Adresse");
-                cards.show(panelcontent, "1");
-            }
+                    prenom.setText("Prénom");
+                    nom.setText("Nom");
+                    emailtext.setText("E-mail");
+                    phonenumber.setText("Téléphone privé");
+                    phonenumber2.setText("Téléphone professionnel");
+                    phonenumber3.setText("Téléphone domicile");
+                    adress.setText("Adresse");
+                    cards.show(panelcontent, "1");
+                }
 
-        }else {
+            }else {
                 emailtext.setForeground(Color.RED);
 
             }
@@ -474,14 +652,23 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
     }
 
+    /**
+     * @return save
+     */
     public ButtonWithIcon getButton(){
         return save;
     }
 
 
-
+    /**
+     * <p> Classe qui contient un listener concernant l'ajout de la photo </p>
+     * @author Kwvin Coppey
+     */
     class AddphotoListener implements ActionListener{
 
+        /**
+         * @param e
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println(photo.getName());
@@ -509,8 +696,15 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
     }
 
+    /**
+     * <p> Une classe qui crée un label qui est utilisé pour l'image de profil  </p>
+     * @author Kevin Coppey
+     */
     class LabelNewContact extends JLabel{
 
+        /**
+         * @param icon
+         */
         public LabelNewContact(String icon){
             ImageIcon ii = new ImageIcon(icon);
             ImageIcon ii2 = getScaledImage(ii,150,150);
@@ -521,6 +715,13 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
     }
 
+    /**
+     * @param srcImg
+     * @param w
+     * @param h
+     * <p> Permet de gérer la taille de l'image</p>
+     * @return new ImageIcon(resizedImg)
+     */
     private ImageIcon getScaledImage(ImageIcon srcImg, int w, int h){
         Image img = srcImg.getImage();
         BufferedImage resizedImg = new BufferedImage(w,h,BufferedImage.TYPE_INT_ARGB);
@@ -534,6 +735,10 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
     }
 
 
+    /**
+     * @param e
+     * <p> Permet d'écire du texte par défaut dans les champs à remplir de l'ajout de contact</p>
+     */
     @Override
     public void focusGained(FocusEvent e) {
         Object source = e.getSource();
@@ -559,13 +764,23 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             adress.setText("");
     }
 
+    /**
+     * @param e
+     */
     @Override
     public void focusLost(FocusEvent e) {
 
     }
 
+    /**
+     * @author Kevin Coppey
+     * <p> Classe permettant de créer un bouton avec une image</p>
+     */
     class ButtonWithIcon extends JButton{
 
+        /**
+         * @param icon
+         */
         public ButtonWithIcon(String icon) {
             ImageIcon ii = new ImageIcon(icon);
             setIcon ( ii );
@@ -575,21 +790,37 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
         }
     }
 
+    /**
+     * <p> Classe permettant de créer un label avec une image</p>
+     * @author Kevin Coppey
+     */
     class LabelWithIcon extends JLabel {
 
 
+        /**
+         * @param icon
+         */
         public LabelWithIcon(String icon) {
             ImageIcon ii = new ImageIcon(icon);
             setIcon(ii);
         }
     }
 
+    /**
+     * @param email
+     * <p> Permet de forcer l'utilisateur à entrer une adresse mail valide</p>
+     * @return m.matches()
+     */
     public boolean validateEmail(String email) {
         Pattern p = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$" );
         Matcher m = p.matcher(email.toUpperCase());
         return m.matches();
     }
 
+    /**
+     * @throws IOException
+     * <p> Méthode permettant de créer la liste de contact en allant chercher les fichiers pour les lire</p>
+     */
     public void initContactList() throws IOException {
         File monRepertoire=new File("src\\Contact\\contact");
         File[] f = monRepertoire.listFiles();
@@ -632,12 +863,23 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
     }
 
+    /**
+     * @return information
+     */
     public JPanel getInformation() {
         return information;
     }
 
+    /**
+     * <p> Classe qui va lire les fichiers présents dans contact afin de gérer l'apparition de l'image
+     * de profil. Elle gère aussi le placements des champs de texte et leur position. </p>
+     * @author Kevin Coppey
+     */
     class ListenerListContact implements ActionListener{
 
+        /**
+         * @param e
+         */
         @Override
         public void actionPerformed(ActionEvent e){
             File selected =new File("src\\Contact\\contact\\" + e.getActionCommand());
@@ -811,8 +1053,15 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
     }
 
+    /**
+     * <p> Cette Classe permet de gérer la modification des données par l'utilisateur</p>
+     * @author Kevin Coppey
+     */
     class EditListener implements ActionListener{
 
+        /**
+         * @param e
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
 
@@ -856,8 +1105,15 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
         }
     }
 
+    /**
+     * <p> Cette classe gère la sauvegarde de la modification des contacts</p>
+     * @author Kevin Coppey
+     */
     class SaveEditContact implements ActionListener{
 
+        /**
+         * @param e
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
 
@@ -878,35 +1134,28 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             data[6] = address.getText();
 
 
+            try {
+                File file = new File("src\\Contact\\contact\\" + firstname.getText() + name.getText() + ".txt");
+                monFichier = new FileWriter(file);
+                tampon = new BufferedWriter(monFichier);
 
+                for (int i = 0; i < data.length; i++) {
+                    tampon.write((data[i]) + "\r\n");
+                }
 
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            } finally {
+                try {
+                    tampon.flush();
+                    tampon.close();
+                    monFichier.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
 
-
-                    try {
-                        File file = new File("src\\Contact\\contact\\" + firstname.getText() + name.getText() + ".txt");
-                        monFichier = new FileWriter(file);
-                        tampon = new BufferedWriter(monFichier);
-
-                        //File repertoire = new File("chemin_du_dossier");
-                        //File[] listeFilePath = repertoire.listFiles();
-
-                        for (int i = 0; i < data.length; i++) {
-                            tampon.write((data[i]) + "\r\n");
-                        }
-
-                    } catch (IOException exception) {
-                        exception.printStackTrace();
-                    } finally {
-                        try {
-                            tampon.flush();
-                            tampon.close();
-                            monFichier.close();
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                        }
-                    }
-
-                    cards.show(panelcontent, "1");
+            cards.show(panelcontent, "1");
 
 
             name.setEditable(false);
@@ -941,12 +1190,19 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             information.removeAll();
             information.revalidate();
 
-                }
+        }
 
-            }
+    }
 
+    /**
+     * <p> Cette classe gère les actions concernant la suppression des contacts</p>
+     * @author Kevin Coppey
+     */
     class DeleteListener implements ActionListener{
 
+        /**
+         * @param e
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
 
@@ -978,7 +1234,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
 
 
-        }
+}
 
 
 

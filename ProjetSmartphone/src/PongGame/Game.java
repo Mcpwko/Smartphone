@@ -8,13 +8,25 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * @author Mickaël
+ * @author Kevin
+ * @version 2.0
+ */
 public class Game extends JPanel implements Runnable, KeyListener, MouseMotionListener {
+    /**
+     * largeur de la zone de jeu
+     */
     public static final int GAME_WIDTH = 480;
+    /**
+     * hauteur de la zone de jeu
+     */
     public static final int GAME_HEIGHT = 750;
 
 
-
-
+    /**
+     * <p>police d'écriture du jeu</p>
+     */
     private Font font;
 
     {
@@ -28,44 +40,106 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
     }
 
 
+    /**
+     * <p>déclaration d'une nouvelle tâche</p>
+     */
     private Thread t;
 
 
+    /**
+     * score du joueur
+     */
     public static int score;
+    /**
+     *le mot Score
+     */
     public static String scoreString;
+    /**
+     * niveau de la partie
+     */
     public static int level = 1;
 
 
+    /**
+     * Titre du jeu
+     */
     public static String titre = "PONG GAME";
+    /**
+     * Instructions afin de lancer le jeu
+     */
     public static String insctructionsMenu = "Press SPACE to play !";
 
 
+    /**
+     * le mot Level
+     */
     public static String levelString;
 
 
+    /**
+     * un objet Player
+     */
     protected Player player;
+    /**
+     * un objet Bot
+     */
     protected Bot computer;
 
 
+    /**
+     * un objet Ball
+     */
     protected Ball ball;
+    /**
+     * vitesse de la balle
+     */
     protected static int ballSpeed;
 
 
+    /**
+     * <p>la direction dans laquelle part la balle</p>
+     */
     public static boolean startDirection;
 
 
+    /**
+     * définit si le jeu tourne
+     */
     private boolean running = false;
+    /**
+     * le mode menu
+     */
     private boolean menu = true;
+    /**
+     * le mode jeu
+     */
     private boolean game = false;
+    /**
+     * le mode en train de jouer
+     */
     private boolean playMode = true;
+    /**
+     * le mode pause
+     */
     private boolean pause = false;
+    /**
+     * le mode fin du jeu
+     */
     private boolean scoreScreen = false;
 
 
-    // BOOLEANS THAT WILL BE USED FOR SMOOTHER MOVEMENT
+    // Boolean qui rend les mouvements plus fluides
+    /**
+     * déclaration des touches du clavier
+     */
     private boolean right = false, left = false, up = false, down = false, space = false, escape = false;
-    //private boolean rightTwo = false, leftTwo = false, upTwo = false, downTwo = false;
+    //private boolean rightTwo = false, leftTwo = false, upTwo = false, downTwo = false;  // au cas ou si 2 joueurs
 
+    /**
+     * Constructeur du jeu
+     * <p> construction d'un jeu avec un player, un bot et une balle</p>
+     *
+     */
     public Game(){
         player = new Player (0, 360, 15, 100, ID.PLAYER_ONE);
         computer = new Bot (340, 360, 15, 100, ID.COMPUTER);
@@ -74,7 +148,10 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
     }
 
 
-
+    /**
+     * <p>dessine tous les éléments présent sur le panneau</p>
+     * @param g
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -116,7 +193,9 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
     }
 
 
-
+    /**
+     * attend le début du jeu
+     */
     public void waitForStart() {
         while (!space) {
 
@@ -133,34 +212,59 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
         }
 
 
+    /**
+     * modifier le boolean playMode
+     * @param val
+     */
     public void setPlayMode(boolean val) {
         playMode = val;
     }
 
+    /**
+     * modifier le boolean menu
+     * @param val
+     */
     public void setMenu(boolean val){
         menu = val;
     }
 
+    /**
+     * modifier le boolean game
+     * @param val
+     */
     public void setGame(boolean val){
         game = val;
     }
 
+    /**
+     * modifier le boolean pause
+     * @param val
+     */
     public void setPause(boolean val){
         pause = val;
     }
 
+    /**
+     * modifier le boolean startDirection
+     * @param val
+     */
     public void setstartDirection(boolean val){
         startDirection = val;
     }
 
+    /**
+     * modifier le boolean space
+     * @param val
+     */
     public void setSpace(boolean val){
         space = val;
     }
 
 
-
-
-    // KEYBOARD INPUT EVENTS TRIGGERED BY OS
+    /**
+     * <p>les différentes actions quand certaines touches sont pressées</p>
+     * @param e
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode ();
@@ -222,6 +326,10 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
         }
     }
 
+    /**
+     * <p>méthode quand les différentes touches sont relachées</p>
+     * @param e
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
@@ -246,11 +354,10 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
 
     }
 
-    /**
-     * ICI C?EST LES DIFFöRENTS ETATS DU JEU (PAUSE; GAME; MENU ...)
-     */
 
-    //UPDATES ALL OBJECT POSITIONS AND USED TO DECIDE GAME STATE
+    /**
+     * <p>met à jour tous les positions des objets et définit l'état de jeu dans lequel on est</p>
+     */
     public void updateLogic() {
         if (menu) {
             if (space) {
@@ -372,13 +479,19 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
     }
 
 
-    // UNUSED METHOD REQUIRED BY KEYLISTENER INTERFACE
+    /**
+     * methode qui n'est pas utilisé
+     * @param e
+     */
     @Override
     public void keyTyped(KeyEvent e) {
     }
 
 
-    // INITIALIZES NEW THREAD AND STARTS IT (MAKES IT CALL RUN METHOD)
+    /**
+     * <p>initialise une nouvelle tâche qui appelle la méthode run </p>
+     */
+
     public void start() {
         if (t == null) {
             t = new Thread(this);
@@ -387,7 +500,9 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
         running = true;
     }
 
-    // MAIN GAME LOOP (NEEDS REVISING)
+    /**
+     * principale boucle du jeu
+     */
     public void run() {
         while (running) {
             updateLogic();
@@ -402,30 +517,52 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseMotionLi
     }
 
 
-
-
+    /**
+     * <p>obtenir le score du jeu</p>
+     * @return score de la game
+     */
     public static int getScore() {
         return score;
     }
 
+    /**
+     * <p>modifier le score du jeu</p>
+     * @param score score du jeu
+     */
     public static void setScore(int score) {
         Game.score = score;
     }
 
+    /**
+     * <p>obtenir le niveau du jeu</p>
+     * @return niveau du jeu
+     */
     public static int getLevel() {
         return level;
     }
 
+    /**
+     * <p>modifier le niveau du jeu</p>
+     * @param level niveau du jeu
+     */
     public static void setLevel(int level) {
         Game.level = level;
     }
 
+    /**
+     * méthode qui n'est pas utilisé
+     * @param e
+     */
     @Override
     public void mouseDragged(MouseEvent e) {
 
 
     }
 
+    /**
+     * suit les déplacement de la souris
+     * @param e
+     */
     @Override
     public void mouseMoved(MouseEvent e) {
         if(running) {
