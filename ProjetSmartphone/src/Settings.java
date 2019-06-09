@@ -52,11 +52,11 @@ public class Settings extends JPanel {
     /**
      * L'image qui servira à montrer que le bouton est déselectionné
      */
-    ImageIcon deselected = new ImageIcon ( "images/TOGGLEOFF.png" );
+    ImageIcon deselected = new ImageIcon ( "./images/TOGGLEOFF.png" );
     /**
      * L'image qui servira à montrer que le bouton est sélectionné
      */
-    ImageIcon selected = new ImageIcon ( "images/TOGGLEON.png" );
+    ImageIcon selected = new ImageIcon ( "./images/TOGGLEON.png" );
 
 
     /**

@@ -19,7 +19,7 @@ public class Gallery extends JPanel implements ActionListener {
     /**
      * <p> Objet ButtonWithIcon qui ajoute le bouton permettant d'ajouter une image</p>
      */
-    private ButtonWithIcon addphoto = new ButtonWithIcon("images//addphoto.png");
+    private ButtonWithIcon addphoto = new ButtonWithIcon(".//images//addphoto.png");
     /**
      * <p> Pannel qui crée un panneau au sud</p>
      */
@@ -57,7 +57,7 @@ public class Gallery extends JPanel implements ActionListener {
     /**
      * <p> Crée le bouton previous </p>
      */
-    private ButtonWithIcon previous = new ButtonWithIcon("images//previousApp.png");
+    private ButtonWithIcon previous = new ButtonWithIcon(".//images//previousApp.png");
     /**
      * <p> Panneau qui s'ajoute lorsqu'une image est sélectionnée</p>
      */
@@ -185,7 +185,7 @@ public class Gallery extends JPanel implements ActionListener {
             JButton button = new JButton (  );
             Image img = null;
             try {
-                img = ImageIO.read(new File ("Gallery/" + i +".jpg"));
+                img = ImageIO.read(new File ("./Gallery/" + i +".jpg"));
             } catch (IOException e) {
                 e.printStackTrace ();
             }
@@ -222,7 +222,7 @@ public class Gallery extends JPanel implements ActionListener {
         JButton button = new JButton (  );
         Image img = null;
         try {
-            img = ImageIO.read(new File ("Gallery/" + fileNewName));
+            img = ImageIO.read(new File ("./Gallery/" + fileNewName));
         } catch (IOException e) {
             e.printStackTrace ();
         }
@@ -260,7 +260,7 @@ public class Gallery extends JPanel implements ActionListener {
             int returnVal = fileChooser.showOpenDialog ( this );
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile ();
-                File destination = new File ( "Gallery\\" + panelPictures.getComponentCount () + ".jpg" );
+                File destination = new File ( ".\\Gallery\\" + panelPictures.getComponentCount () + ".jpg" );
                 try {
                     FileUtils.copyFile ( file, destination );
                 } catch (IOException e1) {
@@ -322,7 +322,7 @@ public class Gallery extends JPanel implements ActionListener {
                         System.out.println ( "J'ai appuyé sur OK" );
                         System.out.println("J'ai supprimé l'image : " + image.getName ());
 
-                        File file = new File ( "Gallery//" + image.getName () + ".jpg" );
+                        File file = new File ( ".//Gallery//" + image.getName () + ".jpg" );
                         file.delete ();
 
 
@@ -335,8 +335,8 @@ public class Gallery extends JPanel implements ActionListener {
                         }
 
                         for (int i = Integer.valueOf ( newName ) + 1; i < panelPictures.getComponentCount (); i++) {
-                            File fileName = new File ( "Gallery//" + i + ".jpg" );
-                            File fileNewName = new File ( "Gallery//" + (i - 1) + ".jpg" );
+                            File fileName = new File ( ".//Gallery//" + i + ".jpg" );
+                            File fileNewName = new File ( ".//Gallery//" + (i - 1) + ".jpg" );
 
                             System.out.println("Le nouveau nom des images : " + fileNewName.getName ());
                             fileName.renameTo ( fileNewName );
@@ -370,9 +370,9 @@ public class Gallery extends JPanel implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             selectedPicture.removeAll();
-            System.out.println("Gallery//"+(e.getActionCommand())+".jpg");
+            System.out.println(".//Gallery//"+(e.getActionCommand())+".jpg");
             try {
-                image = new JLabelPictureSelected("Gallery//"+(e.getActionCommand())+".jpg");
+                image = new JLabelPictureSelected(".//Gallery//"+(e.getActionCommand())+".jpg");
             } catch (IOException e1) {
                 e1.printStackTrace();
             }

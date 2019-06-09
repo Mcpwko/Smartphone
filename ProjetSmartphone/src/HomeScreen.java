@@ -81,7 +81,7 @@ public class HomeScreen extends JPanel implements ActionListener{
      * <p> Panel qui gère le fond d'écran du smartphone</p>
      * @see JPanelWithBackground
      */
-    private JPanelWithBackground center = new JPanelWithBackground("images//wallpaper.jpg");
+    private JPanelWithBackground center = new JPanelWithBackground(".//images//wallpaper.jpg");
     /**
      *  <p> Panneau principal du centre</p>
      */
@@ -111,42 +111,42 @@ public class HomeScreen extends JPanel implements ActionListener{
      * <p> Icône de l'application Contacts</p>
      * @see ButtonWithIcon
      */
-    private ButtonWithIcon contact = new ButtonWithIcon("images//contact.png");
+    private ButtonWithIcon contact = new ButtonWithIcon(".//images//contact.png");
     /**
      * <p> Icône pour le bouton home du smartphone</p>
      * @see ButtonWithIcon
      */
-    private ButtonWithIcon home = new ButtonWithIcon("images//home.png");
+    private ButtonWithIcon home = new ButtonWithIcon(".//images//home.png");
     /**
      * <p> Icône pour le bouton servant à prendre des screenshot</p>
      * @see ButtonWithIcon
      */
-    private ButtonWithIcon screenshot = new ButtonWithIcon ( "images//screenshot.png");
+    private ButtonWithIcon screenshot = new ButtonWithIcon ( ".//images//screenshot.png");
     /**
      * <p> Icône pour le bouton previous</p>
      * @see ButtonWithIcon
      */
-    private ButtonWithIcon previous = new ButtonWithIcon("images//previous.png");
+    private ButtonWithIcon previous = new ButtonWithIcon(".//images//previous.png");
     /**
      * <p> Icône pour l'application Gallery</p>
      * @see ButtonWithIcon
      */
-    private ButtonWithIcon gallery = new ButtonWithIcon("images//gallery.png");
+    private ButtonWithIcon gallery = new ButtonWithIcon(".//images//gallery.png");
     /**
      * <p> Icône pour l'application Pong</p>
      * @see ButtonWithIcon
      */
-    private ButtonWithIcon pong = new ButtonWithIcon ( "images//pong.png" );
+    private ButtonWithIcon pong = new ButtonWithIcon ( ".//images//pong.png" );
     /**
      * <p> Icône pour le bouton éteindre</p>
      * @see ButtonWithIcon
      */
-    private ButtonWithIcon shutdown = new ButtonWithIcon ( "images//shutdown.png" );
+    private ButtonWithIcon shutdown = new ButtonWithIcon ( ".//images//shutdown.png" );
     /**
      * <p> Icône pour le bouton settings</p>
      * @see ButtonWithIcon
      */
-    private ButtonWithIcon settings = new ButtonWithIcon ( "images//settings.png" );
+    private ButtonWithIcon settings = new ButtonWithIcon ( ".//images//settings.png" );
 
     /**
      * <p> Police d'écrite pour des éléments du panel</p>
@@ -288,7 +288,7 @@ public class HomeScreen extends JPanel implements ActionListener{
         @Override
         public void itemStateChanged(ItemEvent e) {
             int state = e.getStateChange();
-            ImageIcon ii = new ImageIcon ( "images//bluetooth1.png" );
+            ImageIcon ii = new ImageIcon ( ".//images//bluetooth1.png" );
             if (state == ItemEvent.SELECTED) {
                 bluetooth.setIcon (ii  );
                 modeAvion.setIcon ( null );
@@ -311,7 +311,7 @@ public class HomeScreen extends JPanel implements ActionListener{
         @Override
         public void itemStateChanged(ItemEvent e) {
             int state = e.getStateChange();
-            ImageIcon ii = new ImageIcon ( "images//airplane.png" );
+            ImageIcon ii = new ImageIcon ( ".//images//airplane.png" );
             if (state == ItemEvent.SELECTED) {
                 modeAvion.setIcon (ii  );
                 wifi.setIcon ( null );
@@ -335,7 +335,7 @@ public class HomeScreen extends JPanel implements ActionListener{
         @Override
         public void itemStateChanged(ItemEvent e) {
             int state = e.getStateChange();
-            ImageIcon ii = new ImageIcon ( "images//wifi1.png" );
+            ImageIcon ii = new ImageIcon ( ".//images//wifi1.png" );
             if (state == ItemEvent.SELECTED) {
                 wifi.setIcon (ii  );
                 modeAvion.setIcon ( null );
@@ -479,7 +479,7 @@ public class HomeScreen extends JPanel implements ActionListener{
 
         BufferedImage captureImage = new BufferedImage ( rect.width,rect.height,BufferedImage.TYPE_INT_ARGB );
         this.paint(captureImage.getGraphics ());
-        ImageIO.write(captureImage,format,new File("Gallery/" + fileNewName));
+        ImageIO.write(captureImage,format,new File("./Gallery/" + fileNewName));
         System.out.println("ScreenSHOT EFFECTUE !" + fileName);
         galleryApp.addNewScreenshot ( fileNewName );
 
@@ -640,27 +640,27 @@ class Battery1 extends Batterie implements ActionListener{
     /**
      * <p> Objet de type String qui affiche une image de batterie pleine</p>
      */
-    private final String batteryfull = "images//batteryfull.png";
+    private final String batteryfull = ".//images//batteryfull.png";
     /**
      * <p> Objet de type String qui affiche une image de batterie en train de charger</p>
      */
-    private final String batteryCharging = "images//batteryCharging.png";
+    private final String batteryCharging = ".//images//batteryCharging.png";
     /**
      * <p> Objet de type String qui affiche une image de batterie à plus de 80% </p>
      */
-    private final String battery80 = "images//battery80.png";
+    private final String battery80 = ".//images//battery80.png";
     /**
      * <p> Objet de type String qui affiche une image de batterie entre 60% et 80%</p>
      */
-    private final String battery60 = "images//battery60.png";
+    private final String battery60 = ".//images//battery60.png";
     /**
      * <p> Objet de type String qui affiche une image de batterie entre 40% et 60% </p>
      */
-    private final String battery40 = "images//battery40.png";
+    private final String battery40 = ".//images//battery40.png";
     /**
      * <p> Objet de type String qui affiche une image de batterie entre 0% et 20%</p>
      */
-    private final String battery20 = "images//battery20.png";
+    private final String battery20 = ".//images//battery20.png";
 
     /**
      * <p> Constructeur Batteryl qui donne le début du fonctionnement de la batterie </p>

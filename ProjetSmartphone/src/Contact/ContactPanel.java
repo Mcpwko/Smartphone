@@ -76,7 +76,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
      * <p> Le bouton plus servant à ajouter un contact</p>
      * @see ButtonWithIcon
      */
-    private ButtonWithIcon buttonplus = new ButtonWithIcon("src\\Contact\\addcontact1.png");
+    private ButtonWithIcon buttonplus = new ButtonWithIcon(".\\src\\Contact\\addcontact1.png");
     /**
      * <p> Une police d'écriture pour le texte</p>
      */
@@ -110,7 +110,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
     /**
      * <p> Le bouton qui créer l'image à choisir pour l'utilisateur</p>
      */
-    private ButtonWithIcon photo = new ButtonWithIcon("src\\Contact\\photo.png");
+    private ButtonWithIcon photo = new ButtonWithIcon(".\\src\\Contact\\photo.png");
     /**
      * <p> Le champs à remplir concernant le prénom de l'utilisateur</p>
      */
@@ -143,27 +143,27 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
      * <p> Le logo concernant le téléphone privé de l'utilisateur</p>
      * @see LabelWithIcon
      */
-    private LabelWithIcon privatephone = new LabelWithIcon("src\\Contact\\smartphone.png");
+    private LabelWithIcon privatephone = new LabelWithIcon(".\\src\\Contact\\smartphone.png");
     /**
      * <p> Le logo concernant le téléphone professionnel de l'utilisateur</p>
      * @see LabelWithIcon
      */
-    private LabelWithIcon telprof2 = new LabelWithIcon("src\\Contact\\factory.png");
+    private LabelWithIcon telprof2 = new LabelWithIcon(".\\src\\Contact\\factory.png");
     /**
      * <p> Le logo concernant le téléphone du domciile de l'utilisateur  </p>
      * @see LabelWithIcon
      */
-    private LabelWithIcon home = new LabelWithIcon("src\\Contact\\home.png");
+    private LabelWithIcon home = new LabelWithIcon(".\\src\\Contact\\home.png");
     /**
      * <p> Le logo concernant l'adresse mail de l'utilisateur</p>
      * @see LabelWithIcon
      */
-    private LabelWithIcon adress2 = new LabelWithIcon("src\\Contact\\mail.png");
+    private LabelWithIcon adress2 = new LabelWithIcon(".\\src\\Contact\\mail.png");
     /**
      * <p> Le logo concernant l'adresse de l'utilisateur</p>
      * @see LabelWithIcon
      */
-    private LabelWithIcon location = new LabelWithIcon("src\\Contact\\location.png");
+    private LabelWithIcon location = new LabelWithIcon(".\\src\\Contact\\location.png");
     /**
      * <p> Un label qui ne contient rien</p>
      */
@@ -172,7 +172,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
      * <p> Le bouton de sauvegarde de l'ajout de contact </p>
      * @see ButtonWithIcon
      */
-    private ButtonWithIcon save = new ButtonWithIcon("src\\Contact\\save.png");
+    private ButtonWithIcon save = new ButtonWithIcon(".\\src\\Contact\\save.png");
     /**
      * <p>Le JFileChooser permettant de choisir une image pour l'ajouter </p>
      */
@@ -227,17 +227,17 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
      * <p> Le bouton d'édition de la page d'information</p>
      * @see ButtonWithIcon
      */
-    private ButtonWithIcon editbutton = new ButtonWithIcon("src\\Contact\\editbutton.png");
+    private ButtonWithIcon editbutton = new ButtonWithIcon(".\\src\\Contact\\editbutton.png");
     /**
      * <p> Le bouton de sauvegarde d'édition de la page d'information</p>
      * @see ButtonWithIcon
      */
-    private ButtonWithIcon saveedit = new ButtonWithIcon("src\\Contact\\save.png");
+    private ButtonWithIcon saveedit = new ButtonWithIcon(".\\src\\Contact\\save.png");
     /**
      * <p> Le bouton de suppression de la page d'information</p>
      * @see ButtonWithIcon
      */
-    private ButtonWithIcon deletebutton = new ButtonWithIcon("src\\Contact\\deletebutton.png");
+    private ButtonWithIcon deletebutton = new ButtonWithIcon(".\\src\\Contact\\deletebutton.png");
 
 
     /**
@@ -395,7 +395,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
         phonenumber2.setText("Téléphone professionnel");
         phonenumber3.setText("Téléphone domicile");
         adress.setText("Adresse");
-        ImageIcon ii = new ImageIcon("src\\Contact\\photo.png");
+        ImageIcon ii = new ImageIcon(".\\src\\Contact\\photo.png");
         photo.setIcon(ii);
     }
 
@@ -438,7 +438,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
             if (validateEmail(emailtext.getText())) {
 
 
-                File monRepertoire = new File("src\\Contact\\contact");
+                File monRepertoire = new File(".\\src\\Contact\\contact");
                 File[] f = monRepertoire.listFiles();
                 String newContact = prenom.getText() + nom.getText() + ".txt";
                 boolean twice = false;
@@ -471,7 +471,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
                         }else{
                             File imageChoosed = new File(photo.getName());
-                            File imagePasted = new File ( "src\\Contact\\ImageContact\\" + prenom.getText()+""+nom.getText() + ".jpg" );
+                            File imagePasted = new File ( ".\\src\\Contact\\ImageContact\\" + prenom.getText()+""+nom.getText() + ".jpg" );
                             try {
                                 FileUtils.copyFile ( imageChoosed, imagePasted );
                             } catch (IOException e1) {
@@ -496,7 +496,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
 
                         try {
-                            File file = new File("src\\Contact\\contact\\" + prenom.getText() + nom.getText() + ".txt");
+                            File file = new File(".\\src\\Contact\\contact\\" + prenom.getText() + nom.getText() + ".txt");
                             monFichier = new FileWriter(file);
                             tampon = new BufferedWriter(monFichier);
 
@@ -569,7 +569,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
                     }else{
                         File imageChoosed = new File(photo.getName());
-                        File imagePasted = new File ( "src\\Contact\\ImageContact\\" + prenom.getText()+""+nom.getText() + ".jpg" );
+                        File imagePasted = new File ( ".\\src\\Contact\\ImageContact\\" + prenom.getText()+""+nom.getText() + ".jpg" );
                         try {
                             FileUtils.copyFile ( imageChoosed, imagePasted );
                         } catch (IOException e1) {
@@ -595,7 +595,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
 
                     try {
-                        File file = new File("src\\Contact\\contact\\" + prenom.getText() + nom.getText() + ".txt");
+                        File file = new File(".\\src\\Contact\\contact\\" + prenom.getText() + nom.getText() + ".txt");
                         monFichier = new FileWriter(file);
                         tampon = new BufferedWriter(monFichier);
 
@@ -672,7 +672,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println(photo.getName());
-            File dir = new File("Gallery\\");
+            File dir = new File(".\\Gallery\\");
             fileChooser.setCurrentDirectory(dir);
             int returnVal = fileChooser.showOpenDialog (null);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -822,7 +822,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
      * <p> Méthode permettant de créer la liste de contact en allant chercher les fichiers pour les lire</p>
      */
     public void initContactList() throws IOException {
-        File monRepertoire=new File("src\\Contact\\contact");
+        File monRepertoire=new File(".\\src\\Contact\\contact");
         File[] f = monRepertoire.listFiles();
 
 
@@ -882,7 +882,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
          */
         @Override
         public void actionPerformed(ActionEvent e){
-            File selected =new File("src\\Contact\\contact\\" + e.getActionCommand());
+            File selected =new File(".\\src\\Contact\\contact\\" + e.getActionCommand());
             System.out.println(e.getActionCommand());
             String[] data = new String[7];
 
@@ -913,12 +913,12 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
                 }
             }
 
-            File imageProfil = new File("src\\Contact\\ImageContact\\" + data[0] + "" +data[1] +".jpg");
-            System.out.println("src\\Contact\\ImageContact\\" + data[0] + "" +data[1] +".jpg");
+            File imageProfil = new File(".\\src\\Contact\\ImageContact\\" + data[0] + "" +data[1] +".jpg");
+            System.out.println(".\\src\\Contact\\ImageContact\\" + data[0] + "" +data[1] +".jpg");
             if(imageProfil.exists()){
-                bonhomme = new LabelNewContact ("src\\Contact\\ImageContact\\" + data[0] + "" +data[1] +".jpg");
+                bonhomme = new LabelNewContact (".\\src\\Contact\\ImageContact\\" + data[0] + "" +data[1] +".jpg");
             }else {
-                bonhomme = new LabelNewContact ("src\\Contact\\icone.png");
+                bonhomme = new LabelNewContact (".\\src\\Contact\\icone.png");
             }
             bonhomme.setMinimumSize(new Dimension(150,150));
             bonhomme.setMaximumSize(new Dimension(150,150));
@@ -1135,7 +1135,7 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
 
 
             try {
-                File file = new File("src\\Contact\\contact\\" + firstname.getText() + name.getText() + ".txt");
+                File file = new File(".\\src\\Contact\\contact\\" + firstname.getText() + name.getText() + ".txt");
                 monFichier = new FileWriter(file);
                 tampon = new BufferedWriter(monFichier);
 
@@ -1207,9 +1207,9 @@ public class ContactPanel extends JPanel implements ActionListener, FocusListene
         public void actionPerformed(ActionEvent e) {
 
 
-            File file = new File ("src\\Contact\\contact\\"+firstname.getText()+ name.getText()+".txt");
-            File fileimage = new File ( "src\\Contact\\ImageContact\\" +firstname.getText ()+name.getText ()+".jpg" );
-            System.out.println("src\\Contact\\contact\\"+firstname.getText()+ name.getText()+".txt");
+            File file = new File (".\\src\\Contact\\contact\\"+firstname.getText()+ name.getText()+".txt");
+            File fileimage = new File ( ".\\src\\Contact\\ImageContact\\" +firstname.getText ()+name.getText ()+".jpg" );
+            System.out.println(".\\src\\Contact\\contact\\"+firstname.getText()+ name.getText()+".txt");
             System.out.println(file.getName());
             System.out.println(file.exists());
 

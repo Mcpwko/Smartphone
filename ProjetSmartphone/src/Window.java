@@ -12,7 +12,7 @@ public class Window extends JFrame {
     /**
      *l'image qui va être visible autour du panneau
      */
-    private JLabel label = new JLabel(new ImageIcon(getClass().getResource("images\\smartphone.png")));
+    private JLabel label = new JLabel(new ImageIcon(".\\images\\smartphone.png"));
     /**
      *Le panneau qui contient tout le reste du programme
      */

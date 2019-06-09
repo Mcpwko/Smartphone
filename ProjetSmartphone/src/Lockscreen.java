@@ -20,8 +20,7 @@ public class Lockscreen extends JPanel implements ChangeListener {
     /**
      * l'icone se trouvant au millieu du slider
      */
-    private Icon icon = new ImageIcon(getClass().getResource("/images/unlock.png"));
-    private ImageIcon background = new ImageIcon (getClass().getResource("/images/Background.jpg") );
+    private Icon icon = new ImageIcon(".//images/unlock.png");
     /**
      * paramètre permettant de modifier l'apparence du slider
      */
@@ -30,7 +29,7 @@ public class Lockscreen extends JPanel implements ChangeListener {
      * l'arrière-plan de lockscreen
      * @see JPanelWithBackground
      */
-    private JPanelWithBackground jp = new JPanelWithBackground ("images/Background.jpg" );
+    private JPanelWithBackground jp = new JPanelWithBackground (".//images/Background.jpg" );
     /**
      * affichage de l'heure
      * @see TimeLabel
